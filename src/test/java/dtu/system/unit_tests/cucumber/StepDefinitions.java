@@ -1,4 +1,4 @@
-package unit_tests.cucumber;
+package dtu.system.unit_tests.cucumber;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
