@@ -103,9 +103,7 @@ public class StepDefinitions {
 	@Then("the worker is in the systems worker list")
 	public void isInTheSystemsWorkerList(String arg0) {
 		// Jonas
-
-		app.isWorkerInWorkerList(worker);
-		throw new io.cucumber.java.PendingException();
+		assertTrue(app.isWorkerInWorkerList(worker));
 	}
 
 }
