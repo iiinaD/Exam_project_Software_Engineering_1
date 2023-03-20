@@ -4,13 +4,13 @@ Feature: Edit a project
   Actors: Worker logged in, project leader
 
   Scenario: A worker can change the name of the project after project is created
-    Given a worker with the name “daha” is logged in
-    And a project with the number  23001 and  name “Web projekt” exists
-    When the worker tries to change the name of the project to “Web projekt Google”
-    Then the name of the project changes to “Web projekt Google”
+    Given a worker with the name "daha" is logged in
+    And a project with the number  23001 and  name "Web projekt" exists
+    When the worker tries to change the name of the project to "Web projekt Google"
+    Then the name of the project changes to "Web projekt Google"
 
   Scenario: A worker can assign a project leader to a project after project is created
-    Given two workers with the names “daha” and “jodl” exists
-    A
-    When “daha” tries to assign “jodl” as project leader
-    Then “jodl” becomes the project leader
+    Given two workers with the names "daha" and "jodl" exists
+    And a project with the number  23001 exists
+    When "daha" tries to assign "jodl" as project leader
+    Then "jodl" becomes the project leader
