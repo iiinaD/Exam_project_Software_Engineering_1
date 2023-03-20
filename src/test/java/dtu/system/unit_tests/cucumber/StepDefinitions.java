@@ -60,11 +60,7 @@ public class StepDefinitions {
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
 	}
-	@Given("the worker is logged in")
-	public void theWorkerIsLoggedIn() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
+
 	@When("the worker tries to create a new project with the number {int}")
 	public void theWorkerTriesToCreateANewProjectWithTheNumber(Integer int1) {
 		// Write code here that turns the phrase above into concrete actions
