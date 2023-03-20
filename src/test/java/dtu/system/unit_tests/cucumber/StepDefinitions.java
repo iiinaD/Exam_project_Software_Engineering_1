@@ -2,11 +2,23 @@ package dtu.system.unit_tests.cucumber;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import dtu.system.app.Application;
+import dtu.system.domain.Worker;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Given;
 
 public class StepDefinitions {
+
+	Worker worker;
+	Application app;
+
+	public StepDefinitions(Application app) {
+		//Jonas
+		this.app = app;
+		//this.errorMessageHolder = errorMessageHolder;
+	}
+
 	@Given("a worker with the name “daha” exists")
 	public void aWorkerWithTheNameDahaExists() {
 		// Write code here that turns the phrase above into concrete actions
@@ -77,6 +89,23 @@ public class StepDefinitions {
 	}
 
 
+	@Given("there is a worker with initials {string}")
+	public void thereIsAWorkerWithInitials(String initials) {
+		//Jonas
+		this.worker = new Worker(initials);
+	}
 
+	@When("the worker is added to systems worker list")
+	public void theWorkerIsAddedToSystemsWorkerList() {
+		// Jonas
+		app.addNewWorker(worker);
+	}
+	@Then("the worker is in the systems worker list")
+	public void isInTheSystemsWorkerList(String arg0) {
+		// Jonas
+
+		app.isWorkerInWorkerList(worker);
+		throw new io.cucumber.java.PendingException();
+	}
 
 }
