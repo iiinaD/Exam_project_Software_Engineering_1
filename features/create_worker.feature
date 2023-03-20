@@ -6,7 +6,12 @@ Feature: Create new worker
 Scenario: create a worker to the system
   Given there is a worker with initials "jodl"
   When the worker is added to systems worker list
-  Then the worker is in the systems worker list
+  Then the worker exist in systems worker List
+
+
+Scenario:
+  Given a worker with initial "jodl" is in system worker list
+  Then the worker exist in systems worker List
 
 
 #Scenario: Worker creates a new worker using an unique name

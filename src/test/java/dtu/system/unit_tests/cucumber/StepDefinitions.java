@@ -99,11 +99,11 @@ public class StepDefinitions {
 	public void theWorkerIsAddedToSystemsWorkerList() {
 		// Jonas
 		app.addNewWorker(worker);
-	}
-	@Then("the worker is in the systems worker list")
-	public void isInTheSystemsWorkerList(String arg0) {
-		// Jonas
-		assertTrue(app.isWorkerInWorkerList(worker));
+
 	}
 
+	@Then("the worker exist in systems worker List")
+	public void theWorkerExistInSystemsWorkerList() {
+		assertTrue(app.isWorkerInWorkerList(worker));
+	}
 }
