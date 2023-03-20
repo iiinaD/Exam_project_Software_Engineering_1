@@ -14,4 +14,14 @@ public class Application {
     public void addNewWorker(Worker worker) {
         workerList.add(worker);
     }
+
+    public boolean isWorkerInWorkerList(Worker worker) {
+
+        for (Worker i : workerList){
+            if (i.getInitials().equals(worker.getInitials())){
+                return true;
+            }
+        }
+        return false;
+    }
 }

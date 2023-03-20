@@ -6,4 +6,8 @@ public class Worker {
         // husk test længde
         this.initials = initials;
     }
+
+    public String getInitials() {
+        return initials;
+    }
 }

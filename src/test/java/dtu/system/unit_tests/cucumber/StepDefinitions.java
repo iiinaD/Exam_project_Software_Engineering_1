@@ -108,8 +108,7 @@ public class StepDefinitions {
 	public void isInTheSystemsWorkerList(String arg0) {
 		// Jonas
 
-		//app.isWorkerInWorkerList(worker);
-		throw new io.cucumber.java.PendingException();
+		assertTrue(app.isWorkerInWorkerList(worker));
 	}
 
 }
