@@ -12,8 +12,8 @@ public class StepDefinitions {
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
 	}
-	@Given("the worker is not logged in")
-	public void theWorkerIsNotLoggedIn() {
+	@Given("the worker is logged in")
+	public void theWorkerIsLoggedIn() {
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
 	}
@@ -27,7 +27,11 @@ public class StepDefinitions {
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
 	}
-
+	@Given("the worker is not logged in")
+	public void theWorkerIsNotLoggedIn() {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
 	@Then("the new project does not get created")
 	public void theNewProjectDoesNotGetCreated() {
 		// Write code here that turns the phrase above into concrete actions
