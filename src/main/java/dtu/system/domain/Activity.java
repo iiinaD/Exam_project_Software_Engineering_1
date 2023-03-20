@@ -6,7 +6,7 @@ public class Activity {
 
     public String id;
     public String description;
-    public Calendar budgetTime;
+    public int budgetTime;
     public Calendar startWeek;
     public Calendar endWeek;
     //public Project parentProject;
@@ -19,7 +19,7 @@ public class Activity {
         this.description = description;
     }
 
-    public void setBudgetTime(Calendar budgetTime){
+    public void setBudgetTime(int budgetTime){
         this.budgetTime = budgetTime;
     }
 

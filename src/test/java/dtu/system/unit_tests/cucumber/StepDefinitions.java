@@ -16,7 +16,6 @@ public class StepDefinitions {
 	Worker worker;
 	Application app;
 
-	Activity activity;
 
 	public StepDefinitions(Application app) {
 		//Jonas
@@ -135,22 +134,22 @@ public class StepDefinitions {
 		assertEquals(worker, app.getLoggedInWorker());
 	}
 
+
 	@Given("a worker with the name “jodl” exists")
 	public void aWorkerWithTheNameJodlExists() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		Worker JODI = new Worker("jodi");
+		app.addNewWorker(JODI);
 	}
 
 	@Given("“jodl” is logged in")
 	public void jodlIsLoggedIn() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		app.logIn("jodi");
 	}
 
+	Activity activity = new Activity();
 	@Given("there is a project {string} with an activity {string}")
 	public void thereIsAProjectWithAnActivity(String string, String string2) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		//
 	}
 
 	@When("the worker removes the activity named {string}")
@@ -182,19 +181,16 @@ public class StepDefinitions {
 
 	@Given("the activity has a budget time of {int}")
 	public void theActivityHasABudgetTimeOf(Integer int1) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		activity.setBudgetTime(int1);
 	}
 
 	@When("the worker changes the budget time to {int}")
 	public void theWorkerChangesTheBudgetTimeTo(Integer int1) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		activity.setBudgetTime(int1);
 	}
 
 	@Then("the budget time of the activity should be {int}")
 	public void theBudgetTimeOfTheActivityShouldBe(Integer int1) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		assertEquals(int1, activity.budgetTime);
 	}
 }
