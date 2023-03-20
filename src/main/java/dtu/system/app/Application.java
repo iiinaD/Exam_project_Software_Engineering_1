@@ -1,4 +1,4 @@
-package application;
+package dtu.system.app;
 
 public class Application {
 

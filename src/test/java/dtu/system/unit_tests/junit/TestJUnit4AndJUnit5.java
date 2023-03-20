@@ -1,4 +1,4 @@
-package unit_tests.junit;
+package dtu.system.unit_tests.junit;
 
 /**
  * A test class to check which tests are run with which framework.
