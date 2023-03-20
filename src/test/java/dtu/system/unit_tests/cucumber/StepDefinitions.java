@@ -19,8 +19,23 @@ public class StepDefinitions {
 		//this.errorMessageHolder = errorMessageHolder;
 	}
 
-	@Given("a worker with the name “daha” exists")
-	public void aWorkerWithTheNameDahaExists() {
+	@Given("a worker with the name {string} is logged in")
+	public void a_worker_with_the_name_is_logged_in(String string) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+	@Given("a project with the number  {int} and  name {string} exists")
+	public void a_project_with_the_number_and_name_exists(Integer int1, String string) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+	@When("the worker tries to change the name of the project to {string}")
+	public void the_worker_tries_to_change_the_name_of_the_project_to(String string) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+	@Then("the name of the project changes to {string}")
+	public void the_name_of_the_project_changes_to(String string) {
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
 	}
@@ -50,47 +65,28 @@ public class StepDefinitions {
 		throw new io.cucumber.java.PendingException();
 	}
 
-	@Given("a worker with the name “daha” is logged in")
-	public void aWorkerWithTheNameDahaIsLoggedIn() {
+	@Given("two workers with the names {string} and {string} exists")
+	public void two_workers_with_the_names_and_exists(String string, String string2) {
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
 	}
-	@Given("a project with the number  {int} and  name “Web projekt” exists")
-	public void aProjectWithTheNumberAndNameWebProjektExists(Integer int1) {
+	@When("{string} tries to assign {string} as project leader")
+	public void tries_to_assign_as_project_leader(String string, String string2) {
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
 	}
-	@When("the worker tries to change the name of the project to “Web projekt Google”")
-	public void theWorkerTriesToChangeTheNameOfTheProjectToWebProjektGoogle() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
-	@Then("the name of the project changes to “Web projekt Google”")
-	public void theNameOfTheProjectChangesToWebProjektGoogle() {
+	@Then("{string} becomes the project leader")
+	public void becomes_the_project_leader(String string) {
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
 	}
 
-	@Given("two workers with the names “daha” and “jodl” exists")
-	public void twoWorkersWithTheNamesDahaAndJodlExists() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
 	@Given("a project with the number  {int} exists")
 	public void aProjectWithTheNumberExists(Integer int1) {
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
 	}
-	@When("“daha” tries to assign “jodl” as project leader")
-	public void dahaTriesToAssignJodlAsProjectLeader() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
-	@Then("“jodl” becomes the project leader")
-	public void jodlBecomesTheProjectLeader() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
+
 
 
 	@Given("there is a worker with initials {string}")
@@ -105,7 +101,7 @@ public class StepDefinitions {
 		app.addNewWorker(worker);
 	}
 	@Then("the worker is in the systems worker list")
-	public void isInTheSystemsWorkerList(String arg0) {
+	public void isInTheSystemsWorkerList() {
 		// Jonas
 
 		assertTrue(app.isWorkerInWorkerList(worker));
