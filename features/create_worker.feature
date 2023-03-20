@@ -9,11 +9,6 @@ Scenario: create a worker to the system
   Then the worker exist in systems worker List
 
 
-Scenario:
-  Given a worker with initial "jodl" is in system worker list
-  Then the worker exist in systems worker List
-
-
 #Scenario: Worker creates a new worker using an unique name
 #  Given a worker with the name “jodl” doesn’t exist
 #  When the worker creates a new worker by the name of “jodl”
