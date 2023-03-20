@@ -76,9 +76,4 @@ public class StepDefinitions {
 		throw new io.cucumber.java.PendingException();
 	}
 
-    @When("I do nothing")
-    public void I_do_nothing() {
-        // Write code here that turns the phrase above into concrete actions
-    }
-
 }
