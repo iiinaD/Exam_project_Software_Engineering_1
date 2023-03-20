@@ -1,3 +1,5 @@
 /target/
 .idea
 README_FIRST.md
+.DS_Store
+.vscode/settings.json
