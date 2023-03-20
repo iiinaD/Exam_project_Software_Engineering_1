@@ -1,9 +1,11 @@
 package dtu.system.unit_tests.cucumber;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import dtu.system.app.Application;
 import dtu.system.domain.Worker;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Given;
@@ -105,5 +107,23 @@ public class StepDefinitions {
 	@Then("the worker exist in systems worker List")
 	public void theWorkerExistInSystemsWorkerList() {
 		assertTrue(app.isWorkerInWorkerList(worker));
+	}
+
+	@And("the worker can login using his initial {string} to login")
+	public void theWorkerCanLoginUsingHisInitialToLogin(String initials) {
+		//Jonas
+		app.logIn(initials);
+	}
+
+	@And("systems has a logged in worker")
+	public void systemsHasALoggedInWorker() {
+		//Jonas
+		assertTrue(app.getLoggedInStatus());
+	}
+
+	@Then("the worker is logged in")
+	public void theWorkerIsLoggedIn() {
+		//Jonas
+		assertEquals(worker, app.getLoggedInWorker());
 	}
 }
