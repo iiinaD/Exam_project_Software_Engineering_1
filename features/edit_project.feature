@@ -11,6 +11,6 @@ Feature: Edit a project
 
   Scenario: A worker can assign a project leader to a project after project is created
     Given two workers with the names “daha” and “jodl” exists
-    A
+    And a project with the number  23001 exists
     When “daha” tries to assign “jodl” as project leader
     Then “jodl” becomes the project leader
