@@ -111,4 +111,8 @@ public class StepDefinitions {
 		assertTrue(app.isWorkerInWorkerList(worker));
 	}
 
+	@Then("the worker exist in systems worker List")
+	public void theWorkerExistInSystemsWorkerList() {
+		assertTrue(app.isWorkerInWorkerList(worker));
+	}
 }
