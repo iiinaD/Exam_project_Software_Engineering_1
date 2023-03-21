@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import dtu.system.app.Application;
+import dtu.system.domain.Activity;
 import dtu.system.domain.Worker;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
@@ -14,6 +15,7 @@ public class StepDefinitions {
 
 	Worker worker;
 	Application app;
+
 
 	public StepDefinitions(Application app) {
 		//Jonas
@@ -130,5 +132,65 @@ public class StepDefinitions {
 	public void theWorkerIsLoggedIn() {
 		//Jonas
 		assertEquals(worker, app.getLoggedInWorker());
+	}
+
+
+	@Given("a worker with the name “jodl” exists")
+	public void aWorkerWithTheNameJodlExists() {
+		Worker JODI = new Worker("jodi");
+		app.addNewWorker(JODI);
+	}
+
+	@Given("“jodl” is logged in")
+	public void jodlIsLoggedIn() {
+		app.logIn("jodi");
+	}
+
+	Activity activity = new Activity();
+	@Given("there is a project {string} with an activity {string}")
+	public void thereIsAProjectWithAnActivity(String string, String string2) {
+		//
+	}
+
+	@When("the worker removes the activity named {string}")
+	public void theWorkerRemovesTheActivityNamed(String string) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+
+	@Then("the activity named {string} should not exist in the activity list of project “{int}”")
+	public void theActivityNamedShouldNotExistInTheActivityListOfProject(String string, Integer int1) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+
+	@Given("the activity has a description of “Debugging software”")
+	public void theActivityHasADescriptionOfDebuggingSoftware() {
+		activity.setDescription("Debugging software");
+	}
+
+	@When("the worker set the description of an activity of “Do not give up on life”")
+	public void theWorkerSetTheDescriptionOfAnActivityOfDoNotGiveUpOnLife() {
+		activity.setDescription("Do not give up on life");
+	}
+
+	@Then("the description of the activity should be “Do not give up on life”")
+	public void theDescriptionOfTheActivityShouldBeDoNotGiveUpOnLife() {
+		assertEquals("Do not give up on life",activity.description);
+	}
+
+	@Given("the activity has a budget time of {int}")
+	public void theActivityHasABudgetTimeOf(Integer int1) {
+		activity.setBudgetTime(int1);
+	}
+
+	@When("the worker changes the budget time to {int}")
+	public void theWorkerChangesTheBudgetTimeTo(Integer int1) {
+		activity.setBudgetTime(int1);
+	}
+
+	@Then("the budget time of the activity should be {int}")
+	public void theBudgetTimeOfTheActivityShouldBe(Integer int1) {
+		assertEquals(int1, activity.budgetTime);
 	}
 }
