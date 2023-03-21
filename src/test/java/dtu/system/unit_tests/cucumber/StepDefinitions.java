@@ -126,4 +126,5 @@ public class StepDefinitions {
 		//Jonas
 		assertEquals(worker, app.getLoggedInWorker());
 	}
+
 }
