@@ -1,7 +1,10 @@
 Feature: a worker can login
+  Description: a worker in the system can login using its initials
+  Actor Worker
 
   #Jonas
-  Scenario: logging a given worker into the system
+
+  Scenario: a worker in the system can login using its initials
     Given there is a worker with initials "jodl"
     When the worker is added to systems worker list
     And the worker can login using his initial "jodl" to login
