@@ -194,4 +194,16 @@ public class StepDefinitions {
 		assertEquals(int1, activity.budgetTime);
 	}
 
+	@Given("there is a worker with initials {string} logged in to the system")
+	public void thereIsAWorkerWithInitialsLoggedInToTheSystem(String initials) {
+		//Jonas
+		if (!app.isWorkerInWorkerList(worker)){
+			if (worker == null){
+				this.worker = new Worker(initials);
+			}
+			app.addNewWorker(worker);
+		}
+		app.logIn(worker.getInitials());
+		assertTrue(app.isWorkerInWorkerList(worker));
+	}
 }
