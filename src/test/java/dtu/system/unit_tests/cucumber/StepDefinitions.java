@@ -1,9 +1,7 @@
 package dtu.system.unit_tests.cucumber;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import dtu.system.app.Application;
+import dtu.system.app.WorkerAlreadyExistsException;
 import dtu.system.domain.Activity;
 import dtu.system.domain.Worker;
 import io.cucumber.java.en.And;
@@ -11,21 +9,24 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Given;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class StepDefinitions {
 
 	Worker worker;
 	Application app;
+	ErrorMessageHolder errorMessage;
 
-
-	public StepDefinitions(Application app) {
+	public StepDefinitions(Application app, ErrorMessageHolder errorMessage) {
 		//Jonas
 		this.app = app;
-		//this.errorMessageHolder = errorMessageHolder;
+		this.errorMessage = errorMessage;
 	}
 	@Given("a worker with the name {string} exists")
-	public void aWorkerWithTheNameExists(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void aWorkerWithTheNameExists(String initials) throws WorkerAlreadyExistsException
+	{
+		this.worker = new Worker(initials);
+		app.addNewWorker(worker);
 	}
 	@Given("a worker with the name {string} is logged in")
 	public void aWorkerWithTheNameIsLoggedIn(String string) {
@@ -100,7 +101,7 @@ public class StepDefinitions {
 	}
 
 	@When("the worker is added to systems worker list")
-	public void theWorkerIsAddedToSystemsWorkerList() {
+	public void theWorkerIsAddedToSystemsWorkerList() throws WorkerAlreadyExistsException {
 		// Jonas
 		app.addNewWorker(worker);
 	}
@@ -136,7 +137,7 @@ public class StepDefinitions {
 
 
 	@Given("a worker with the name “jodl” exists")
-	public void aWorkerWithTheNameJodlExists() {
+	public void aWorkerWithTheNameJodlExists() throws WorkerAlreadyExistsException {
 		Worker JODI = new Worker("jodi");
 		app.addNewWorker(JODI);
 	}
@@ -195,7 +196,7 @@ public class StepDefinitions {
 	}
 
 	@Given("there is a worker with initials {string} logged in to the system")
-	public void thereIsAWorkerWithInitialsLoggedInToTheSystem(String initials) {
+	public void thereIsAWorkerWithInitialsLoggedInToTheSystem(String initials) throws WorkerAlreadyExistsException {
 		//Jonas
 		if (!app.isWorkerInWorkerList(worker)){
 			if (worker == null){
@@ -205,5 +206,38 @@ public class StepDefinitions {
 		}
 		app.logIn(worker.getInitials());
 		assertTrue(app.isWorkerInWorkerList(worker));
+	}
+
+	@Given("a worker with the name {string} does not exist")
+	public void aWorkerWithTheNameDoesNotExist(String initials)
+	{
+		this.worker = new Worker(initials);
+
+		assertFalse(app.isWorkerInWorkerList(worker));
+	}
+
+	@When("the worker creates a new worker with this name")
+	public void theWorkerCreatesANewWorkerWithThisName()
+	{
+		try
+		{
+			app.addNewWorker(worker);
+		}
+		catch(WorkerAlreadyExistsException e)
+		{
+			errorMessage.setErrorMessage(e.getMessage());
+		}
+	}
+
+	@Then("a worker by the name of of {string} has been created")
+	public void aWorkerByTheNameOfOfHasBeenCreated(String string)
+	{
+		assertTrue(app.isWorkerInWorkerList(worker));
+	}
+
+	@Then("an error message {string} is given")
+	public void anErrorMessageIsGiven(String errorMessage)
+	{
+		assertEquals(errorMessage, this.errorMessage.getErrorMessage());
 	}
 }

@@ -14,9 +14,17 @@ public class Application {
         System.out.println("Hello World!");
     }
 
-    public void addNewWorker(Worker worker) {
+    public void addNewWorker(Worker worker) throws WorkerAlreadyExistsException
+    {
         //Jonas
-        workerList.add(worker);
+        if(isWorkerInWorkerList(worker) == false)
+        {
+            workerList.add(worker);
+        }
+        else
+        {
+             throw new WorkerAlreadyExistsException("A worker with this name already exists.");
+        }
     }
 
     public boolean isWorkerInWorkerList(Worker worker) {

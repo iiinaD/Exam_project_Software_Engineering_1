@@ -8,14 +8,12 @@ Scenario: create a worker to the system
   When the worker is added to systems worker list
   Then the worker exist in systems worker List
 
+Scenario: Worker creates a new worker using an unique name
+  Given a worker with the name "jodl" does not exist
+  When the worker creates a new worker with this name
+  Then a worker by the name of of "jodl" has been created
 
-#Scenario: Worker creates a new worker using an unique name
-#  Given a worker with the name “jodl” doesn’t exist
-#  When the worker creates a new worker by the name of “jodl”
-#  Then a worker by the name of of “jodl” has been created
-
-
-#Scenario: Worker creates a new worker using an already existing name
-#  Given a worker with the name “jodl” exists
-#  When the worker creates a new worker by the name of “jodl”
-#  Then the exception “A worker with this name already exists.” is thrown
+Scenario: Worker creates a new worker using an already existing name
+  Given a worker with the name "jodl" exists
+  When the worker creates a new worker with this name
+  Then an error message "A worker with this name already exists." is given

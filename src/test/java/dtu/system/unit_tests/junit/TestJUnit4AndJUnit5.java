@@ -26,4 +26,6 @@ public class TestJUnit4AndJUnit5 {
 		org.junit.jupiter.api.Assertions.assertTrue(true); // JUnit 5
 	}
 
+
+
 }
