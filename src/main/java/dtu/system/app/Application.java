@@ -16,7 +16,7 @@ public class Application {
 
     public void addNewWorker(Worker worker) throws OperationNotAllowedException {
         //Jonas
-        if(isWorkerInWorkerList(worker)) {
+        if(!isWorkerInWorkerList(worker)) {
             workerList.add(worker);
         } else {
              throw new OperationNotAllowedException("A worker with this name already exists.");
