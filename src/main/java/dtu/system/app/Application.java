@@ -14,16 +14,12 @@ public class Application {
         System.out.println("Hello World!");
     }
 
-    public void addNewWorker(Worker worker) throws WorkerAlreadyExistsException
-    {
+    public void addNewWorker(Worker worker) throws OperationNotAllowedException {
         //Jonas
-        if(isWorkerInWorkerList(worker) == false)
-        {
+        if(isWorkerInWorkerList(worker)) {
             workerList.add(worker);
-        }
-        else
-        {
-             throw new WorkerAlreadyExistsException("A worker with this name already exists.");
+        } else {
+             throw new OperationNotAllowedException("A worker with this name already exists.");
         }
     }
 

@@ -1,7 +1,8 @@
 package dtu.system.unit_tests.cucumber;
 
 import dtu.system.app.Application;
-import dtu.system.app.WorkerAlreadyExistsException;
+import dtu.system.app.ErrorMessageHolder;
+import dtu.system.app.OperationNotAllowedException;
 import dtu.system.domain.Activity;
 import dtu.system.domain.Worker;
 import io.cucumber.java.en.And;
@@ -23,7 +24,7 @@ public class StepDefinitions {
 		this.errorMessage = errorMessage;
 	}
 	@Given("a worker with the name {string} exists")
-	public void aWorkerWithTheNameExists(String initials) throws WorkerAlreadyExistsException
+	public void aWorkerWithTheNameExists(String initials) throws OperationNotAllowedException
 	{
 		this.worker = new Worker(initials);
 		app.addNewWorker(worker);
@@ -101,7 +102,7 @@ public class StepDefinitions {
 	}
 
 	@When("the worker is added to systems worker list")
-	public void theWorkerIsAddedToSystemsWorkerList() throws WorkerAlreadyExistsException {
+	public void theWorkerIsAddedToSystemsWorkerList() throws OperationNotAllowedException {
 		// Jonas
 		app.addNewWorker(worker);
 	}
@@ -137,7 +138,7 @@ public class StepDefinitions {
 
 
 	@Given("a worker with the name “jodl” exists")
-	public void aWorkerWithTheNameJodlExists() throws WorkerAlreadyExistsException {
+	public void aWorkerWithTheNameJodlExists() throws OperationNotAllowedException {
 		Worker JODI = new Worker("jodi");
 		app.addNewWorker(JODI);
 	}
@@ -196,7 +197,7 @@ public class StepDefinitions {
 	}
 
 	@Given("there is a worker with initials {string} logged in to the system")
-	public void thereIsAWorkerWithInitialsLoggedInToTheSystem(String initials) throws WorkerAlreadyExistsException {
+	public void thereIsAWorkerWithInitialsLoggedInToTheSystem(String initials) throws OperationNotAllowedException {
 		//Jonas
 		if (!app.isWorkerInWorkerList(worker)){
 			if (worker == null){
@@ -223,7 +224,7 @@ public class StepDefinitions {
 		{
 			app.addNewWorker(worker);
 		}
-		catch(WorkerAlreadyExistsException e)
+		catch(OperationNotAllowedException e)
 		{
 			errorMessage.setErrorMessage(e.getMessage());
 		}

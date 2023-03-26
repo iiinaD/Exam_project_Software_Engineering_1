@@ -1,4 +1,4 @@
-package dtu.system.unit_tests.cucumber;
+package dtu.system.app;
 
 public class ErrorMessageHolder
 {
@@ -6,11 +6,13 @@ public class ErrorMessageHolder
 
      public String getErrorMessage()
      {
+          // Danny
           return errorMessage;
      }
 
      public void setErrorMessage(String errorMessage)
      {
+          // Danny
           this.errorMessage = errorMessage;
      }
 }
