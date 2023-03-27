@@ -6,6 +6,7 @@ import dtu.system.app.ErrorMessageHolder;
 import dtu.system.app.OperationNotAllowedException;
 import dtu.system.domain.Activity;
 import dtu.system.domain.Worker;
+import dtu.system.domain.Project;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -71,14 +72,14 @@ public class StepDefinitions {
 	}
 
 	@When("the worker tries to create a new project with the number {int}")
-	public void theWorkerTriesToCreateANewProjectWithTheNumber(Integer int1) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void theWorkerTriesToCreateANewProjectWithTheNumber(Integer projectNumber) {
+		app.createProject("This is a new project");
+		Project createdProject = app.getProjectList().get(0);
+		assertEquals(createdProject.getProjectNumber(),projectNumber);
 	}
 	@Then("the new project gets created")
 	public void theNewProjectGetsCreated() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		assertTrue(app.getProjectList().size() > 0);
 	}
 	@Given("the worker is not logged in")
 	public void theWorkerIsNotLoggedIn() {
@@ -138,6 +139,7 @@ public class StepDefinitions {
 	@Then("the worker is logged in")
 	public void theWorkerIsLoggedIn() {
 		//Jonas
+		app.logIn(worker.getInitials());
 		assertEquals(worker, app.getLoggedInWorker());
 	}
 
