@@ -7,11 +7,13 @@ import dtu.system.app.OperationNotAllowedException;
 import dtu.system.domain.Activity;
 import dtu.system.domain.Worker;
 import dtu.system.domain.Project;
+import io.cucumber.java.bs.A;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Given;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Date;
@@ -23,6 +25,8 @@ public class StepDefinitions {
 	Worker worker;
 	Application app;
 	ErrorMessageHolder errorMessage;
+	Project project;
+	Activity activity;
 
 	public StepDefinitions(Application app, ErrorMessageHolder errorMessage) {
 		//Jonas
@@ -155,10 +159,10 @@ public class StepDefinitions {
 		app.logIn("jodi");
 	}
 
-	Activity activity = new Activity();
 	@Given("there is a project {string} with an activity {string}")
 	public void thereIsAProjectWithAnActivity(String string, String string2) {
-		//
+		project = app.createProject(string);
+		activity = project.addActivity();
 	}
 
 	@When("the worker removes the activity named {string}")
@@ -269,5 +273,37 @@ public class StepDefinitions {
 		Calendar calendar = new GregorianCalendar();
 		Calendar expectedDate = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 		assertEquals(expectedDate.getTime(), currentDate.getTime());
+	}
+
+	//Test create activity
+
+	@Given("a worker with the name “jodl” exists.")
+	public void a_worker_with_the_name_jodl_exists() throws OperationNotAllowedException{
+		app.addNewWorker(new Worker("jodl"));
+	}
+
+	@Given("“jodl” is logged in.")
+	public void jodl_is_logged_in() {
+		app.logIn("jodl");
+	}
+
+	@Given("there is a project {string}")
+	public void there_is_a_project(String string) {
+		project = new Project(string, 23001);
+	}
+
+	@Given("the project has an empty activity list")
+	public void the_project_has_an_empty_activity_list() {
+		assertTrue(project.getActivityList().isEmpty());
+	}
+
+	@When("the worker creates a new Activity to the project.")
+	public void the_worker_creates_a_new_activity_to_the_project() {
+		this.activity = project.addActivity();
+	}
+
+	@Then("the project has activity {string} in its activity list.")
+	public void the_project_has_activity_in_its_activity_list(String string) {
+		assertTrue(project.getActivityList().contains(this.activity));
 	}
 }
