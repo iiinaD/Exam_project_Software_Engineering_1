@@ -1,14 +1,20 @@
 package dtu.system.unit_tests.cucumber;
 
 import dtu.system.app.Application;
+import dtu.system.app.DateServer;
 import dtu.system.app.ErrorMessageHolder;
 import dtu.system.app.OperationNotAllowedException;
 import dtu.system.domain.Activity;
 import dtu.system.domain.Worker;
+import dtu.system.domain.Project;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Given;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -66,14 +72,14 @@ public class StepDefinitions {
 	}
 
 	@When("the worker tries to create a new project with the number {int}")
-	public void theWorkerTriesToCreateANewProjectWithTheNumber(Integer int1) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void theWorkerTriesToCreateANewProjectWithTheNumber(Integer projectNumber) {
+		app.createProject("This is a new project");
+		Project createdProject = app.getProjectList().get(0);
+		assertEquals(createdProject.getProjectNumber(),projectNumber);
 	}
 	@Then("the new project gets created")
 	public void theNewProjectGetsCreated() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		assertTrue(app.getProjectList().size() > 0);
 	}
 	@Given("the worker is not logged in")
 	public void theWorkerIsNotLoggedIn() {
@@ -133,6 +139,7 @@ public class StepDefinitions {
 	@Then("the worker is logged in")
 	public void theWorkerIsLoggedIn() {
 		//Jonas
+		app.logIn(worker.getInitials());
 		assertEquals(worker, app.getLoggedInWorker());
 	}
 
@@ -240,5 +247,27 @@ public class StepDefinitions {
 	public void anErrorMessageIsGiven(String errorMessage)
 	{
 		assertEquals(errorMessage, this.errorMessage.getErrorMessage());
+	}
+
+	//Test date server
+
+	private DateServer date;
+	private Calendar currentDate;
+
+	@Given("the date server is running")
+	public void the_date_server_is_running() {
+		date = new DateServer();
+	}
+
+	@When("I request the date")
+	public void i_request_the_date() {
+		currentDate = date.getDate();
+	}
+
+	@Then("the day should be the current date")
+	public void the_day_should_be_the_current_date() {
+		Calendar calendar = new GregorianCalendar();
+		Calendar expectedDate = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+		assertEquals(expectedDate.getTime(), currentDate.getTime());
 	}
 }
