@@ -34,6 +34,7 @@ public class StepDefinitions {
 	@Given("a worker with the name {string} exists")
 	public void aWorkerWithTheNameExists(String initials) throws OperationNotAllowedException
 	{
+		// Danny
 		this.worker = new Worker(initials);
 		app.addNewWorker(worker);
 	}
