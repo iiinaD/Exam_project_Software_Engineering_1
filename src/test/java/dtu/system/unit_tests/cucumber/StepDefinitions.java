@@ -1,6 +1,7 @@
 package dtu.system.unit_tests.cucumber;
 
 import dtu.system.app.Application;
+import dtu.system.app.DateServer;
 import dtu.system.app.ErrorMessageHolder;
 import dtu.system.app.OperationNotAllowedException;
 import dtu.system.domain.Activity;
@@ -9,6 +10,10 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Given;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -240,5 +245,27 @@ public class StepDefinitions {
 	public void anErrorMessageIsGiven(String errorMessage)
 	{
 		assertEquals(errorMessage, this.errorMessage.getErrorMessage());
+	}
+
+	//Test date server
+
+	private DateServer date;
+	private Calendar currentDate;
+
+	@Given("the date server is running")
+	public void the_date_server_is_running() {
+		date = new DateServer();
+	}
+
+	@When("I request the date")
+	public void i_request_the_date() {
+		currentDate = date.getDate();
+	}
+
+	@Then("the day should be the current date")
+	public void the_day_should_be_the_current_date() {
+		Calendar calendar = new GregorianCalendar();
+		Calendar expectedDate = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+		assertEquals(expectedDate.getTime(), currentDate.getTime());
 	}
 }
