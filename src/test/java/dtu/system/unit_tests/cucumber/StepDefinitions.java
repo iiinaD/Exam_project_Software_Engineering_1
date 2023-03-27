@@ -95,16 +95,11 @@ public class StepDefinitions {
 	public void theNewProjectDoesNotGetCreated() {
 		assertEquals(0,app.getProjectList().size());
 	}
-
-
 	@Given("a project with the number  {int} exists")
 	public void aProjectWithTheNumberExists(Integer int1) {
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
 	}
-
-
-
 	@Given("there is a worker with initials {string}")
 	public void thereIsAWorkerWithInitials(String initials) {
 		//Jonas

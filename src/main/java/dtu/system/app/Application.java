@@ -4,14 +4,16 @@ import dtu.system.domain.Project;
 import dtu.system.domain.Worker;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class Application {
 
-    ArrayList<Worker> workerList = new ArrayList<>();
+    private ArrayList<Worker> workerList = new ArrayList<>();
     private Worker loggedInWorker;
     private Boolean loggedIn = false;
     private List<Project> projectList = new ArrayList<>();
+    private DateServer dateServer;
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
@@ -58,6 +60,7 @@ public class Application {
     }
 
     public void createProject(String projectName, Worker projectLeader) throws OperationNotAllowedException {
+        // Daniel
         if (loggedIn) {
             int projectNumber = getNextProjectNumber();
             Project project = new Project(projectName, projectLeader, projectNumber);
@@ -69,6 +72,7 @@ public class Application {
     }
 
     public void createProject(String projectName) throws OperationNotAllowedException {
+        // Daniel
         if (loggedIn) {
             int projectNumber = getNextProjectNumber();
             Project project = new Project(projectName, projectNumber);
@@ -79,10 +83,13 @@ public class Application {
     }
 
     public int getNextProjectNumber() {
-        return 23000 + projectList.size() + 1;
+        // Daniel
+        int year = dateServer.getDate().get(Calendar.YEAR) - 2000;
+        return year + projectList.size() + 1;
     }
 
     public List<Project> getProjectList() {
+        // Daniel
         return projectList;
     }
 }
