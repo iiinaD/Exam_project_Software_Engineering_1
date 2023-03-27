@@ -57,16 +57,18 @@ public class Application {
         return loggedInWorker;
     }
 
-    public void createProject(String projectName, Worker projectLeader) {
+    public Project createProject(String projectName, Worker projectLeader) {
         int projectNumber = getNextProjectNumber();
         Project project = new Project(projectName,projectLeader,projectNumber);
         projectList.add(project);
+        return project;
     }
 
-    public void createProject(String projectName) {
+    public Project createProject(String projectName) {
         int projectNumber = getNextProjectNumber();
         Project project = new Project(projectName,projectNumber);
         projectList.add(project);
+        return project;
     }
 
     public int getNextProjectNumber() {
