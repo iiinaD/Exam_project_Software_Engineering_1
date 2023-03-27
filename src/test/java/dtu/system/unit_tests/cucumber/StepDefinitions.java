@@ -68,9 +68,13 @@ public class StepDefinitions {
 
 	@When("the worker tries to create a new project with the number {int}")
 	public void theWorkerTriesToCreateANewProjectWithTheNumber(Integer projectNumber) {
-		app.createProject("This is a new project");
-		Project createdProject = app.getProjectList().get(0);
-		assertEquals(createdProject.getProjectNumber(),projectNumber);
+		try {
+			app.createProject("This is a new project");
+			Project createdProject = app.getProjectList().get(0);
+			assertEquals(createdProject.getProjectNumber(), projectNumber);
+		} catch (OperationNotAllowedException exception) {
+			errorMessage.setErrorMessage(exception.getMessage());
+		}
 	}
 	@Then("the new project gets created")
 	public void theNewProjectGetsCreated() {
@@ -78,13 +82,11 @@ public class StepDefinitions {
 	}
 	@Given("the worker is not logged in")
 	public void theWorkerIsNotLoggedIn() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		assertEquals(null, app.getLoggedInWorker());
 	}
 	@Then("the new project does not get created")
 	public void theNewProjectDoesNotGetCreated() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		assertEquals(0,app.getProjectList().size());
 	}
 
 
@@ -242,5 +244,10 @@ public class StepDefinitions {
 	public void anErrorMessageIsGiven(String errorMessage)
 	{
 		assertEquals(errorMessage, this.errorMessage.getErrorMessage());
+	}
+
+	@And("the error message {string} is given")
+	public void theErrorMessageIsGiven(String errorMessage) {
+		assertEquals(errorMessage,this.errorMessage.getErrorMessage());
 	}
 }

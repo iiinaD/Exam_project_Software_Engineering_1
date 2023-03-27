@@ -57,16 +57,25 @@ public class Application {
         return loggedInWorker;
     }
 
-    public void createProject(String projectName, Worker projectLeader) {
-        int projectNumber = getNextProjectNumber();
-        Project project = new Project(projectName,projectLeader,projectNumber);
-        projectList.add(project);
+    public void createProject(String projectName, Worker projectLeader) throws OperationNotAllowedException {
+        if (loggedIn) {
+            int projectNumber = getNextProjectNumber();
+            Project project = new Project(projectName, projectLeader, projectNumber);
+            projectList.add(project);
+        } else {
+            throw new OperationNotAllowedException("Login is required to create project");
+        }
+
     }
 
-    public void createProject(String projectName) {
-        int projectNumber = getNextProjectNumber();
-        Project project = new Project(projectName,projectNumber);
-        projectList.add(project);
+    public void createProject(String projectName) throws OperationNotAllowedException {
+        if (loggedIn) {
+            int projectNumber = getNextProjectNumber();
+            Project project = new Project(projectName, projectNumber);
+            projectList.add(project);
+        } else {
+            throw new OperationNotAllowedException("Login is required to create project");
+        }
     }
 
     public int getNextProjectNumber() {
