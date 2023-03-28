@@ -35,7 +35,10 @@ public class StepDefinitions {
 	public void aWorkerWithTheNameExists(String initials) throws OperationNotAllowedException
 	{
 		// Danny
-		this.worker = new Worker(initials);
+		if(worker == null) {
+			this.worker = new Worker(initials);
+		}
+
 		app.addNewWorker(worker);
 	}
 	@Given("a worker with the name {string} is logged in")

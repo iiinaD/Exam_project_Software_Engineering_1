@@ -15,10 +15,6 @@ public class Application {
     private List<Project> projectList = new ArrayList<>();
     private DateServer dateServer;
 
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
-
     public void addNewWorker(Worker worker) throws OperationNotAllowedException {
         //Jonas
         if(!isWorkerInWorkerList(worker.getInitials())) {
