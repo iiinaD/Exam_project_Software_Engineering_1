@@ -21,17 +21,17 @@ public class Application {
 
     public void addNewWorker(Worker worker) throws OperationNotAllowedException {
         //Jonas
-        if(!isWorkerInWorkerList(worker)) {
+        if(!isWorkerInWorkerList(worker.getInitials())) {
             workerList.add(worker);
         } else {
              throw new OperationNotAllowedException("A worker with this name already exists.");
         }
     }
 
-    public boolean isWorkerInWorkerList(Worker worker) {
+    public boolean isWorkerInWorkerList(String initials) {
         //Jonas
         for (Worker i : workerList){
-            if (i.getInitials().equals(worker.getInitials())){
+            if (i.getInitials().equals(initials)){
                 return true;
             }
         }

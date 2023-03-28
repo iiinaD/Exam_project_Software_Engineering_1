@@ -34,6 +34,7 @@ public class StepDefinitions {
 	@Given("a worker with the name {string} exists")
 	public void aWorkerWithTheNameExists(String initials) throws OperationNotAllowedException
 	{
+		// Danny
 		this.worker = new Worker(initials);
 		app.addNewWorker(worker);
 	}
@@ -115,12 +116,12 @@ public class StepDefinitions {
 	public void isInTheSystemsWorkerList() {
 		// Jonas
 
-		assertTrue(app.isWorkerInWorkerList(worker));
+		assertTrue(app.isWorkerInWorkerList(worker.getInitials()));
 	}
 
 	@Then("the worker exist in systems worker List")
 	public void theWorkerExistInSystemsWorkerList() {
-		assertTrue(app.isWorkerInWorkerList(worker));
+		assertTrue(app.isWorkerInWorkerList(worker.getInitials()));
 	}
 
 	@And("the worker can login using his initial {string} to login")
@@ -205,46 +206,47 @@ public class StepDefinitions {
 	@Given("there is a worker with initials {string} logged in to the system")
 	public void thereIsAWorkerWithInitialsLoggedInToTheSystem(String initials) throws OperationNotAllowedException {
 		//Jonas
-		if (!app.isWorkerInWorkerList(worker)){
+		if (!app.isWorkerInWorkerList(initials)){
 			if (worker == null){
 				this.worker = new Worker(initials);
 			}
 			app.addNewWorker(worker);
 		}
 		app.logIn(worker.getInitials());
-		assertTrue(app.isWorkerInWorkerList(worker));
+		assertTrue(app.isWorkerInWorkerList(worker.getInitials()));
 	}
 
 	@Given("a worker with the name {string} does not exist")
 	public void aWorkerWithTheNameDoesNotExist(String initials)
 	{
-		this.worker = new Worker(initials);
-
-		assertFalse(app.isWorkerInWorkerList(worker));
+		// Danny
+		assertFalse(app.isWorkerInWorkerList(initials));
 	}
 
-	@When("the worker creates a new worker with this name")
-	public void theWorkerCreatesANewWorkerWithThisName()
-	{
-		try
-		{
+	@When("the worker creates a new worker by the name of {string}")
+	public void theWorkerCreatesANewWorkerWithThisName(String initials) {
+		// Danny
+		if(worker == null) {
+			this.worker = new Worker(initials);
+		}
+
+		try {
 			app.addNewWorker(worker);
 		}
-		catch(OperationNotAllowedException e)
-		{
+		catch(OperationNotAllowedException e) {
 			errorMessage.setErrorMessage(e.getMessage());
 		}
 	}
 
-	@Then("a worker by the name of of {string} has been created")
-	public void aWorkerByTheNameOfOfHasBeenCreated(String string)
-	{
-		assertTrue(app.isWorkerInWorkerList(worker));
+	@Then("a worker by the name of {string} has been created")
+	public void aWorkerByTheNameOfOfHasBeenCreated(String initials) {
+		// Danny
+		assertTrue(app.isWorkerInWorkerList(initials));
 	}
 
 	@Then("an error message {string} is given")
-	public void anErrorMessageIsGiven(String errorMessage)
-	{
+	public void anErrorMessageIsGiven(String errorMessage) {
+		// Danny
 		assertEquals(errorMessage, this.errorMessage.getErrorMessage());
 	}
 	
