@@ -5,6 +5,7 @@ import dtu.system.app.DateServer;
 import dtu.system.app.ErrorMessageHolder;
 import dtu.system.app.OperationNotAllowedException;
 import dtu.system.domain.Activity;
+import dtu.system.domain.HalfHours;
 import dtu.system.domain.Worker;
 import dtu.system.domain.Project;
 import io.cucumber.java.en.And;
@@ -23,8 +24,12 @@ public class StepDefinitions {
 	Worker worker;
 	Application app;
 	ErrorMessageHolder errorMessage;
+
 	DateServer date;
 	Calendar currentDate;
+
+	private HalfHours halfHours;
+
 
 	public StepDefinitions(Application app, ErrorMessageHolder errorMessage) {
 		//Jonas
@@ -269,8 +274,22 @@ public class StepDefinitions {
 		Calendar expectedDate = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 		assertEquals(expectedDate.getTime(), currentDate.getTime());
 	}
+
 	@And("the error message {string} is given")
 	public void theErrorMessageIsGiven(String errorMessage) {
 		assertEquals(errorMessage,this.errorMessage.getErrorMessage());
 	}
+
+	@Given("console takes input {int} hours {int} minuts")
+	public void consoleTakesInputHoursMinuts(int hour, int min) {
+		this.halfHours = new HalfHours(hour, min);
+	}
+
+
+	@Then("halfHours is {double}")
+	public void halfhoursIs(double time) {
+		assertEquals(halfHours.getTime(), time);
+	}
+
+
 }
