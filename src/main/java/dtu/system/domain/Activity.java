@@ -11,6 +11,10 @@ public class Activity {
     public Calendar endWeek;
     //public Project parentProject;
 
+    public Activity(String id){
+        this.id = id;
+    }
+
     public void setID(String id){
         this.id = id;
     }
