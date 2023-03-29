@@ -28,6 +28,7 @@ public class StepDefinitions {
 	Project project;
 	Activity activity;
 	private int projectNumberTemp;
+	HalfHours halfHours;
 
 	public StepDefinitions(Application app, ErrorMessageHolder errorMessage) {
 		//Jonas
