@@ -1,5 +1,6 @@
 package dtu.system.app;
 
+import dtu.system.domain.Activity;
 import dtu.system.domain.Project;
 import dtu.system.domain.Worker;
 
@@ -46,29 +47,43 @@ public class Application {
         }
         // else cast error (user not found)
     }
+    public void logOut() {
+        this.loggedIn = false;
+        this.loggedInWorker = null;
+    }
 
     public boolean getLoggedInStatus() {
         // Jonas
         return loggedIn;
     }
 
-    public Worker getLoggedInWorker() {
-        // Jonas
+    public Worker getLoggedInWorker() throws OperationNotAllowedException {
+        if (loggedInWorker == null){
+            throw new OperationNotAllowedException("no worker is logged in");
+        }
         return loggedInWorker;
     }
 
-    public Project createProject(String projectName, Worker projectLeader) {
+    public Project createProject(String projectName, Worker projectLeader){
+        // mangler error handling
+
         int projectNumber = getNextProjectNumber();
         Project project = new Project(projectName,projectLeader,projectNumber);
         projectList.add(project);
         return project;
+
     }
 
-    public Project createProject(String projectName) {
-        int projectNumber = getNextProjectNumber();
-        Project project = new Project(projectName,projectNumber);
-        projectList.add(project);
-        return project;
+    public Project createProject(String projectName) throws OperationNotAllowedException{
+
+        if (loggedIn){
+            int projectNumber = getNextProjectNumber();
+            Project project = new Project(projectName,projectNumber);
+            projectList.add(project);
+            return project;
+        } else {
+            throw new OperationNotAllowedException("no worker is logged in");
+        }
     }
 
     public int getNextProjectNumber() {
@@ -79,14 +94,25 @@ public class Application {
         return projectList;
     }
 
-    public Project getProjectWithNumber(int projectNumber) {
+    public Project getProjectWithNumber(int projectNumber) throws OperationNotAllowedException {
         //Jonas
         for (Project p : projectList){
             if (p.getProjectNumber() == projectNumber) {
                 return p;
             }
         }
-        // else lav fejl
-        return null;
+
+        throw new OperationNotAllowedException("project " + projectNumber + " dont exist");
+
+    }
+
+    public Activity addActivityToProject(int projectNumber) throws OperationNotAllowedException {
+        //Jonas
+        if (loggedIn){
+            return getProjectWithNumber(projectNumber).addActivity();
+        } else {
+            throw new OperationNotAllowedException("Need to login a worker before adding an activity to the project");
+        }
+
     }
 }

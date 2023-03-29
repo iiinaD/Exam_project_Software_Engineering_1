@@ -9,8 +9,18 @@ Feature: Create a project
     When the worker tries to create a new project with the number 23001
     Then the new project gets created
 
-#  Scenario: Create a project when not logged in
-#    Given a worker with the name "daha" exists
-#    And the worker is not logged in
-#    When the worker tries to create a new project with the number 23001
-#    Then the new project does not get created
+  Scenario: Create a project when not logged in
+    Given a worker with the name "daha" exists
+    And the worker is not logged in
+    When the worker tries to create a new project with the number 23001
+    Then the new project 23001 does not get created
+    And an error message "project 23001 dont exist" is given
+
+  #Jonas
+  Scenario: Create a project when not logged in
+    Given a worker with the name "jodl" exists
+    And the worker is not logged in
+    When the worker tries to create a new project with the number 23001
+    And an error message "no worker is logged in" is given
+
+

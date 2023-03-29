@@ -24,21 +24,17 @@ public class StepDefinitions {
 
 	Worker worker;
 	Application app;
-	ErrorMessageHolder errorMessage;
+	ErrorMessageHolder errorMessageHolder;
 	Project project;
 	Activity activity;
+	private int projectNumberTemp;
 
 	public StepDefinitions(Application app, ErrorMessageHolder errorMessage) {
 		//Jonas
 		this.app = app;
-		this.errorMessage = errorMessage;
+		this.errorMessageHolder = errorMessage;
 	}
-	@Given("a worker with the name {string} exists")
-	public void aWorkerWithTheNameExists(String initials) throws OperationNotAllowedException
-	{
-		this.worker = new Worker(initials);
-		app.addNewWorker(worker);
-	}
+
 	@Given("a worker with the name {string} is logged in")
 	public void aWorkerWithTheNameIsLoggedIn(String string) {
 		// Write code here that turns the phrase above into concrete actions
@@ -77,23 +73,38 @@ public class StepDefinitions {
 
 	@When("the worker tries to create a new project with the number {int}")
 	public void theWorkerTriesToCreateANewProjectWithTheNumber(Integer projectNumber) {
-		app.createProject("This is a new project");
-		Project createdProject = app.getProjectList().get(0);
-		assertEquals(createdProject.getProjectNumber(),projectNumber);
+		this.projectNumberTemp = projectNumber;
+		try {
+			app.createProject("This is a new project");
+		} catch (OperationNotAllowedException e){
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
+		//Project createdProject = app.getProjectList().get(0);
+		//assertEquals(createdProject.getProjectNumber(),projectNumber);
 	}
 	@Then("the new project gets created")
-	public void theNewProjectGetsCreated() {
-		assertTrue(app.getProjectList().size() > 0);
+	public void theNewProjectGetsCreated() throws OperationNotAllowedException {
+		assertEquals(app.getProjectWithNumber(projectNumberTemp).getProjectNumber(), projectNumberTemp);
 	}
 	@Given("the worker is not logged in")
 	public void theWorkerIsNotLoggedIn() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		//Jonas
+		assertFalse(app.getLoggedInStatus(), "App logged in status is true");
+		try {
+			app.getLoggedInWorker();
+		} catch (OperationNotAllowedException e) {
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 	}
-	@Then("the new project does not get created")
-	public void theNewProjectDoesNotGetCreated() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+
+	@Then("the new project {int} does not get created")
+	public void theNewProjectDoesNotGetCreated(int number) {
+		//Jonas
+		try {
+			app.getProjectWithNumber(number);
+		} catch (OperationNotAllowedException e){
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 	}
 
 
@@ -141,26 +152,28 @@ public class StepDefinitions {
 	}
 
 	@Then("the worker is logged in")
-	public void theWorkerIsLoggedIn() {
+	public void theWorkerIsLoggedIn() throws OperationNotAllowedException {
 		//Jonas
 		app.logIn(worker.getInitials());
 		assertEquals(worker, app.getLoggedInWorker());
 	}
 
 
-	@Given("a worker with the name “jodl” exists")
-	public void aWorkerWithTheNameJodlExists() throws OperationNotAllowedException {
-		Worker JODI = new Worker("jodi");
-		app.addNewWorker(JODI);
+	@Given("a worker with the name {string} exists")
+	public void aWorkerWithTheNameJodlExists(String initials) throws OperationNotAllowedException {
+		//Jonas
+		this.worker = new Worker(initials);
+		app.addNewWorker(worker);
 	}
 
-	@Given("“jodl” is logged in")
-	public void jodlIsLoggedIn() {
-		app.logIn("jodi");
+	@Given("{string} is logged in")
+	public void jodlIsLoggedIn(String initials) {
+		//Jonas
+		app.logIn(initials);
 	}
 
 	@Given("there is a project {string} with an activity {string}")
-	public void thereIsAProjectWithAnActivity(String string, String string2) {
+	public void thereIsAProjectWithAnActivity(String string, String string2) throws OperationNotAllowedException {
 		project = app.createProject(string);
 		activity = project.addActivity();
 	}
@@ -237,7 +250,7 @@ public class StepDefinitions {
 		}
 		catch(OperationNotAllowedException e)
 		{
-			errorMessage.setErrorMessage(e.getMessage());
+			errorMessageHolder.setErrorMessage(e.getMessage());
 		}
 	}
 
@@ -248,9 +261,8 @@ public class StepDefinitions {
 	}
 
 	@Then("an error message {string} is given")
-	public void anErrorMessageIsGiven(String errorMessage)
-	{
-		assertEquals(errorMessage, this.errorMessage.getErrorMessage());
+	public void anErrorMessageIsGiven(String errorMessage) {
+		assertEquals(errorMessage, this.errorMessageHolder.getErrorMessage());
 	}
 
 	//Test date server
@@ -287,12 +299,6 @@ public class StepDefinitions {
 		app.logIn("jodl");
 	}
 
-	@Given("there is a project {string}")
-	public void there_is_a_project(String string) {
-		//Gee
-		project = new Project(string, 23001); //wrong use dont hard code it :)
-	}
-
 	@Given("the project has an empty activity list")
 	public void the_project_has_an_empty_activity_list() {
 		//Gee
@@ -300,9 +306,13 @@ public class StepDefinitions {
 	}
 
 	@When("the worker creates a new Activity to the project.")
-	public void the_worker_creates_a_new_activity_to_the_project() {
-		//Gee
-		this.activity = project.addActivity();
+	public void the_worker_creates_a_new_activity_to_the_project() throws OperationNotAllowedException {
+		//Jonas
+		try {
+			this.activity = app.addActivityToProject(project.getProjectNumber());
+		} catch (OperationNotAllowedException e){
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 	}
 
 	@Then("the project has activity {string} in its activity list.")
@@ -312,10 +322,17 @@ public class StepDefinitions {
 	}
 
 	@And("there is a project {int} in the system")
-	public void thereIsAProjectInTheSystem(int projectNumber) {
+	public void thereIsAProjectInTheSystem(int projectNumber) throws OperationNotAllowedException {
 		//Jonas
-		app.createProject("name");
+		if (!app.getLoggedInStatus()) {
+			app.logIn(worker.getInitials());
+			app.createProject("name");
+			app.logOut();
+		} else {
+			app.createProject("name");
+		}
 		this.project = app.getProjectWithNumber(projectNumber);
 		assertEquals(project.getProjectNumber(), projectNumber);
 	}
+
 }
