@@ -25,7 +25,7 @@ public class userInterface {
             String input = console.nextLine();
             Command command = commands.get(input);
             System.out.println(exitTest(input));
-            
+
             if (exitTest(input)) {
                 break;
             }
