@@ -78,4 +78,15 @@ public class Application {
     public List<Project> getProjectList() {
         return projectList;
     }
+
+    public Project getProjectWithNumber(int projectNumber) {
+        //Jonas
+        for (Project p : projectList){
+            if (p.getProjectNumber() == projectNumber) {
+                return p;
+            }
+        }
+        // else lav fejl
+        return null;
+    }
 }

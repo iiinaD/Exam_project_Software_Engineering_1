@@ -289,21 +289,33 @@ public class StepDefinitions {
 
 	@Given("there is a project {string}")
 	public void there_is_a_project(String string) {
-		project = new Project(string, 23001);
+		//Gee
+		project = new Project(string, 23001); //wrong use dont hard code it :)
 	}
 
 	@Given("the project has an empty activity list")
 	public void the_project_has_an_empty_activity_list() {
+		//Gee
 		assertTrue(project.getActivityList().isEmpty());
 	}
 
 	@When("the worker creates a new Activity to the project.")
 	public void the_worker_creates_a_new_activity_to_the_project() {
+		//Gee
 		this.activity = project.addActivity();
 	}
 
 	@Then("the project has activity {string} in its activity list.")
 	public void the_project_has_activity_in_its_activity_list(String string) {
-		assertTrue(project.getActivityList().contains(this.activity));
+		//Gee
+		assertTrue(project.getActivityList().contains(activity));
+	}
+
+	@And("there is a project {int} in the system")
+	public void thereIsAProjectInTheSystem(int projectNumber) {
+		//Jonas
+		app.createProject("name");
+		this.project = app.getProjectWithNumber(projectNumber);
+		assertEquals(project.getProjectNumber(), projectNumber);
 	}
 }
