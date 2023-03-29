@@ -5,6 +5,7 @@ import dtu.system.app.DateServer;
 import dtu.system.app.ErrorMessageHolder;
 import dtu.system.app.OperationNotAllowedException;
 import dtu.system.domain.Activity;
+import dtu.system.domain.HalfHours;
 import dtu.system.domain.Worker;
 import dtu.system.domain.Project;
 import io.cucumber.java.bs.A;
@@ -347,5 +348,6 @@ public class StepDefinitions {
 	public void halfhoursIs(double time) {
 		// Jonas
 		assertEquals(halfHours.getTime(), time);
+	}
 
 }
