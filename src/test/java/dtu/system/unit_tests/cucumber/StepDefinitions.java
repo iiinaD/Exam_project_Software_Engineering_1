@@ -28,6 +28,7 @@ public class StepDefinitions {
 	Project project;
 	Activity activity;
 	private int projectNumberTemp;
+	HalfHours halfHours;
 
 	public StepDefinitions(Application app, ErrorMessageHolder errorMessage) {
 		//Jonas
@@ -334,5 +335,17 @@ public class StepDefinitions {
 		this.project = app.getProjectWithNumber(projectNumber);
 		assertEquals(project.getProjectNumber(), projectNumber);
 	}
+	
+	@Given("console takes input {int} hours {int} minuts")
+	public void consoleTakesInputHoursMinuts(int hour, int min) {
+		// Jonas
+		this.halfHours = new HalfHours(hour, min);
+	}
+
+
+	@Then("halfHours is {double}")
+	public void halfhoursIs(double time) {
+		// Jonas
+		assertEquals(halfHours.getTime(), time);
 
 }
