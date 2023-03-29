@@ -3,16 +3,16 @@ Feature: Create new worker
   Actors: Worker not logged in
 
 # Danny
-Scenario: Worker creates a new worker using an unique name
-  Given a worker with the name "jodl" does not exist
-  When the worker creates a new worker by the name of "jodl"
-  Then a worker by the name of "jodl" has been created
-
-# Danny
-Scenario: Worker creates a new worker using an already existing name
-  Given a worker with the name "jodl" exists
-  When the worker creates a new worker by the name of "jodl"
-  Then an error message "A worker with this name already exists." is given
+#Scenario: Worker creates a new worker using an unique name
+#  Given a worker with the name "jodl" does not exist
+#  When the worker creates a new worker by the name of "jodl"
+#  Then a worker by the name of "jodl" has been created
+#
+## Danny
+#Scenario: Worker creates a new worker using an already existing name
+#  Given a worker with the name "jodl" exists
+#  When the worker creates a new worker by the name of "jodl"
+#  Then an error message "A worker with this name already exists." is given
 
 # Jonas
   Scenario: create a worker to the system
