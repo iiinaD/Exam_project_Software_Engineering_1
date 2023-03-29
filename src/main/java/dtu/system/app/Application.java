@@ -1,19 +1,18 @@
 package dtu.system.app;
 
+import dtu.system.domain.Activity;
 import dtu.system.domain.Project;
 import dtu.system.domain.Worker;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class Application {
 
-    private ArrayList<Worker> workerList = new ArrayList<>();
+    ArrayList<Worker> workerList = new ArrayList<>();
     private Worker loggedInWorker;
     private Boolean loggedIn = false;
     private List<Project> projectList = new ArrayList<>();
-    private DateServer dateServer;
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
@@ -24,7 +23,7 @@ public class Application {
         if(!isWorkerInWorkerList(worker)) {
             workerList.add(worker);
         } else {
-             throw new OperationNotAllowedException("A worker with this name already exists.");
+            throw new OperationNotAllowedException("A worker with this name already exists.");
         }
     }
 
@@ -37,7 +36,7 @@ public class Application {
         }
         return false;
     }
-    
+
     public void logIn(String initials) {
         //Jonas
         for (Worker i : workerList){
@@ -48,48 +47,72 @@ public class Application {
         }
         // else cast error (user not found)
     }
+    public void logOut() {
+        this.loggedIn = false;
+        this.loggedInWorker = null;
+    }
 
     public boolean getLoggedInStatus() {
         // Jonas
         return loggedIn;
     }
 
-    public Worker getLoggedInWorker() {
-        // Jonas
+    public Worker getLoggedInWorker() throws OperationNotAllowedException {
+        if (loggedInWorker == null){
+            throw new OperationNotAllowedException("no worker is logged in");
+        }
         return loggedInWorker;
     }
 
-    public void createProject(String projectName, Worker projectLeader) throws OperationNotAllowedException {
-        // Daniel
-        if (loggedIn) {
-            int projectNumber = getNextProjectNumber();
-            Project project = new Project(projectName, projectLeader, projectNumber);
-            projectList.add(project);
-        } else {
-            throw new OperationNotAllowedException("Login is required to create project");
-        }
+    public Project createProject(String projectName, Worker projectLeader){
+        // mangler error handling
+
+        int projectNumber = getNextProjectNumber();
+        Project project = new Project(projectName,projectLeader,projectNumber);
+        projectList.add(project);
+        return project;
 
     }
 
-    public void createProject(String projectName) throws OperationNotAllowedException {
-        // Daniel
-        if (loggedIn) {
+    public Project createProject(String projectName) throws OperationNotAllowedException{
+
+        if (loggedIn){
             int projectNumber = getNextProjectNumber();
-            Project project = new Project(projectName, projectNumber);
+            Project project = new Project(projectName,projectNumber);
             projectList.add(project);
+            return project;
         } else {
-            throw new OperationNotAllowedException("Login is required to create project");
+            throw new OperationNotAllowedException("no worker is logged in");
         }
     }
 
     public int getNextProjectNumber() {
-        // Daniel
-        int year = dateServer.getDate().get(Calendar.YEAR) - 2000;
-        return year + projectList.size() + 1;
+        return 23000 + projectList.size() + 1;
     }
 
     public List<Project> getProjectList() {
-        // Daniel
         return projectList;
+    }
+
+    public Project getProjectWithNumber(int projectNumber) throws OperationNotAllowedException {
+        //Jonas
+        for (Project p : projectList){
+            if (p.getProjectNumber() == projectNumber) {
+                return p;
+            }
+        }
+
+        throw new OperationNotAllowedException("project " + projectNumber + " dont exist");
+
+    }
+
+    public Activity addActivityToProject(int projectNumber) throws OperationNotAllowedException {
+        //Jonas
+        if (loggedIn){
+            return getProjectWithNumber(projectNumber).addActivity();
+        } else {
+            throw new OperationNotAllowedException("Need to login a worker before adding an activity to the project");
+        }
+
     }
 }
