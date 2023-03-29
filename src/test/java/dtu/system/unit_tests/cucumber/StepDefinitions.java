@@ -273,15 +273,15 @@ public class StepDefinitions {
 		assertEquals(expectedDate.getTime(), currentDate.getTime());
 	}
 
-	@Given("console takes input {int} hours {int} miniuts")
-	public void consoleTakesInputHoursMiniuts(int hour, int min) {
+	@Given("console takes input {int} hours {int} minuts")
+	public void consoleTakesInputHoursMinuts(int hour, int min) {
 		this.halfHours = new HalfHours(hour, min);
 	}
 
 
 	@Then("halfHours is {double}")
 	public void halfhoursIs(double time) {
-		assertTrue(halfHours.getTime() == time);
+		assertEquals(halfHours.getTime(), time);
 	}
 
 
