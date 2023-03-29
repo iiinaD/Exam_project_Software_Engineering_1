@@ -30,6 +30,8 @@ public class StepDefinitions {
 	Activity activity;
 	private int projectNumberTemp;
 	HalfHours halfHours;
+	private DateServer date;
+	private Calendar currentDate;
 
 	public StepDefinitions(Application app, ErrorMessageHolder errorMessage) {
 		//Jonas
@@ -266,11 +268,6 @@ public class StepDefinitions {
 	public void anErrorMessageIsGiven(String errorMessage) {
 		assertEquals(errorMessage, this.errorMessageHolder.getErrorMessage());
 	}
-
-	//Test date server
-
-	private DateServer date;
-	private Calendar currentDate;
 
 	@Given("the date server is running")
 	public void the_date_server_is_running() {
