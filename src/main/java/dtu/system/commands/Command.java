@@ -1,5 +1,7 @@
 package dtu.system.commands;
 
+import dtu.system.app.Application;
+
 public interface Command {
-    void execute();
+    void execute(Application app);
 }

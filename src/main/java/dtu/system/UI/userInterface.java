@@ -24,14 +24,13 @@ public class userInterface {
             System.out.print("Please enter a command:\n > ");
             String input = console.nextLine();
             Command command = commands.get(input);
-            System.out.println(exitTest(input));
 
             if (exitTest(input)) {
                 break;
             }
 
             if (command != null) {
-                command.execute();
+                command.execute(app);
             } else {
                 System.out.println("Unknown command for list of valid commands type \"help\"");
             }
@@ -48,5 +47,6 @@ public class userInterface {
     private static void loadCommands(Map<String, Command> commands) {
         commands.put("login", (Command) new Login());
         commands.put("create project", (Command) new CreateProject());
+        commands.put("add worker", (Command) new AddWorker());
     }
 }
