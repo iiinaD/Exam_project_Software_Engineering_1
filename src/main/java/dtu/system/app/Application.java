@@ -14,23 +14,19 @@ public class Application {
     private Boolean loggedIn = false;
     private List<Project> projectList = new ArrayList<>();
 
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
-
     public void addNewWorker(Worker worker) throws OperationNotAllowedException {
         //Jonas
-        if(!isWorkerInWorkerList(worker)) {
+        if(!isWorkerInWorkerList(worker.getInitials())) {
             workerList.add(worker);
         } else {
-            throw new OperationNotAllowedException("A worker with this name already exists.");
+            throw new OperationNotAllowedException("A worker with these initials already exists.");
         }
     }
 
-    public boolean isWorkerInWorkerList(Worker worker) {
+    public boolean isWorkerInWorkerList(String initials) {
         //Jonas
         for (Worker i : workerList){
-            if (i.getInitials().equals(worker.getInitials())){
+            if (i.getInitials().equals(initials)){
                 return true;
             }
         }
