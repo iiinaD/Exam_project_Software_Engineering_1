@@ -13,6 +13,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Given;
+import org.mockito.internal.matchers.Null;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -136,13 +137,13 @@ public class StepDefinitions {
 	@Then("the worker is in the systems worker list")
 	public void isInTheSystemsWorkerList() {
 		// Jonas
-		assertTrue(app.isWorkerInWorkerList(worker));
+		assertTrue(app.isWorkerInWorkerList(worker.getInitials()));
 	}
 
 	@Then("the worker exist in systems worker List")
 	public void theWorkerExistInSystemsWorkerList() {
 		// Jonas
-		assertTrue(app.isWorkerInWorkerList(worker));
+		assertTrue(app.isWorkerInWorkerList(worker.getInitials()));
 	}
 
 	@And("the worker can login using his initial {string} to login")
@@ -236,25 +237,26 @@ public class StepDefinitions {
 	@Given("there is a worker with initials {string} logged in to the system")
 	public void thereIsAWorkerWithInitialsLoggedInToTheSystem(String initials) throws OperationNotAllowedException {
 		// Jonas
-		if (!app.isWorkerInWorkerList(worker)){
+		if (!app.isWorkerInWorkerList(initials)){
 			if (worker == null){
 				this.worker = new Worker(initials);
 			}
 			app.addNewWorker(worker);
 		}
 		app.logIn(worker.getInitials());
-		assertTrue(app.isWorkerInWorkerList(worker));
+		assertTrue(app.isWorkerInWorkerList(initials));
 	}
 
-	@Given("a worker with the name {string} does not exist")
-	public void aWorkerWithTheNameDoesNotExist(String initials) {
+	@Given("a worker with the initials {string} does not exist")
+	public void aWorkerWithTheInitialsDoesNotExist(String initials) {
 		// Danny
 		this.worker = new Worker(initials);
-		assertFalse(app.isWorkerInWorkerList(worker));
+
+		assertFalse(app.isWorkerInWorkerList(initials));
 	}
 
-	@When("the worker creates a new worker with this name")
-	public void theWorkerCreatesANewWorkerWithThisName() {
+	@When("the worker creates a new worker with the initials {string}")
+	public void theWorkerCreatesANewWorkerWithTheInitials(String initials) {
 		// Danny
 		try {
 			app.addNewWorker(worker);
@@ -263,10 +265,10 @@ public class StepDefinitions {
 		}
 	}
 
-	@Then("a worker by the name of of {string} has been created")
-	public void aWorkerByTheNameOfOfHasBeenCreated(String string) {
+	@Then("a worker with the initials {string} has been created")
+	public void aWorkerWithTheInitialsHasBeenCreated(String string) {
 		// Danny
-		assertTrue(app.isWorkerInWorkerList(worker));
+		assertTrue(app.isWorkerInWorkerList(worker.getInitials()));
 	}
 
 	@Then("an error message {string} is given")
@@ -295,18 +297,12 @@ public class StepDefinitions {
 		assertEquals(expectedDate.getTime(), currentDate.getTime());
 	}
 
-	//Test create activity
-
-	@Given("a worker with the name “jodl” exists.")
-	public void a_worker_with_the_name_jodl_exists() throws OperationNotAllowedException{ // FIX dont hard code fix cucumber
+	@Given("a worker with the initials {string} exists")
+	public void a_worker_with_the_initials_jodl_exists(String initials) throws OperationNotAllowedException {
 		// Gee
-		app.addNewWorker(new Worker("jodl"));
-	}
+		this.worker = new Worker(initials);
 
-	@Given("“jodl” is logged in.")
-	public void jodl_is_logged_in() { // FIX dont hard code fix cucumber
-		// Gee
-		app.logIn("jodl");
+		app.addNewWorker(worker);
 	}
 
 	@Given("the project has an empty activity list")
