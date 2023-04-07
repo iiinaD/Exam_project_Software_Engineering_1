@@ -44,6 +44,14 @@ public class Project {
     public ArrayList<Activity> getActivityList(){
         return activities;
     }
+
+    public void setProjectName(String newProjectName) {
+        projectName = newProjectName;
+    }
+
+    public String getName() {
+        return projectName;
+    }
 }
 
 

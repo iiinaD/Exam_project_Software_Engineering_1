@@ -120,4 +120,19 @@ public class Application {
         }
 
     }
+
+    public boolean hasProjectWithNumber(int projectNumber) {
+        // Daniel
+        try {
+            getProjectWithNumber(projectNumber);
+        } catch (OperationNotAllowedException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public void changeProjectName(int projectNumber, String newProjectName) throws OperationNotAllowedException {
+        Project project = getProjectWithNumber(projectNumber);
+        project.setProjectName(newProjectName);
+    }
 }

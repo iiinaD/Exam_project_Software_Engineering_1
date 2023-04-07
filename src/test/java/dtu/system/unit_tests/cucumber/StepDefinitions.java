@@ -41,24 +41,32 @@ public class StepDefinitions {
 	}
 
 	@Given("a worker with the name {string} is logged in")
-	public void aWorkerWithTheNameIsLoggedIn(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void aWorkerWithTheNameIsLoggedIn(String initials) throws OperationNotAllowedException {
+		// Daniel
+		worker = new Worker(initials);
+		app.addNewWorker(worker);
+		app.logIn(initials);
+		assertTrue(app.getLoggedInStatus());
 	}
-	@Given("a project with the number  {int} and  name {string} exists")
-	public void aProjectWithTheNumberAndNameExists(Integer int1, String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@Given("a project with the number {int} and name {string} exists")
+	public void aProjectWithTheNumberAndNameExists(Integer projectNumber, String projectName) throws OperationNotAllowedException {
+		// Daniel
+		app.createProject(projectName);
+		assertTrue(app.hasProjectWithNumber(projectNumber));
 	}
-	@When("the worker tries to change the name of the project to {string}")
-	public void theWorkerTriesToChangeTheNameOfTheProjectTo(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@When("the worker tries to change the name of the project {int} to {string}")
+	public void theWorkerTriesToChangeTheNameOfTheProjectTo(int projectNumber, String newProjectName) {
+		 // Daniel
+		 try {
+			 app.changeProjectName(projectNumber,newProjectName);
+		 } catch (OperationNotAllowedException e) {
+			 errorMessageHolder.setErrorMessage(e.getMessage());
+		 }
 	}
-	@Then("the name of the project changes to {string}")
-	public void theNameOfTheProjectChangesTo(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@Then("the name of the project {int} changes to {string}")
+	public void theNameOfTheProjectChangesTo(int projectNumber, String newProjectName) throws OperationNotAllowedException {
+		// Daniel
+		assertEquals(app.getProjectWithNumber(projectNumber).getName(),newProjectName);
 	}
 	@Given("two workers with the names {string} and {string} exists")
 	public void twoWorkersWithTheNamesAndExists(String string, String string2) {
@@ -353,5 +361,4 @@ public class StepDefinitions {
 		// Jonas
 		assertEquals(halfHours.getTime(), time);
 	}
-
 }
