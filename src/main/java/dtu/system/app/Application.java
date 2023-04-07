@@ -5,6 +5,7 @@ import dtu.system.domain.Project;
 import dtu.system.domain.Worker;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class Application {
@@ -13,10 +14,8 @@ public class Application {
     private Worker loggedInWorker;
     private Boolean loggedIn = false;
     private List<Project> projectList = new ArrayList<>();
+    private DateServer dateServer = new DateServer();
 
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
 
     public void addNewWorker(Worker worker) throws OperationNotAllowedException {
         //Jonas
@@ -64,18 +63,20 @@ public class Application {
         return loggedInWorker;
     }
 
-    public Project createProject(String projectName, Worker projectLeader){
-        // mangler error handling
-
-        int projectNumber = getNextProjectNumber();
-        Project project = new Project(projectName,projectLeader,projectNumber);
-        projectList.add(project);
-        return project;
-
+    public Project createProject(String projectName, Worker projectLeader) throws OperationNotAllowedException {
+        //Daniel
+        if (loggedIn){
+            int projectNumber = getNextProjectNumber();
+            Project project = new Project(projectName,projectLeader,projectNumber);
+            projectList.add(project);
+            return project;
+        } else {
+            throw new OperationNotAllowedException("no worker is logged in");
+        }
     }
 
     public Project createProject(String projectName) throws OperationNotAllowedException{
-
+        //Daniel
         if (loggedIn){
             int projectNumber = getNextProjectNumber();
             Project project = new Project(projectName,projectNumber);
@@ -87,10 +88,14 @@ public class Application {
     }
 
     public int getNextProjectNumber() {
-        return 23000 + projectList.size() + 1;
+        //Daniel
+        String year = String.valueOf(dateServer.getDate().get(Calendar.YEAR));
+        int twoDigitYear = Integer.parseInt(year.substring(2));
+        return twoDigitYear*1000 + projectList.size() + 1;
     }
 
     public List<Project> getProjectList() {
+        //Daniel
         return projectList;
     }
 
