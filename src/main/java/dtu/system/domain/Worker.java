@@ -22,9 +22,9 @@ public class Worker
         this.initials = initials;
     }
 
-    public void addWorkerActivity(Activity activity) {
+    public void addWorkerActivity(Activity activity, HalfHours workTime) {
         // Danny
-        WorkerActivity workerActivity = new WorkerActivity(activity);
+        WorkerActivity workerActivity = new WorkerActivity(activity, workTime);
 
         workerActivityList.add(workerActivity);
     }
@@ -48,6 +48,7 @@ public class Worker
 
         return null;
     }
+
 
     public List<WorkerActivity> getWorkerActivityList() {
         // Danny

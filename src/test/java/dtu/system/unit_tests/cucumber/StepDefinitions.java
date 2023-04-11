@@ -358,39 +358,46 @@ public class StepDefinitions {
 	@Given("the worker has an activity {string} in his activity list")
 	public void theWorkerHasAnActivityInHisActivityList(String activityId) {
 		// Danny
-		worker.addWorkerActivity(activity);
+		if(halfHours == null)
+		{
+			halfHours = new HalfHours(0, 0);
+		}
+
+		worker.addWorkerActivity(activity, halfHours);
 	}
 
-	@Given("{string} worked for {int} hours on activity {string}")
-	public void workedForHoursOnActivity(String string, int workTime, String string2) throws OperationNotAllowedException {
+	@Given("the worker has worked for {int} hours and {int} minutes on the activity")
+	public void theWorkerHasWorkedForHoursOnTheActivity(int hours, int minutes) throws OperationNotAllowedException {
 		// Danny
-		halfHours = new HalfHours(workTime,0);
+		halfHours = new HalfHours(hours, minutes);
 
 		worker.getWorkerActivity(activity).setWorkTime(halfHours);
 	}
 
-	@When("{string} changes his working hours for the activity to {int} hours")
-	public void changesHisWorkingHoursForTheActivityToHours(String string, int workTime) throws OperationNotAllowedException {
+	@When("the worker changes his working hours to {int} hours and {int} minutes")
+	public void changesHisWorkingHoursForTheActivityToHours(int hours, int minutes) throws OperationNotAllowedException {
 		// Danny
-		halfHours = new HalfHours(workTime,0);
+		halfHours = new HalfHours(hours, minutes);
 
 		worker.getWorkerActivity(activity).setWorkTime(halfHours);
 	}
 
-	@Then("worker {string} has spent {int} hours on activity {string}")
-	public void workerHasSpentHoursOnActivity(String string, int workTime, String string2) throws OperationNotAllowedException {
+	@Then("the worker has spent {int} hours and {int} minutes on the activity")
+	public void theWorkerHasSpentHoursAndMinutesOnTheActivity(int hours, int minutes) throws OperationNotAllowedException {
 		// Danny
-		assertEquals(workTime, worker.getWorkerActivity(activity).getWorkTime().getTime());
+		halfHours = new HalfHours(hours, minutes);
+
+		assertEquals(halfHours.getTime(), worker.getWorkerActivity(activity).getWorkTime().getTime());
 	}
 
-	@Given("the worker {string} has no activities in his activity list")
-	public void theWorkerHasNoActivitiesInHisActivityList(String initials) {
+	@Given("the worker has no activities in his activity list")
+	public void theWorkerHasNoActivitiesInHisActivityList() {
 		// Danny
 		assertTrue(worker.getWorkerActivityList().isEmpty());
 	}
 
-	@When("{string} tries to edit his working hours for activity {string}")
-	public void triesToEditHisWorkingHoursForActivity(String string, String string2) {
+	@When("the worker tries to edit his working hours")
+	public void theWorkerTriesToEditHisWorkingHours() {
 		// Danny
 		halfHours = new HalfHours(5,0);
 
