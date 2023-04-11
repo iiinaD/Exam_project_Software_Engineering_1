@@ -10,20 +10,17 @@ public class WorkerActivity
           this.activity = activity;
      }
 
-     public void setWorkTime(HalfHours workTime)
-     {
+     public void setWorkTime(HalfHours workTime) {
           // Danny
           this.workTime = workTime;
      }
 
-     public Activity getWorkerActivity()
-     {
+     public Activity getWorkerActivity() {
           // Danny
           return activity;
      }
 
-     public HalfHours getWorkTime()
-     {
+     public HalfHours getWorkTime() {
           // Danny
           return workTime;
      }

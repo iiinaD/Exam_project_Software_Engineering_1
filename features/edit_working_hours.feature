@@ -15,7 +15,7 @@ Scenario: Project member edits working hours when an activity exists
   When "jodl" changes his working hours for the activity to 37 hours
   Then worker "jodl" has spent 37 hours on activity "23001-001"
 
-#Scenario: Project member edits working hours when no activities exists
-#  Given the worker "jodl" has no activities in his activity list
-#  When "jodl" tries to edit his working hours for activity "23001-001"
-#  Then an error message "This worker doesn’t have any activities yet." is given
+Scenario: Project member edits working hours when no activities exists
+  Given the worker "jodl" has no activities in his activity list
+  When "jodl" tries to edit his working hours for activity "23001-001"
+  Then an error message "This worker doesn’t have any activities yet." is given

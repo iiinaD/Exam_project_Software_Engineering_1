@@ -362,7 +362,7 @@ public class StepDefinitions {
 	}
 
 	@Given("{string} worked for {int} hours on activity {string}")
-	public void workedForHoursOnActivity(String string, int workTime, String string2) {
+	public void workedForHoursOnActivity(String string, int workTime, String string2) throws OperationNotAllowedException {
 		// Danny
 		halfHours = new HalfHours(workTime,0);
 
@@ -370,7 +370,7 @@ public class StepDefinitions {
 	}
 
 	@When("{string} changes his working hours for the activity to {int} hours")
-	public void changesHisWorkingHoursForTheActivityToHours(String string, int workTime) {
+	public void changesHisWorkingHoursForTheActivityToHours(String string, int workTime) throws OperationNotAllowedException {
 		// Danny
 		halfHours = new HalfHours(workTime,0);
 
@@ -378,9 +378,27 @@ public class StepDefinitions {
 	}
 
 	@Then("worker {string} has spent {int} hours on activity {string}")
-	public void workerHasSpentHoursOnActivity(String string, int workTime, String string2) {
+	public void workerHasSpentHoursOnActivity(String string, int workTime, String string2) throws OperationNotAllowedException {
 		// Danny
 		assertEquals(workTime, worker.getWorkerActivity(activity).getWorkTime().getTime());
+	}
+
+	@Given("the worker {string} has no activities in his activity list")
+	public void theWorkerHasNoActivitiesInHisActivityList(String initials) {
+		// Danny
+		assertTrue(worker.getWorkerActivityList().isEmpty());
+	}
+
+	@When("{string} tries to edit his working hours for activity {string}")
+	public void triesToEditHisWorkingHoursForActivity(String string, String string2) {
+		// Danny
+		halfHours = new HalfHours(5,0);
+
+		try {
+			worker.getWorkerActivity(activity).setWorkTime(halfHours);
+		} catch(OperationNotAllowedException e) {
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 	}
 
 	//////////////////////////////////////////////////////////////

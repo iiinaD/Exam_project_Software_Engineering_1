@@ -1,5 +1,7 @@
 package dtu.system.domain;
 
+import dtu.system.app.OperationNotAllowedException;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -20,8 +22,7 @@ public class Worker
         this.initials = initials;
     }
 
-    public void addWorkerActivity(Activity activity)
-    {
+    public void addWorkerActivity(Activity activity) {
         // Danny
         WorkerActivity workerActivity = new WorkerActivity(activity);
 
@@ -33,17 +34,23 @@ public class Worker
         return initials;
     }
 
-    public WorkerActivity getWorkerActivity(Activity activity)
-    {
+    public WorkerActivity getWorkerActivity(Activity activity) throws OperationNotAllowedException {
         // Danny
-        for(WorkerActivity workerActivity : workerActivityList)
-        {
-            if(workerActivity.getWorkerActivity() == activity)
-            {
+        if(workerActivityList.isEmpty()) {
+            throw new OperationNotAllowedException("This worker doesn’t have any activities yet.");
+        }
+
+        for(WorkerActivity workerActivity : workerActivityList) {
+            if(workerActivity.getWorkerActivity() == activity) {
                 return workerActivity;
             }
         }
 
         return null;
+    }
+
+    public List<WorkerActivity> getWorkerActivityList() {
+        // Danny
+        return workerActivityList;
     }
 }
