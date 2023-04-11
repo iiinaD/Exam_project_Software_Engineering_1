@@ -35,4 +35,9 @@ public class Activity {
         this.endWeek = endWeek;
     }
 
+    public String getActivityId() {
+        // Danny
+        return id;
+    }
+
 }

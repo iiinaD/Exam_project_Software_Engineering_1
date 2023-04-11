@@ -107,7 +107,7 @@ public class Application {
             }
         }
 
-        throw new OperationNotAllowedException("project " + projectNumber + " dont exist");
+        throw new OperationNotAllowedException("project " + projectNumber + " doesn't exist");
 
     }
 

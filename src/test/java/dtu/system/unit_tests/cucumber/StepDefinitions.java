@@ -114,15 +114,6 @@ public class StepDefinitions {
 		}
 	}
 
-
-	@Given("a project with the number  {int} exists")
-	public void aProjectWithTheNumberExists(Integer int1) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
-
-
-
 	@Given("there is a worker with initials {string}")
 	public void thereIsAWorkerWithInitials(String initials) {
 		// Jonas
@@ -247,36 +238,6 @@ public class StepDefinitions {
 		assertTrue(app.isWorkerInWorkerList(initials));
 	}
 
-	@Given("a worker with the initials {string} does not exist")
-	public void aWorkerWithTheInitialsDoesNotExist(String initials) {
-		// Danny
-		this.worker = new Worker(initials);
-
-		assertFalse(app.isWorkerInWorkerList(initials));
-	}
-
-	@When("the worker creates a new worker with the initials {string}")
-	public void theWorkerCreatesANewWorkerWithTheInitials(String initials) {
-		// Danny
-		try {
-			app.addNewWorker(worker);
-		} catch(OperationNotAllowedException e) {
-			errorMessageHolder.setErrorMessage(e.getMessage());
-		}
-	}
-
-	@Then("a worker with the initials {string} has been created")
-	public void aWorkerWithTheInitialsHasBeenCreated(String string) {
-		// Danny
-		assertTrue(app.isWorkerInWorkerList(worker.getInitials()));
-	}
-
-	@Then("an error message {string} is given")
-	public void anErrorMessageIsGiven(String errorMessage) {
-		// Danny
-		assertEquals(errorMessage, this.errorMessageHolder.getErrorMessage());
-	}
-
 	@Given("the date server is running")
 	public void the_date_server_is_running() {
 		// Gee
@@ -354,4 +315,75 @@ public class StepDefinitions {
 		assertEquals(halfHours.getTime(), time);
 	}
 
+	//////////////////////////////////////////////////////////////
+	///// DANNY (for better overview during implementation) //////
+	//////////////////////////////////////////////////////////////
+
+	@Given("a worker with the initials {string} does not exist")
+	public void aWorkerWithTheInitialsDoesNotExist(String initials) {
+		// Danny
+		this.worker = new Worker(initials);
+
+		assertFalse(app.isWorkerInWorkerList(initials));
+	}
+
+	@When("the worker creates a new worker with the initials {string}")
+	public void theWorkerCreatesANewWorkerWithTheInitials(String initials) {
+		// Danny
+		try {
+			app.addNewWorker(worker);
+		} catch(OperationNotAllowedException e) {
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
+	}
+
+	@Then("a worker with the initials {string} has been created")
+	public void aWorkerWithTheInitialsHasBeenCreated(String string) {
+		// Danny
+		assertTrue(app.isWorkerInWorkerList(worker.getInitials()));
+	}
+
+	@Then("an error message {string} is given")
+	public void anErrorMessageIsGiven(String errorMessage) {
+		// Danny
+		assertEquals(errorMessage, this.errorMessageHolder.getErrorMessage());
+	}
+
+	@Given("the project has activity {string} in its activity list")
+	public void theProjectHasActivityInItsActivityList(String activityId) throws OperationNotAllowedException {
+		// Danny
+		this.activity = app.addActivityToProject(project.getProjectNumber());
+	}
+
+	@Given("the worker has an activity {string} in his activity list")
+	public void theWorkerHasAnActivityInHisActivityList(String activityId) {
+		// Danny
+		worker.addWorkerActivity(activity);
+	}
+
+	@Given("{string} worked for {int} hours on activity {string}")
+	public void workedForHoursOnActivity(String string, int workTime, String string2) {
+		// Danny
+		halfHours = new HalfHours(workTime,0);
+
+		worker.getWorkerActivity(activity).setWorkTime(halfHours);
+	}
+
+	@When("{string} changes his working hours for the activity to {int} hours")
+	public void changesHisWorkingHoursForTheActivityToHours(String string, int workTime) {
+		// Danny
+		halfHours = new HalfHours(workTime,0);
+
+		worker.getWorkerActivity(activity).setWorkTime(halfHours);
+	}
+
+	@Then("worker {string} has spent {int} hours on activity {string}")
+	public void workerHasSpentHoursOnActivity(String string, int workTime, String string2) {
+		// Danny
+		assertEquals(workTime, worker.getWorkerActivity(activity).getWorkTime().getTime());
+	}
+
+	//////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////
 }
