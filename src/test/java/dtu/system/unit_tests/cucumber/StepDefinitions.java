@@ -368,7 +368,7 @@ public class StepDefinitions {
 	@Given("{string} worked for {int} hours on activity {string}")
 	public void worked_for_hours_on_activity(String string, Integer int1, String string2) {
 		app.addWorkerActivity(worker, activity);
-		app.incrementWorkTime(worker, activity, new HalfHours(int1, 0));
+		app.incrementWorkTime(worker, activity, int1, 0);
 	}
 
 	@When("the worker access hours overview for activity {string}")
