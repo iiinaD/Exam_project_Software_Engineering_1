@@ -11,9 +11,9 @@ Feature: Edit working hours
 
   Scenario: Worker edits working hours when a worker activity exist
     Given the worker has an activity "23001-001" in his activity list
-    And the worker has worked for 10 hours and 0 minutes on the activity
-    When the worker increments his working hours to 20 hours and 0 minutes
-    Then the worker has spent 30 hours and 0 minutes on the activity
+    And the worker has worked for 10 hours and 44 minutes on the activity
+    When the worker increments his working hours to 20 hours and 14 minutes
+    Then the worker has spent 30 hours and 30 minutes on the activity
 
   Scenario: Worker edits working hours when no worker activities exist
     Given the worker has no activities in his activity list
