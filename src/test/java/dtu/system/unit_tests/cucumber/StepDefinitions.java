@@ -400,6 +400,7 @@ public class StepDefinitions {
 
     @When("halfHours is ingrementes with {int} hours {int} minuts")
     public void halfhoursIsIngrementesWithHoursMinuts(int hour, int min) {
+		//Jonas
 		halfHours.increment(hour, min);
     }
 
