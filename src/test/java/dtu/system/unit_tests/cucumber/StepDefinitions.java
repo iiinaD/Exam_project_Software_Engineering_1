@@ -8,6 +8,7 @@ import dtu.system.domain.Activity;
 import dtu.system.domain.HalfHours;
 import dtu.system.domain.Worker;
 import dtu.system.domain.Project;
+import dtu.system.domain.WorkerActivity;
 import io.cucumber.java.bs.A;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
@@ -33,6 +34,7 @@ public class StepDefinitions {
 	HalfHours halfHours;
 	private DateServer date;
 	private Calendar currentDate;
+	private WorkerActivity workerActivity;
 
 	public StepDefinitions(Application app, ErrorMessageHolder errorMessage) {
 		// Jonas
@@ -258,7 +260,7 @@ public class StepDefinitions {
 		assertEquals(expectedDate.getTime(), currentDate.getTime());
 	}
 
-	@Given("a worker with the initials {string} exists")
+	@Given("a worker with the initials {string} exist")
 	public void a_worker_with_the_initials_jodl_exists(String initials) throws OperationNotAllowedException {
 		// Gee
 		this.worker = new Worker(initials);
@@ -327,8 +329,8 @@ public class StepDefinitions {
 		assertFalse(app.isWorkerInWorkerList(initials));
 	}
 
-	@When("the worker creates a new worker with the initials {string}")
-	public void theWorkerCreatesANewWorkerWithTheInitials(String initials) {
+	@When("the worker creates a new worker using these initials")
+	public void theWorkerCreatesANewWorkerUsingTheseInitials() {
 		// Danny
 		try {
 			app.addNewWorker(worker);
@@ -337,8 +339,8 @@ public class StepDefinitions {
 		}
 	}
 
-	@Then("a worker with the initials {string} has been created")
-	public void aWorkerWithTheInitialsHasBeenCreated(String string) {
+	@Then("a worker with these initials exist in the system")
+	public void aWorkerWithTheseInitialsExistInTheSystem() {
 		// Danny
 		assertTrue(app.isWorkerInWorkerList(worker.getInitials()));
 	}
@@ -353,45 +355,44 @@ public class StepDefinitions {
 	public void theProjectHasActivityInItsActivityList(String activityId) throws OperationNotAllowedException {
 		// Danny
 		this.activity = app.addActivityToProject(project.getProjectNumber());
+
+		assertEquals(activityId, activity.getActivityId());
 	}
 
 	@Given("the worker has an activity {string} in his activity list")
 	public void theWorkerHasAnActivityInHisActivityList(String activityId) {
 		// Danny
-		if(halfHours == null)
-		{
-			halfHours = new HalfHours(0, 0);
-		}
+		workerActivity = worker.addWorkerActivity(activity);
 
-		worker.addWorkerActivity(activity, halfHours);
+		assertEquals(activityId, workerActivity.getWorkerActivity().getActivityId());
 	}
 
 	@Given("the worker has worked for {int} hours and {int} minutes on the activity")
-	public void theWorkerHasWorkedForHoursOnTheActivity(int hours, int minutes) throws OperationNotAllowedException {
+	public void theWorkerHasWorkedForHoursAndMinutesOnTheActivity(int hours, int minutes) {
 		// Danny
 		halfHours = new HalfHours(hours, minutes);
 
-		worker.getWorkerActivity(activity).setWorkTime(halfHours);
+		workerActivity.incrementWorkTime(halfHours);
 	}
 
-	@When("the worker changes his working hours to {int} hours and {int} minutes")
-	public void changesHisWorkingHoursForTheActivityToHours(int hours, int minutes) throws OperationNotAllowedException {
+	@When("the worker increments his working hours to {int} hours and {int} minutes")
+	public void theWorkerIncrementsHisWorkingHoursToHoursAndMinutes(int hours, int minutes) {
 		// Danny
 		halfHours = new HalfHours(hours, minutes);
 
-		worker.getWorkerActivity(activity).setWorkTime(halfHours);
+		workerActivity.incrementWorkTime(halfHours);
 	}
 
 	@Then("the worker has spent {int} hours and {int} minutes on the activity")
-	public void theWorkerHasSpentHoursAndMinutesOnTheActivity(int hours, int minutes) throws OperationNotAllowedException {
+	public void theWorkerHasSpentHoursAndMinutesOnTheActivity(int hours, int minutes) {
 		// Danny
 		halfHours = new HalfHours(hours, minutes);
 
-		assertEquals(halfHours.getTime(), worker.getWorkerActivity(activity).getWorkTime().getTime());
+		assertEquals(halfHours.getTime(), workerActivity.getWorkTime());
 	}
 
 	@Given("the worker has no activities in his activity list")
-	public void theWorkerHasNoActivitiesInHisActivityList() {
+	public void theWorkerHasNoActivitiesInHisActivityList(){
 		// Danny
 		assertTrue(worker.getWorkerActivityList().isEmpty());
 	}
@@ -399,13 +400,7 @@ public class StepDefinitions {
 	@When("the worker tries to edit his working hours")
 	public void theWorkerTriesToEditHisWorkingHours() {
 		// Danny
-		halfHours = new HalfHours(5,0);
-
-		try {
-			worker.getWorkerActivity(activity).setWorkTime(halfHours);
-		} catch(OperationNotAllowedException e) {
-			errorMessageHolder.setErrorMessage(e.getMessage());
-		}
+		worker.getWorkerActivityList().get(0).incrementWorkTime(halfHours);
 	}
 
 	//////////////////////////////////////////////////////////////

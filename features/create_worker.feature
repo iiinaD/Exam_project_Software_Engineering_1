@@ -1,22 +1,18 @@
 Feature: Create worker
-  Description: A worker that is not logged in can create a new worker
-  Actors: Worker not logged in
-
-# Danny
-  Background:
-    Given the worker is not logged in
+  Description: A worker or project leader can create a new worker
+  Actors: Worker or project leader
 
 # Danny
   Scenario: Worker creates a new worker using unique initials
     Given a worker with the initials "jodl" does not exist
-    When the worker creates a new worker with the initials "jodl"
-    Then a worker with the initials "jodl" has been created
+    When the worker creates a new worker using these initials
+    Then a worker with these initials exist in the system
 
 # Danny
   Scenario: Worker creates a new worker using existing initials
-    Given a worker with the initials "jodl" exists
-    When the worker creates a new worker with the initials "jodl"
-    Then an error message "A worker with these initials already exists." is given
+    Given a worker with the initials "jodl" exist
+    When the worker creates a new worker using these initials
+    Then an error message "A worker with these initials already exist." is given
 
 # Jonas
   Scenario: create a worker to the system

@@ -22,33 +22,19 @@ public class Worker
         this.initials = initials;
     }
 
-    public void addWorkerActivity(Activity activity, HalfHours workTime) {
+    public WorkerActivity addWorkerActivity(Activity activity) {
         // Danny
-        WorkerActivity workerActivity = new WorkerActivity(activity, workTime);
+        WorkerActivity workerActivity = new WorkerActivity(activity);
 
         workerActivityList.add(workerActivity);
+
+        return workerActivity;
     }
 
     public String getInitials() {
         // Jonas
         return initials;
     }
-
-    public WorkerActivity getWorkerActivity(Activity activity) throws OperationNotAllowedException {
-        // Danny
-        if(workerActivityList.isEmpty()) {
-            throw new OperationNotAllowedException("This worker doesn’t have any activities yet.");
-        }
-
-        for(WorkerActivity workerActivity : workerActivityList) {
-            if(workerActivity.getWorkerActivity() == activity) {
-                return workerActivity;
-            }
-        }
-
-        return null;
-    }
-
 
     public List<WorkerActivity> getWorkerActivityList() {
         // Danny

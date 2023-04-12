@@ -22,7 +22,7 @@ public class Application {
         if(!isWorkerInWorkerList(worker.getInitials())) {
             workerList.add(worker);
         } else {
-            throw new OperationNotAllowedException("A worker with these initials already exists.");
+            throw new OperationNotAllowedException("A worker with these initials already exist.");
         }
     }
 
