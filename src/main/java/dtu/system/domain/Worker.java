@@ -40,4 +40,17 @@ public class Worker
         // Danny
         return workerActivityList;
     }
+    public String accessHoursOverview(Activity activity){
+        for (WorkerActivity act: workerActivityList) {
+            if (activity.equals(act.getWorkerActivity())){
+                double time = act.getWorkTime();
+                Activity theAct = act.getWorkerActivity(); //get Activity
+                String actName = theAct.getActivityId(); //get Activity ID
+                String projName = theAct.getParentProject().getProjectName();//get Project Name
+                return String.format("%s\t%s\t%f Hrs,",actName, projName, time);
+            }
+        }
+        return "activity not found";
+    }
+
 }
