@@ -35,6 +35,10 @@ public class Project {
         return projectNumber;
     }
 
+    public String getProjectName() {
+        return projectName;
+    }
+
     public Activity addActivity(){
         //gee
         if(activityCounter == 0)
@@ -42,7 +46,7 @@ public class Project {
             activityCounter = 1;
         }
 
-        Activity act = new Activity(projectNumber + "-" + String.valueOf(1000 + activityCounter).substring(1));
+        Activity act = new Activity(projectNumber + "-" + String.valueOf(1000 + activityCounter).substring(1), this);
         activities.add(act); //add to activities List
         activityCounter += 1; //increment id counter by 1
         return act;
