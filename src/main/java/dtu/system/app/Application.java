@@ -1,12 +1,11 @@
 package dtu.system.app;
 
-import dtu.system.domain.Activity;
-import dtu.system.domain.Project;
-import dtu.system.domain.Worker;
+import dtu.system.domain.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 public class Application {
 
@@ -77,7 +76,7 @@ public class Application {
 
     public Project createProject(String projectName) throws OperationNotAllowedException{
         //Daniel
-        if (loggedIn){
+        if (true){ //Disable the login check
             int projectNumber = getNextProjectNumber();
             Project project = new Project(projectName,projectNumber);
             projectList.add(project);
@@ -119,5 +118,40 @@ public class Application {
             throw new OperationNotAllowedException("Need to login a worker before adding an activity to the project");
         }
 
+    }
+
+    public Activity addActivityToProject(Project project) throws OperationNotAllowedException { //same as above but accepts Project
+        //Jonas
+        if (true){ //Disable the login check
+            return project.addActivity();
+        } else {
+            throw new OperationNotAllowedException("Need to login a worker before adding an activity to the project");
+        }
+
+    }
+
+    public boolean incrementWorkTime(Worker worker, Activity activity, HalfHours halfHours){ //returns true if success, vice versa
+        //I don't do access control here for now, we might want to rethink the login check.
+
+        List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
+
+        for(WorkerActivity workerActivity :workerActivityList){
+            if(Objects.equals(workerActivity.getActivity(), activity)){
+                workerActivity.incrementWorkTime(halfHours);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addWorkerActivity(Worker worker, Activity activity){
+        worker.addWorkerActivity(activity);
+    }
+
+    public String hoursOverview(Worker worker, Activity activity){
+        return worker.accessHoursOverview(activity);
+    }
+    public String hoursOverview(Worker worker, String activity){
+        return worker.accessHoursOverview(activity);
     }
 }
