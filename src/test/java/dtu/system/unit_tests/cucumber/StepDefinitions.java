@@ -340,7 +340,7 @@ public class StepDefinitions {
 	}
 
 	@Then("a worker with these initials exist in the system")
-	public void aWorkerWithTheseInitialsExistInTheSystem() {
+	public void aWorkerWithTheseInitialsExistInTheSystem() { // why not use the method just below (@Then("an error message {string} is given"))??
 		// Danny
 		assertTrue(app.isWorkerInWorkerList(worker.getInitials()));
 	}
@@ -360,7 +360,7 @@ public class StepDefinitions {
 	}
 
 	@Given("the worker has an activity {string} in his activity list")
-	public void theWorkerHasAnActivityInHisActivityList(String activityId) {
+	public void theWorkerHasAnActivityInHisActivityList(String activityId) { // need to use the app
 		// Danny
 		workerActivity = worker.addWorkerActivity(activity);
 
@@ -368,17 +368,17 @@ public class StepDefinitions {
 	}
 
 	@Given("the worker has worked for {int} hours and {int} minutes on the activity")
-	public void theWorkerHasWorkedForHoursAndMinutesOnTheActivity(int hours, int minutes) {
+	public void theWorkerHasWorkedForHoursAndMinutesOnTheActivity(int hours, int minutes) { //need to use the app
 		workerActivity.incrementWorkTime(hours, minutes);
 	}
 
 	@When("the worker increments his working hours to {int} hours and {int} minutes")
-	public void theWorkerIncrementsHisWorkingHoursToHoursAndMinutes(int hours, int minutes) {
+	public void theWorkerIncrementsHisWorkingHoursToHoursAndMinutes(int hours, int minutes) { //need to use the app
 		workerActivity.incrementWorkTime(hours, minutes);
 	}
 
 	@Then("the worker has spent {int} hours and {int} minutes on the activity")
-	public void theWorkerHasSpentHoursAndMinutesOnTheActivity(int hours, int minutes) {
+	public void theWorkerHasSpentHoursAndMinutesOnTheActivity(int hours, int minutes) { // need to use the app
 		// Danny
 		halfHours = new HalfHours(hours, minutes);
 
