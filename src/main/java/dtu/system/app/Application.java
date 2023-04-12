@@ -130,14 +130,14 @@ public class Application {
 
     }
 
-    public boolean incrementWorkTime(Worker worker, Activity activity, HalfHours halfHours){ //returns true if success, vice versa
+    public boolean incrementWorkTime(Worker worker, Activity activity, int hours, int minutes){ //returns true if success, vice versa
         //I don't do access control here for now, we might want to rethink the login check.
 
         List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
 
         for(WorkerActivity workerActivity :workerActivityList){
             if(Objects.equals(workerActivity.getActivity(), activity)){
-                workerActivity.incrementWorkTime(halfHours);
+                workerActivity.incrementWorkTime(hours, minutes);
                 return true;
             }
         }
