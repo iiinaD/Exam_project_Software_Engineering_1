@@ -3,16 +3,21 @@ package dtu.system.domain;
 public class WorkerActivity
 {
      private Activity activity;
+     private Worker worker;
      private double workTime = 0.0;
 
-     public WorkerActivity(Activity activity) {
+     public WorkerActivity(Worker worker, Activity activity) {
           // Danny
           this.activity = activity;
+          this.worker = worker;
      }
 
-     public Activity getWorkerActivity() {
+     public Activity getActivity() {
           // Danny
           return activity;
+     }
+     public Worker getWorker(){
+          return worker;
      }
 
      public double getWorkTime() {
