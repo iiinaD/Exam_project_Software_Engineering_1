@@ -9,10 +9,11 @@ public class Activity {
     public int budgetTime;
     public Calendar startWeek;
     public Calendar endWeek;
-    //public Project parentProject;
+    public Project parentProject;
 
-    public Activity(String id){
+    public Activity(String id, Project parentProject){
         this.id = id;
+        this.parentProject = parentProject;
     }
 
     public void setID(String id){
@@ -38,6 +39,10 @@ public class Activity {
     public String getActivityId() {
         // Danny
         return id;
+    }
+
+    public Project getParentProject(){
+        return parentProject;
     }
 
 }
