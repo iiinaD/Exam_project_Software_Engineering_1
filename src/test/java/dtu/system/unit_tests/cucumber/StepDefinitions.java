@@ -369,18 +369,12 @@ public class StepDefinitions {
 
 	@Given("the worker has worked for {int} hours and {int} minutes on the activity")
 	public void theWorkerHasWorkedForHoursAndMinutesOnTheActivity(int hours, int minutes) {
-		// Danny
-		halfHours = new HalfHours(hours, minutes);
-
-		workerActivity.incrementWorkTime(halfHours);
+		workerActivity.incrementWorkTime(hours, minutes);
 	}
 
 	@When("the worker increments his working hours to {int} hours and {int} minutes")
 	public void theWorkerIncrementsHisWorkingHoursToHoursAndMinutes(int hours, int minutes) {
-		// Danny
-		halfHours = new HalfHours(hours, minutes);
-
-		workerActivity.incrementWorkTime(halfHours);
+		workerActivity.incrementWorkTime(hours, minutes);
 	}
 
 	@Then("the worker has spent {int} hours and {int} minutes on the activity")
@@ -388,7 +382,7 @@ public class StepDefinitions {
 		// Danny
 		halfHours = new HalfHours(hours, minutes);
 
-		assertEquals(halfHours.getTime(), workerActivity.getWorkTime());
+		assertEquals(halfHours.getTime(), workerActivity.getWorkTime().getTime());
 	}
 
 	@Given("the worker has no activities in his activity list")
@@ -397,13 +391,19 @@ public class StepDefinitions {
 		assertTrue(worker.getWorkerActivityList().isEmpty());
 	}
 
-	@When("the worker tries to edit his working hours")
+	@When("the worker tries to edit his working hours") // WHAT DOES THIS DO??
 	public void theWorkerTriesToEditHisWorkingHours() {
 		// Danny
-		worker.getWorkerActivityList().get(0).incrementWorkTime(halfHours);
+		//worker.getWorkerActivityList().get(0).incrementWorkTime(halfHours);
+		assertTrue(false);
 	}
 
-	//////////////////////////////////////////////////////////////
+    @When("halfHours is ingrementes with {int} hours {int} minuts")
+    public void halfhoursIsIngrementesWithHoursMinuts(int hour, int min) {
+		halfHours.increment(hour, min);
+    }
+
+    //////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////
 }

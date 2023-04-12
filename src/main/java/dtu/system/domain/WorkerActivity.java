@@ -3,7 +3,8 @@ package dtu.system.domain;
 public class WorkerActivity
 {
      private Activity activity;
-     private double workTime = 0.0;
+     private double workTime = 0.0; // Worng
+     private HalfHours halfHours = new HalfHours();
 
      public WorkerActivity(Activity activity) {
           // Danny
@@ -15,13 +16,11 @@ public class WorkerActivity
           return activity;
      }
 
-     public double getWorkTime() {
-          // Danny
-          return workTime;
+     public HalfHours getWorkTime() {
+          return halfHours;
      }
 
-     public void incrementWorkTime(HalfHours workTime) {
-          // Danny
-          this.workTime += workTime.getTime();
+     public void incrementWorkTime(int hours, int min) {
+          halfHours.increment(hours, min);
      }
 }
