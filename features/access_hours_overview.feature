@@ -7,4 +7,4 @@ Feature: Access hours overview
   Scenario: Employee gets a hours overview
     Given there is a worker with initials "jodl" logged in to the system
     When the worker access hours overview for activity "23001-001"
-    Then the worker should see "23001-001  project 0   5 Hrs"
+    Then the worker should see "23001-001	project 0	5 Hrs"
