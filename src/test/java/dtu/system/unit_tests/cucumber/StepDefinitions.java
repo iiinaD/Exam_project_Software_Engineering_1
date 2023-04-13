@@ -125,17 +125,6 @@ public class StepDefinitions {
 		// Jonas
 		app.addNewWorker(worker);
 	}
-	@Then("the worker is in the systems worker list")
-	public void isInTheSystemsWorkerList() {
-		// Jonas
-		assertTrue(app.isWorkerInWorkerList(worker.getInitials()));
-	}
-
-	@Then("the worker exist in systems worker List")
-	public void theWorkerExistInSystemsWorkerList() {
-		// Jonas
-		assertTrue(app.isWorkerInWorkerList(worker.getInitials()));
-	}
 
 	@And("the worker can login using his initial {string} to login")
 	public void theWorkerCanLoginUsingHisInitialToLogin(String initials) {
@@ -155,7 +144,6 @@ public class StepDefinitions {
 		app.logIn(worker.getInitials());
 		assertEquals(worker, app.getLoggedInWorker());
 	}
-
 
 	@Given("a worker with the name {string} exists")
 	public void aWorkerWithTheNameJodlExists(String initials) throws OperationNotAllowedException {
@@ -204,7 +192,7 @@ public class StepDefinitions {
 		assertEquals(expectedDate.getTime(), currentDate.getTime());
 	}
 
-	@Given("a worker with the initials {string} exist")
+	@Given("a worker with the initials {string} exists")
 	public void a_worker_with_the_initials_jodl_exists(String initials) throws OperationNotAllowedException {
 		// Gee
 		this.worker = new Worker(initials);
@@ -219,7 +207,7 @@ public class StepDefinitions {
 	}
 
 	@When("the worker creates a new Activity to the project.")
-	public void theWorkerCreatesANewActivityToTheProject() throws OperationNotAllowedException {
+	public void theWorkerCreatesANewActivityToTheProject() {
 		//Jonas
 		try {
 			this.activity = app.addActivityToProject(project.getProjectNumber());
@@ -261,6 +249,11 @@ public class StepDefinitions {
 		assertEquals(halfHours.getTime(), time);
 	}
 
+	@When("halfHours is ingrementes with {int} hours {int} minuts")
+	public void halfhoursIsIngrementesWithHoursMinuts(int hour, int min) {
+		halfHours.increment(hour, min);
+	}
+
 	//////////////////////////////////////////////////////////////
 	///// DANNY (for better overview during implementation) //////
 	//////////////////////////////////////////////////////////////
@@ -283,7 +276,7 @@ public class StepDefinitions {
 		}
 	}
 
-	@Then("a worker with these initials exist in the system")
+	@Then("a worker with these initials exists in the system")
 	public void aWorkerWithTheseInitialsExistInTheSystem() {
 		// Danny
 		assertTrue(app.isWorkerInWorkerList(worker.getInitials()));
@@ -298,58 +291,61 @@ public class StepDefinitions {
 	@Given("the project has activity {string} in its activity list")
 	public void theProjectHasActivityInItsActivityList(String activityId) throws OperationNotAllowedException {
 		// Danny
-		this.activity = app.addActivityToProject(project.getProjectNumber());
+		activity = app.addActivityToProject(project.getProjectNumber());
 
 		assertEquals(activityId, activity.getActivityId());
+		assertTrue(app.getProjectWithNumber(project.getProjectNumber()).getActivityList().contains(activity));
 	}
 
 	@Given("the worker has an activity {string} in his activity list")
 	public void theWorkerHasAnActivityInHisActivityList(String activityId) {
 		// Danny
-		workerActivity = worker.addWorkerActivity(activity);
+		workerActivity = app.addActivityToWorker(worker, activity);
 
 		assertEquals(activityId, workerActivity.getActivity().getActivityId());
+		assertTrue(app.getWorkerList().get(app.getWorkerList().indexOf(worker)).getWorkerActivityList().contains(workerActivity));
 	}
 
 	@Given("the worker has worked for {int} hours and {int} minutes on the activity")
-	public void theWorkerHasWorkedForHoursAndMinutesOnTheActivity(int hours, int minutes) {
-		workerActivity.incrementWorkTime(hours, minutes);
+	public void theWorkerHasWorkedForHoursAndMinutesOnTheActivity(int hours, int minutes) throws OperationNotAllowedException {
+		// Danny
+		app.incrementWorkTime(worker, activity, hours, minutes);
 	}
 
 	@When("the worker increments his working hours to {int} hours and {int} minutes")
-	public void theWorkerIncrementsHisWorkingHoursToHoursAndMinutes(int hours, int minutes) {
-		workerActivity.incrementWorkTime(hours, minutes);
+	public void theWorkerIncrementsHisWorkingHoursToHoursAndMinutes(int hours, int minutes) throws OperationNotAllowedException {
+		// Danny
+		app.incrementWorkTime(worker, activity, hours, minutes);
 	}
 
 	@Then("the worker has spent {int} hours and {int} minutes on the activity")
 	public void theWorkerHasSpentHoursAndMinutesOnTheActivity(int hours, int minutes) {
 		// Danny
-		halfHours = new HalfHours(hours, minutes);
+		workerActivity.incrementWorkTime(hours, minutes);
+		int workerActivityIndex = app.getWorkerList().get(app.getWorkerList().indexOf(worker)).getWorkerActivityList().indexOf(workerActivity);
 
-		assertEquals(halfHours.getTime(), workerActivity.getWorkTime().getTime());
+		assertEquals(workerActivity.getWorkTime(), app.getWorkerList().get(app.getWorkerList().indexOf(worker)).getWorkerActivityList().get(workerActivityIndex).getWorkTime());
 	}
 
 	@Given("the worker has no activities in his activity list")
 	public void theWorkerHasNoActivitiesInHisActivityList(){
 		// Danny
-		assertTrue(worker.getWorkerActivityList().isEmpty());
+		assertTrue(app.getWorkerList().get(app.getWorkerList().indexOf(worker)).getWorkerActivityList().isEmpty());
 	}
 
-	@When("the worker tries to edit his working hours") // WHAT DOES THIS DO??
+	@When("the worker tries to edit his working hours")
 	public void theWorkerTriesToEditHisWorkingHours() {
 		// Danny
-		//worker.getWorkerActivityList().get(0).incrementWorkTime(halfHours);
-		assertTrue(false);
+		try {
+			app.incrementWorkTime(worker, activity, 1, 0);
+		} catch(OperationNotAllowedException e) {
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 	}
 
-    @When("halfHours is ingrementes with {int} hours {int} minuts")
-    public void halfhoursIsIngrementesWithHoursMinuts(int hour, int min) {
-		halfHours.increment(hour, min);
-    }
-
     //////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////
 
 	//access_hours_overview.feature
 
@@ -366,8 +362,8 @@ public class StepDefinitions {
 	}
 
 	@Given("{string} worked for {int} hours on activity {string}")
-	public void worked_for_hours_on_activity(String string, Integer int1, String string2) {
-		app.addWorkerActivity(worker, activity);
+	public void worked_for_hours_on_activity(String string, Integer int1, String string2) throws OperationNotAllowedException {
+		app.addActivityToWorker(worker, activity);
 		app.incrementWorkTime(worker, activity, int1, 0);
 	}
 
@@ -424,6 +420,4 @@ public class StepDefinitions {
 		// Write code here that turns the phrase above into concrete actions
 		throw new io.cucumber.java.PendingException();
 	}
-
-
 }

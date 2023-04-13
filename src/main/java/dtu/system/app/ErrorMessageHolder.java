@@ -1,7 +1,6 @@
 package dtu.system.app;
 
-public class ErrorMessageHolder
-{
+public class ErrorMessageHolder {
      private String errorMessage;
 
      public String getErrorMessage()
