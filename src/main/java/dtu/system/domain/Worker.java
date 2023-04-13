@@ -4,8 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Worker
-{
+public class Worker {
     private String initials;
     private List<WorkerActivity> workerActivityList = new ArrayList<>();
 
@@ -30,17 +29,8 @@ public class Worker
         return workerActivity;
     }
 
-    public String getInitials() {
-        // Jonas
-        return initials;
-    }
-
-    public List<WorkerActivity> getWorkerActivityList() {
-        // Danny
-        return workerActivityList;
-    }
-
     private String fetchWorkData(WorkerActivity workerActivity){
+        // Gee
         Activity theAct = workerActivity.getActivity(); //get Activity
         String actName = theAct.getActivityId(); //get Activity ID
         String projName = theAct.getParentProject().getProjectName();//get Project Name
@@ -50,16 +40,18 @@ public class Worker
     }
 
     public String accessHoursOverview(Activity activity){
+        // Gee
         for (WorkerActivity workerActivity: workerActivityList) { //look through the worker's list of activity
             if (activity.equals(workerActivity.getActivity())){
                 return fetchWorkData(workerActivity);
             }
         }
-        return "activity not found";
+        return "Activity not found.";
     }
 
-    public String accessHoursOverview(String activity){
-        if (workerActivityList.isEmpty()) return "no activity for this worker";
+    public String accessHoursOverview(String activity) {
+        // Gee
+        if (workerActivityList.isEmpty()) return "No activity for this worker.";
 
         for (WorkerActivity workerActivity: workerActivityList) {
             if (workerActivity.getActivity() != null && Objects.equals(workerActivity.getActivity().getActivityId(), activity)){
@@ -67,9 +59,16 @@ public class Worker
             }
         }
 
-        return "activity not found from string";
+        return "Activity not found from string.";
     }
 
+    public String getInitials() {
+        // Jonas
+        return initials;
+    }
 
-
+    public List<WorkerActivity> getWorkerActivityList() {
+        // Danny
+        return workerActivityList;
+    }
 }
