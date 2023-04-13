@@ -111,17 +111,7 @@ public class Application {
         throw new OperationNotAllowedException("project " + projectNumber + " doesn't exist");
     }
 
-    public Activity addActivityToProject(int projectNumber) throws OperationNotAllowedException {
-        //Jonas
-        if (loggedIn){
-            return getProjectWithNumber(projectNumber).addActivity();
-        } else {
-            throw new OperationNotAllowedException("Need to login a worker before adding an activity to the project");
-        }
-
-    }
-
-    public Activity addActivityToProject(Project project) throws OperationNotAllowedException { //same as above but accepts Project
+    public Activity addActivityToProject(Project project) throws OperationNotAllowedException {
         //Jonas
         if (true){ //Disable the login check
             return project.addActivity();

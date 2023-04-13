@@ -210,7 +210,7 @@ public class StepDefinitions {
 	public void theWorkerCreatesANewActivityToTheProject() {
 		//Jonas
 		try {
-			this.activity = app.addActivityToProject(project.getProjectNumber());
+			this.activity = app.addActivityToProject(project);
 		} catch (OperationNotAllowedException e){
 			errorMessageHolder.setErrorMessage(e.getMessage());
 		}
@@ -291,7 +291,7 @@ public class StepDefinitions {
 	@Given("the project has activity {string} in its activity list")
 	public void theProjectHasActivityInItsActivityList(String activityId) throws OperationNotAllowedException {
 		// Danny
-		activity = app.addActivityToProject(project.getProjectNumber());
+		activity = app.addActivityToProject(project);
 
 		assertEquals(activityId, activity.getActivityId());
 		assertTrue(app.getProjectWithNumber(project.getProjectNumber()).getActivityList().contains(activity));
