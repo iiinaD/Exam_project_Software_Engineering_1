@@ -9,7 +9,7 @@ public class Project {
     private String projectName;
     private Worker projectLeader;
     private int projectNumber;
-    private int activityCounter = 0;
+    private int activityCounter = 1;
     private ArrayList<Activity> activities = new ArrayList<Activity>(); // an arraylist containing all the activities in this project
 
     public Project(String projectName, Worker projectLeader, int projectNumber) {
@@ -35,14 +35,14 @@ public class Project {
         return projectNumber;
     }
 
+    public String getProjectName() {
+        return projectName;
+    }
+
     public Activity addActivity(){
         //gee
-        if(activityCounter == 0)
-        {
-            activityCounter = 1;
-        }
 
-        Activity act = new Activity(projectNumber + "-" + String.valueOf(1000 + activityCounter).substring(1));
+        Activity act = new Activity(projectNumber + "-" + String.valueOf(1000 + activityCounter).substring(1), this);
         activities.add(act); //add to activities List
         activityCounter += 1; //increment id counter by 1
         return act;

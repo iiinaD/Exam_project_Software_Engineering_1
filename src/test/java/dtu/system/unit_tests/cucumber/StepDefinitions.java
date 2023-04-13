@@ -9,17 +9,13 @@ import dtu.system.domain.HalfHours;
 import dtu.system.domain.Worker;
 import dtu.system.domain.Project;
 import dtu.system.domain.WorkerActivity;
-import io.cucumber.java.bs.A;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Given;
-import org.mockito.internal.matchers.Null;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,6 +31,8 @@ public class StepDefinitions {
 	private DateServer date;
 	private Calendar currentDate;
 	private WorkerActivity workerActivity;
+	private String result;
+
 
 	public StepDefinitions(Application app, ErrorMessageHolder errorMessage) {
 		// Jonas
@@ -172,61 +170,6 @@ public class StepDefinitions {
 		app.logIn(initials);
 	}
 
-	@Given("there is a project {string} with an activity {string}")
-	public void thereIsAProjectWithAnActivity(String string, String string2) throws OperationNotAllowedException {
-		// Gee
-		project = app.createProject(string);
-		activity = project.addActivity();
-	}
-
-	@When("the worker removes the activity named {string}")
-	public void theWorkerRemovesTheActivityNamed(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
-
-	@Then("the activity named {string} should not exist in the activity list of project “{int}”")
-	public void theActivityNamedShouldNotExistInTheActivityListOfProject(String string, Integer int1) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
-
-	@Given("the activity has a description of “Debugging software”")
-	public void theActivityHasADescriptionOfDebuggingSoftware() {
-		// Gee
-		activity.setDescription("Debugging software");
-	}
-
-	@When("the worker set the description of an activity of “Do not give up on life”")
-	public void theWorkerSetTheDescriptionOfAnActivityOfDoNotGiveUpOnLife() {
-		// Gee
-		activity.setDescription("Do not give up on life");
-	}
-
-	@Then("the description of the activity should be “Do not give up on life”") // NEED FIX dont hard code fix cucumber
-	public void theDescriptionOfTheActivityShouldBeDoNotGiveUpOnLife() {
-		// Gee
-		assertEquals("Do not give up on life",activity.description);
-	}
-
-	@Given("the activity has a budget time of {int}")
-	public void theActivityHasABudgetTimeOf(Integer int1) {
-		// Gee
-		activity.setBudgetTime(int1);
-	}
-
-	@When("the worker changes the budget time to {int}")
-	public void theWorkerChangesTheBudgetTimeTo(Integer int1) {
-		// Gee
-		activity.setBudgetTime(int1);
-	}
-
-	@Then("the budget time of the activity should be {int}")
-	public void theBudgetTimeOfTheActivityShouldBe(Integer int1) {
-		// Gee
-		assertEquals(int1, activity.budgetTime);
-	}
-
 	@Given("there is a worker with initials {string} logged in to the system")
 	public void thereIsAWorkerWithInitialsLoggedInToTheSystem(String initials) throws OperationNotAllowedException {
 		// Jonas
@@ -240,6 +183,7 @@ public class StepDefinitions {
 		assertTrue(app.isWorkerInWorkerList(initials));
 	}
 
+	//calendar.feature
 	@Given("the date server is running")
 	public void the_date_server_is_running() {
 		// Gee
@@ -364,7 +308,7 @@ public class StepDefinitions {
 		// Danny
 		workerActivity = worker.addWorkerActivity(activity);
 
-		assertEquals(activityId, workerActivity.getWorkerActivity().getActivityId());
+		assertEquals(activityId, workerActivity.getActivity().getActivityId());
 	}
 
 	@Given("the worker has worked for {int} hours and {int} minutes on the activity")
@@ -407,4 +351,80 @@ public class StepDefinitions {
     //////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////
+
+	//access_hours_overview.feature
+
+	@Given("a project named {string} with an activity {string}")
+	public void a_project_named_with_an_activity(String string, String string2) {
+		app.logIn("xxxx");
+		try {
+			project = app.createProject(string); //create project
+			activity = app.addActivityToProject(project); //add an activity
+			//activity.setID(string2);
+		} catch (OperationNotAllowedException e){
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
+	}
+
+	@Given("{string} worked for {int} hours on activity {string}")
+	public void worked_for_hours_on_activity(String string, Integer int1, String string2) {
+		app.addWorkerActivity(worker, activity);
+		app.incrementWorkTime(worker, activity, int1, 0);
+	}
+
+	@When("the worker access hours overview for activity {string}")
+	public void the_worker_access_hours_overview_for_activity(String string) {
+		this.result = app.hoursOverview(this.worker, string);
+	}
+
+	@Then("the worker should see {string}")
+	public void the_worker_should_see(String string) {
+		assertEquals(string, result);
+	}
+
+	//edit_activities.feature
+
+	@Given("there is a project {string} with an activity {string}")
+	public void there_is_a_project_with_an_activity(String string, String string2) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+
+	@Given("the activity has a description of {string}")
+	public void the_activity_has_a_description_of(String string) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+
+	@When("the worker set the description of an activity of {string}")
+	public void the_worker_set_the_description_of_an_activity_of(String string) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+
+	@Then("the description of the activity should be {string}")
+	public void the_description_of_the_activity_should_be(String string) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+
+	@Given("the activity has a budget time of {int}")
+	public void the_activity_has_a_budget_time_of(Integer int1) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+
+	@When("the worker changes the budget time to {int}")
+	public void the_worker_changes_the_budget_time_to(Integer int1) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+
+	@Then("the budget time of the activity should be {int}")
+	public void the_budget_time_of_the_activity_should_be(Integer int1) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new io.cucumber.java.PendingException();
+	}
+
+
 }
