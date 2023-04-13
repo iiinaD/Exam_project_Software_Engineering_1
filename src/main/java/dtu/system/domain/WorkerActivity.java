@@ -11,6 +11,7 @@ public class WorkerActivity
           // Danny
           this.activity = activity;
           this.worker = worker;
+          activity.addWorker(this); //link WorkerActivity to that Activity
      }
 
      public Activity getActivity() {

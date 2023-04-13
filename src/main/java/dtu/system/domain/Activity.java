@@ -1,5 +1,6 @@
 package dtu.system.domain;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Activity {
@@ -10,6 +11,7 @@ public class Activity {
     public Calendar startWeek;
     public Calendar endWeek;
     public Project parentProject;
+    public ArrayList<WorkerActivity> workerActivityList = new ArrayList<WorkerActivity>(); //Stores WorkerActivity Objects
 
     public Activity(String id, Project parentProject){
         this.id = id;
@@ -43,6 +45,10 @@ public class Activity {
 
     public Project getParentProject(){
         return parentProject;
+    }
+
+    public void addWorker(WorkerActivity workerActivity){
+        workerActivityList.add(workerActivity);
     }
 
 }
