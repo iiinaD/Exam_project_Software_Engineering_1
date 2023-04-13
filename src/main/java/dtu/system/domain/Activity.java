@@ -47,7 +47,7 @@ public class Activity {
         return parentProject;
     }
 
-    public void addWorker(WorkerActivity workerActivity){
+    public void addWorkerActivity(WorkerActivity workerActivity){
         workerActivityList.add(workerActivity);
     }
 
