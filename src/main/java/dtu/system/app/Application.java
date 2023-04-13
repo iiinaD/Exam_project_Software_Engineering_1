@@ -45,6 +45,7 @@ public class Application {
         // else cast error (user not found)
     }
     public void logOut() {
+        //Jonas
         this.loggedIn = false;
         this.loggedInWorker = null;
     }
@@ -55,6 +56,7 @@ public class Application {
     }
 
     public Worker getLoggedInWorker() throws OperationNotAllowedException {
+        //Jonas
         if (loggedInWorker == null){
             throw new OperationNotAllowedException("no worker is logged in");
         }
