@@ -7,7 +7,7 @@ public class Activity {
 
     public String id;
     public String description;
-    public int budgetTime;
+    public HalfHours budgetTime;
     public Calendar startWeek;
     public Calendar endWeek;
     public Project parentProject;
@@ -26,7 +26,7 @@ public class Activity {
         this.description = description;
     }
 
-    public void setBudgetTime(int budgetTime){
+    public void setBudgetTime(HalfHours budgetTime){
         this.budgetTime = budgetTime;
     }
 
