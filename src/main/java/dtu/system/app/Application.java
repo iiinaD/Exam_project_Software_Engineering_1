@@ -5,6 +5,7 @@ import dtu.system.domain.Project;
 import dtu.system.domain.Worker;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class Application {
@@ -13,24 +14,22 @@ public class Application {
     private Worker loggedInWorker;
     private Boolean loggedIn = false;
     private List<Project> projectList = new ArrayList<>();
+    private DateServer dateServer = new DateServer();
 
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
 
     public void addNewWorker(Worker worker) throws OperationNotAllowedException {
         //Jonas
-        if(!isWorkerInWorkerList(worker)) {
+        if(!isWorkerInWorkerList(worker.getInitials())) {
             workerList.add(worker);
         } else {
-            throw new OperationNotAllowedException("A worker with this name already exists.");
+            throw new OperationNotAllowedException("A worker with these initials already exist.");
         }
     }
 
-    public boolean isWorkerInWorkerList(Worker worker) {
+    public boolean isWorkerInWorkerList(String initials) {
         //Jonas
         for (Worker i : workerList){
-            if (i.getInitials().equals(worker.getInitials())){
+            if (i.getInitials().equals(initials)){
                 return true;
             }
         }
@@ -48,6 +47,7 @@ public class Application {
         // else cast error (user not found)
     }
     public void logOut() {
+        //Jonas
         this.loggedIn = false;
         this.loggedInWorker = null;
     }
@@ -58,24 +58,27 @@ public class Application {
     }
 
     public Worker getLoggedInWorker() throws OperationNotAllowedException {
+        //Jonas
         if (loggedInWorker == null){
             throw new OperationNotAllowedException("no worker is logged in");
         }
         return loggedInWorker;
     }
 
-    public Project createProject(String projectName, Worker projectLeader){
-        // mangler error handling
-
-        int projectNumber = getNextProjectNumber();
-        Project project = new Project(projectName,projectLeader,projectNumber);
-        projectList.add(project);
-        return project;
-
+    public Project createProject(String projectName, Worker projectLeader) throws OperationNotAllowedException {
+        //Daniel
+        if (loggedIn){
+            int projectNumber = getNextProjectNumber();
+            Project project = new Project(projectName,projectLeader,projectNumber);
+            projectList.add(project);
+            return project;
+        } else {
+            throw new OperationNotAllowedException("no worker is logged in");
+        }
     }
 
     public Project createProject(String projectName) throws OperationNotAllowedException{
-
+        //Daniel
         if (loggedIn){
             int projectNumber = getNextProjectNumber();
             Project project = new Project(projectName,projectNumber);
@@ -87,10 +90,14 @@ public class Application {
     }
 
     public int getNextProjectNumber() {
-        return 23000 + projectList.size() + 1;
+        //Daniel
+        String year = String.valueOf(dateServer.getDate().get(Calendar.YEAR));
+        int twoDigitYear = Integer.parseInt(year.substring(2));
+        return twoDigitYear*1000 + projectList.size() + 1;
     }
 
     public List<Project> getProjectList() {
+        //Daniel
         return projectList;
     }
 
@@ -102,7 +109,7 @@ public class Application {
             }
         }
 
-        throw new OperationNotAllowedException("project " + projectNumber + " dont exist");
+        throw new OperationNotAllowedException("project " + projectNumber + " doesn't exist");
 
     }
 

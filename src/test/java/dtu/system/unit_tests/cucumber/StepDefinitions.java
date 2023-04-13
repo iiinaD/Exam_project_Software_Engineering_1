@@ -8,11 +8,13 @@ import dtu.system.domain.Activity;
 import dtu.system.domain.HalfHours;
 import dtu.system.domain.Worker;
 import dtu.system.domain.Project;
+import dtu.system.domain.WorkerActivity;
 import io.cucumber.java.bs.A;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Given;
+import org.mockito.internal.matchers.Null;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,6 +34,7 @@ public class StepDefinitions {
 	HalfHours halfHours;
 	private DateServer date;
 	private Calendar currentDate;
+	private WorkerActivity workerActivity;
 
 	public StepDefinitions(Application app, ErrorMessageHolder errorMessage) {
 		// Jonas
@@ -113,15 +116,6 @@ public class StepDefinitions {
 		}
 	}
 
-
-	@Given("a project with the number  {int} exists")
-	public void aProjectWithTheNumberExists(Integer int1) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
-
-
-
 	@Given("there is a worker with initials {string}")
 	public void thereIsAWorkerWithInitials(String initials) {
 		// Jonas
@@ -136,13 +130,13 @@ public class StepDefinitions {
 	@Then("the worker is in the systems worker list")
 	public void isInTheSystemsWorkerList() {
 		// Jonas
-		assertTrue(app.isWorkerInWorkerList(worker));
+		assertTrue(app.isWorkerInWorkerList(worker.getInitials()));
 	}
 
 	@Then("the worker exist in systems worker List")
 	public void theWorkerExistInSystemsWorkerList() {
 		// Jonas
-		assertTrue(app.isWorkerInWorkerList(worker));
+		assertTrue(app.isWorkerInWorkerList(worker.getInitials()));
 	}
 
 	@And("the worker can login using his initial {string} to login")
@@ -236,43 +230,14 @@ public class StepDefinitions {
 	@Given("there is a worker with initials {string} logged in to the system")
 	public void thereIsAWorkerWithInitialsLoggedInToTheSystem(String initials) throws OperationNotAllowedException {
 		// Jonas
-		if (!app.isWorkerInWorkerList(worker)){
+		if (!app.isWorkerInWorkerList(initials)){
 			if (worker == null){
 				this.worker = new Worker(initials);
 			}
 			app.addNewWorker(worker);
 		}
 		app.logIn(worker.getInitials());
-		assertTrue(app.isWorkerInWorkerList(worker));
-	}
-
-	@Given("a worker with the name {string} does not exist")
-	public void aWorkerWithTheNameDoesNotExist(String initials) {
-		// Danny
-		this.worker = new Worker(initials);
-		assertFalse(app.isWorkerInWorkerList(worker));
-	}
-
-	@When("the worker creates a new worker with this name")
-	public void theWorkerCreatesANewWorkerWithThisName() {
-		// Danny
-		try {
-			app.addNewWorker(worker);
-		} catch(OperationNotAllowedException e) {
-			errorMessageHolder.setErrorMessage(e.getMessage());
-		}
-	}
-
-	@Then("a worker by the name of of {string} has been created")
-	public void aWorkerByTheNameOfOfHasBeenCreated(String string) {
-		// Danny
-		assertTrue(app.isWorkerInWorkerList(worker));
-	}
-
-	@Then("an error message {string} is given")
-	public void anErrorMessageIsGiven(String errorMessage) {
-		// Danny
-		assertEquals(errorMessage, this.errorMessageHolder.getErrorMessage());
+		assertTrue(app.isWorkerInWorkerList(initials));
 	}
 
 	@Given("the date server is running")
@@ -295,18 +260,12 @@ public class StepDefinitions {
 		assertEquals(expectedDate.getTime(), currentDate.getTime());
 	}
 
-	//Test create activity
-
-	@Given("a worker with the name “jodl” exists.")
-	public void a_worker_with_the_name_jodl_exists() throws OperationNotAllowedException{ // FIX dont hard code fix cucumber
+	@Given("a worker with the initials {string} exist")
+	public void a_worker_with_the_initials_jodl_exists(String initials) throws OperationNotAllowedException {
 		// Gee
-		app.addNewWorker(new Worker("jodl"));
-	}
+		this.worker = new Worker(initials);
 
-	@Given("“jodl” is logged in.")
-	public void jodl_is_logged_in() { // FIX dont hard code fix cucumber
-		// Gee
-		app.logIn("jodl");
+		app.addNewWorker(worker);
 	}
 
 	@Given("the project has an empty activity list")
@@ -358,4 +317,94 @@ public class StepDefinitions {
 		assertEquals(halfHours.getTime(), time);
 	}
 
+	//////////////////////////////////////////////////////////////
+	///// DANNY (for better overview during implementation) //////
+	//////////////////////////////////////////////////////////////
+
+	@Given("a worker with the initials {string} does not exist")
+	public void aWorkerWithTheInitialsDoesNotExist(String initials) {
+		// Danny
+		this.worker = new Worker(initials);
+
+		assertFalse(app.isWorkerInWorkerList(initials));
+	}
+
+	@When("the worker creates a new worker using these initials")
+	public void theWorkerCreatesANewWorkerUsingTheseInitials() {
+		// Danny
+		try {
+			app.addNewWorker(worker);
+		} catch(OperationNotAllowedException e) {
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
+	}
+
+	@Then("a worker with these initials exist in the system")
+	public void aWorkerWithTheseInitialsExistInTheSystem() { // why not use the method just below (@Then("an error message {string} is given"))??
+		// Danny
+		assertTrue(app.isWorkerInWorkerList(worker.getInitials()));
+	}
+
+	@Then("an error message {string} is given")
+	public void anErrorMessageIsGiven(String errorMessage) {
+		// Danny
+		assertEquals(errorMessage, this.errorMessageHolder.getErrorMessage());
+	}
+
+	@Given("the project has activity {string} in its activity list")
+	public void theProjectHasActivityInItsActivityList(String activityId) throws OperationNotAllowedException {
+		// Danny
+		this.activity = app.addActivityToProject(project.getProjectNumber());
+
+		assertEquals(activityId, activity.getActivityId());
+	}
+
+	@Given("the worker has an activity {string} in his activity list")
+	public void theWorkerHasAnActivityInHisActivityList(String activityId) { // need to use the app
+		// Danny
+		workerActivity = worker.addWorkerActivity(activity);
+
+		assertEquals(activityId, workerActivity.getWorkerActivity().getActivityId());
+	}
+
+	@Given("the worker has worked for {int} hours and {int} minutes on the activity")
+	public void theWorkerHasWorkedForHoursAndMinutesOnTheActivity(int hours, int minutes) { //need to use the app
+		workerActivity.incrementWorkTime(hours, minutes);
+	}
+
+	@When("the worker increments his working hours to {int} hours and {int} minutes")
+	public void theWorkerIncrementsHisWorkingHoursToHoursAndMinutes(int hours, int minutes) { //need to use the app
+		workerActivity.incrementWorkTime(hours, minutes);
+	}
+
+	@Then("the worker has spent {int} hours and {int} minutes on the activity")
+	public void theWorkerHasSpentHoursAndMinutesOnTheActivity(int hours, int minutes) { // need to use the app
+		// Danny
+		halfHours = new HalfHours(hours, minutes);
+
+		assertEquals(halfHours.getTime(), workerActivity.getWorkTime().getTime());
+	}
+
+	@Given("the worker has no activities in his activity list")
+	public void theWorkerHasNoActivitiesInHisActivityList(){
+		// Danny
+		assertTrue(worker.getWorkerActivityList().isEmpty());
+	}
+
+	@When("the worker tries to edit his working hours") // WHAT DOES THIS DO??
+	public void theWorkerTriesToEditHisWorkingHours() {
+		// Danny
+		//worker.getWorkerActivityList().get(0).incrementWorkTime(halfHours);
+		assertTrue(false);
+	}
+
+    @When("halfHours is ingrementes with {int} hours {int} minuts")
+    public void halfhoursIsIngrementesWithHoursMinuts(int hour, int min) {
+		//Jonas
+		halfHours.increment(hour, min);
+    }
+
+    //////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////
 }

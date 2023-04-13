@@ -1,5 +1,7 @@
 package dtu.system.domain;
 
+import dtu.system.app.OperationNotAllowedException;
+
 import java.util.ArrayList;
 
 public class Project {
@@ -35,7 +37,12 @@ public class Project {
 
     public Activity addActivity(){
         //gee
-        Activity act = new Activity(projectNumber+"-"+activityCounter);
+        if(activityCounter == 0)
+        {
+            activityCounter = 1;
+        }
+
+        Activity act = new Activity(projectNumber + "-" + String.valueOf(1000 + activityCounter).substring(1));
         activities.add(act); //add to activities List
         activityCounter += 1; //increment id counter by 1
         return act;
