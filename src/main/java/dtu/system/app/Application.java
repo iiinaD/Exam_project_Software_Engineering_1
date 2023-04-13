@@ -9,19 +9,18 @@ import java.util.Objects;
 
 public class Application {
 
-    ArrayList<Worker> workerList = new ArrayList<>();
+    private ArrayList<Worker> workerList = new ArrayList<>();
     private Worker loggedInWorker;
     private Boolean loggedIn = false;
     private List<Project> projectList = new ArrayList<>();
     private DateServer dateServer = new DateServer();
-
 
     public void addNewWorker(Worker worker) throws OperationNotAllowedException {
         //Jonas
         if(!isWorkerInWorkerList(worker.getInitials())) {
             workerList.add(worker);
         } else {
-            throw new OperationNotAllowedException("A worker with these initials already exist.");
+            throw new OperationNotAllowedException("A worker with these initials already exists in the system.");
         }
     }
 
@@ -109,7 +108,6 @@ public class Application {
         }
 
         throw new OperationNotAllowedException("project " + projectNumber + " doesn't exist");
-
     }
 
     public Activity addActivityToProject(int projectNumber) throws OperationNotAllowedException {
@@ -132,28 +130,39 @@ public class Application {
 
     }
 
-    public boolean incrementWorkTime(Worker worker, Activity activity, int hours, int minutes){ //returns true if success, vice versa
+    public void incrementWorkTime(Worker worker, Activity activity, int hours, int minutes) throws OperationNotAllowedException {
+        // Gee
         //I don't do access control here for now, we might want to rethink the login check.
+        if(!worker.getWorkerActivityList().isEmpty()) {
+            List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
 
-        List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
-
-        for(WorkerActivity workerActivity :workerActivityList){
-            if(Objects.equals(workerActivity.getActivity(), activity)){
-                workerActivity.incrementWorkTime(hours, minutes);
-                return true;
+            for(WorkerActivity workerActivity :workerActivityList){
+                if(Objects.equals(workerActivity.getActivity(), activity)){
+                    workerActivity.incrementWorkTime(hours, minutes);
+                }
             }
         }
-        return false;
+        else {
+            throw new OperationNotAllowedException("This worker doesn't have any activities yet.");
+        }
     }
 
-    public void addWorkerActivity(Worker worker, Activity activity){
-        worker.addWorkerActivity(activity);
+    public WorkerActivity addActivityToWorker(Worker worker, Activity activity){
+        // Gee
+        return worker.addWorkerActivity(activity);
     }
 
     public String hoursOverview(Worker worker, Activity activity){
+        // Gee
         return worker.accessHoursOverview(activity);
     }
     public String hoursOverview(Worker worker, String activity){
+        // Gee
         return worker.accessHoursOverview(activity);
+    }
+
+    public List<Worker> getWorkerList() {
+        // Danny
+        return workerList;
     }
 }
