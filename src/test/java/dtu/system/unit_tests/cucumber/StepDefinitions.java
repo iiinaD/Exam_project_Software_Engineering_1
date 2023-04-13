@@ -356,7 +356,6 @@ public class StepDefinitions {
 
 	@Given("a project named {string} with an activity {string}")
 	public void a_project_named_with_an_activity(String string, String string2) {
-		app.logIn("xxxx");
 		try {
 			project = app.createProject(string); //create project
 			activity = app.addActivityToProject(project); //add an activity
