@@ -382,48 +382,33 @@ public class StepDefinitions {
 	}
 
 	//edit_activities.feature
-
-	@Given("there is a project {string} with an activity {string}")
-	public void there_is_a_project_with_an_activity(String string, String string2) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
-
 	@Given("the activity has a description of {string}")
 	public void the_activity_has_a_description_of(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		app.setActivityDescription(activity, string);
 	}
 
 	@When("the worker set the description of an activity of {string}")
 	public void the_worker_set_the_description_of_an_activity_of(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		app.setActivityDescription(activity, string);
 	}
 
 	@Then("the description of the activity should be {string}")
 	public void the_description_of_the_activity_should_be(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		assertEquals(string, app.getActivityDescription(activity));
 	}
 
-	@Given("the activity has a budget time of {int}")
-	public void the_activity_has_a_budget_time_of(Integer int1) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@Given("the activity has a budget time of {int} hours")
+	public void the_activity_has_a_budget_time_of_hours(Integer int1) {
+		app.setActivityBudgetTime(activity,new HalfHours(int1, 0));
 	}
 
-	@When("the worker changes the budget time to {int}")
-	public void the_worker_changes_the_budget_time_to(Integer int1) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@When("the worker changes the budget time to {int} hours")
+	public void the_worker_changes_the_budget_time_to_hours(Integer int1) {
+		app.setActivityBudgetTime(activity,new HalfHours(int1, 0));
 	}
 
-	@Then("the budget time of the activity should be {int}")
-	public void the_budget_time_of_the_activity_should_be(Integer int1) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@Then("the budget time of the activity should be {int} hours")
+	public void the_budget_time_of_the_activity_should_be_hours(Integer int1) {
+		assertEquals(new HalfHours(int1, 0).getTime(), app.getActivityBudgetTime(activity).getTime());
 	}
-
-
 }

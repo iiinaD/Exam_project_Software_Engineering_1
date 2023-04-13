@@ -9,17 +9,15 @@ Feature: Edit activities
 # ^^^This belongs to project features, TODO^^^
 
   Scenario: Change description of an activity
-    Given a worker with the name "jodl" exists
-    And "jodl" is logged in
-    And there is a project "23001" with an activity "23001-001"
+    Given there is a worker with initials "jodl" logged in to the system
+    And a project named "project 0" with an activity "23001-001"
     And the activity has a description of "Debugging software"
     When the worker set the description of an activity of "Do not give up on life"
     Then the description of the activity should be "Do not give up on life"
 
   Scenario: Change budget time on an activity
-    Given a worker with the name "jodl" exists
-    And "jodl" is logged in
-    And there is a project "23001" with an activity "23001-001"
-    And the activity has a budget time of 100
-    When the worker changes the budget time to 420
-    Then the budget time of the activity should be 420
+    Given there is a worker with initials "jodl" logged in to the system
+    And a project named "project 0" with an activity "23001-001"
+    And the activity has a budget time of 100 hours
+    When the worker changes the budget time to 420 hours
+    Then the budget time of the activity should be 420 hours
