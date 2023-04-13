@@ -156,4 +156,16 @@ public class Application {
     public String hoursOverview(Worker worker, String activity){
         return worker.accessHoursOverview(activity);
     }
+    public void setActivityBudgetTime(Activity activity, HalfHours halfHours){
+        activity.setBudgetTime(halfHours);
+    }
+    public HalfHours getActivityBudgetTime(Activity activity){
+        return activity.budgetTime;
+    }
+    public void setActivityDescription(Activity activity, String description){
+        activity.setDescription(description);
+    }
+    public String getActivityDescription(Activity activity){
+        return activity.description;
+    }
 }
