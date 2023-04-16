@@ -3,7 +3,6 @@ package dtu.system.app;
 import dtu.system.domain.*;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -180,6 +179,15 @@ public class Application {
         return activity.description;
     }
 
+    public Activity getActivityFromProject(int projectNumber, String activityId) throws OperationNotAllowedException {
+        // Jonas
+        return getProjectWithNumber(projectNumber).getActivity(activityId);
+    }
+
+    public void ActivityPlanStartAndEnd(int projectNumber, String activityId, int week0, int week1, int year0, int year1) throws OperationNotAllowedException {
+
+    }
+
     // Workers Activity's
     public void incrementWorkTime(Worker worker, Activity activity, int hours, int minutes) throws OperationNotAllowedException {
         // Gee,
@@ -231,7 +239,6 @@ public class Application {
     public void setDateServer(DateServer dateServer) {
         //to do
     }
-
     public void addWorkerToActivity(int projectNumber, String activity, String workerInitials) throws OperationNotAllowedException {
         loggedInTestError();
         if (!isProjectLeader(projectNumber, loggedInWorker.getInitials())) {

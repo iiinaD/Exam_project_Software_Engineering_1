@@ -73,6 +73,15 @@ public class Project {
     public boolean getIsFinished() {
         return isFinished;
     }
+
+    public Activity getActivity(String activityId) {
+        for (Activity i : activities){
+            if (i.id.equals(activityId)){
+                return i;
+            }
+        }
+        return null;
+    }
 }
 
 

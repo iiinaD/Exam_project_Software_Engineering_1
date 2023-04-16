@@ -8,8 +8,10 @@ public class Activity {
     public String id;
     public String description;
     public HalfHours budgetTime;
-    public Calendar startWeek;
-    public Calendar endWeek;
+    public int startWeek;
+    public int endWeek;
+    public int sartyear;
+    public int endYear;
     public Project parentProject;
 
     // This is worng need to be a worker List, its the worker class that should have this list.
@@ -33,12 +35,8 @@ public class Activity {
         this.budgetTime = budgetTime;
     }
 
-    public void setStartWeek(Calendar startWeek){
-        this.startWeek = startWeek;
-    }
-
-    public void setEndWeek(Calendar endWeek){
-        this.endWeek = endWeek;
+    public void setStartEndWeekAndYears(int startWeek, int endWeek, int sartyear, int endYear){
+        // Todo
     }
 
     public String getActivityId() {

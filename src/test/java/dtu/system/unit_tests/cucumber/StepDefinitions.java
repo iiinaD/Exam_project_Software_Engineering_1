@@ -485,9 +485,19 @@ public class StepDefinitions {
 	@When("{string} assigns the worker {string} to the activity")
 	public void AssignsTheWorkerToTheActivity(String worker, String workerInitials) {
 		try {
-			app.addWorkerToActivity(project,activity,workerInitials);
+			app.addWorkerToActivity(project, activity, workerInitials);
 		} catch (OperationNotAllowedException e) {
 			errorMessageHolder.setErrorMessage(e.getMessage());
 		}
+	}
+
+	@When("the activity is planned to start week {int} year {int} and end week {int} year {int}")
+	public void theActivityIsPlannedToStartWeekYearAndEndWeekYear(int week0, int year0, int week1, int year1) throws OperationNotAllowedException {
+		app.ActivityPlanStartAndEnd(project.getProjectNumber(), activity.getActivityId(), week0, week1, year0, year1);
+	}
+
+	@Then("the planned number of weeks is {int}")
+	public void thePlannedNumberOfWeeksIs(int arg0) {
+
 	}
 }
