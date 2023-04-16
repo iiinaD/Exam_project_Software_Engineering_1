@@ -51,15 +51,18 @@ public class Application {
     }
 
     // Login logOut related
-    public void logIn(String initials) {
+    public void logIn(String initials) throws OperationNotAllowedException {
         //Jonas
+        if (!isWorkerInWorkerList(initials)){
+            throw new OperationNotAllowedException("This worker doesn't exist in our system");
+        }
+
         for (Worker i : workerList){
             if (i.getInitials().equals(initials)){
                 this.loggedInWorker = i;
                 this.loggedIn = true;
             }
         }
-        // else cast error (user not found)
     }
     public void logOut() {
         //Jonas
