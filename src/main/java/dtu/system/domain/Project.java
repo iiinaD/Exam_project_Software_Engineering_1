@@ -50,6 +50,18 @@ public class Project {
         // Gee
         return activities;
     }
+
+    public void setProjectName(String newProjectName) {
+        projectName = newProjectName;
+    }
+
+    public String getName() {
+        return projectName;
+    }
+
+    public Worker getProjectLeader() {
+        return projectLeader;
+    }
 }
 
 

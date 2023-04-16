@@ -117,9 +117,8 @@ public class Application {
         }
 
     }
-
     public void incrementWorkTime(Worker worker, Activity activity, int hours, int minutes) throws OperationNotAllowedException {
-        // Gee
+        // Gee,
         //I don't do access control here for now, we might want to rethink the login check.
         // Response: Cant we just est if worker == loggedInWorker?
         if(!worker.getWorkerActivityList().isEmpty()) {
@@ -163,7 +162,38 @@ public class Application {
     public void setActivityDescription(Activity activity, String description){
         activity.setDescription(description);
     }
-    public String getActivityDescription(Activity activity){
+    public String getActivityDescription(Activity activity) {
         return activity.description;
+    }
+    public boolean hasProjectWithNumber(int projectNumber) {
+        // Daniel
+        try {
+            getProjectWithNumber(projectNumber);
+        } catch (OperationNotAllowedException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public void changeProjectName(int projectNumber, String newProjectName) throws OperationNotAllowedException {
+        // Daniel
+        Project project = getProjectWithNumber(projectNumber);
+        project.setProjectName(newProjectName);
+    }
+
+    public void setProjectLeader(int projectNumber, String workerInitials) throws OperationNotAllowedException {
+        // Daniel
+        Project project = getProjectWithNumber(projectNumber);
+        Worker worker = getWorkerWithInitials(workerInitials);
+        project.setProjectLeader(worker);
+    }
+    public Worker getWorkerWithInitials(String workerInitials) {
+        // Daniel
+        for (Worker worker : workerList) {
+            if (workerInitials.equals(worker.getInitials())) {
+                return worker;
+            }
+        }
+        return null;
     }
 }

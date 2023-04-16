@@ -41,41 +41,60 @@ public class StepDefinitions {
 	}
 
 	@Given("a worker with the name {string} is logged in")
-	public void aWorkerWithTheNameIsLoggedIn(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void aWorkerWithTheNameIsLoggedIn(String initials) throws OperationNotAllowedException {
+		// Daniel
+		worker = new Worker(initials);
+		app.addNewWorker(worker);
+		app.logIn(initials);
+		assertTrue(app.getLoggedInStatus());
 	}
-	@Given("a project with the number  {int} and  name {string} exists")
-	public void aProjectWithTheNumberAndNameExists(Integer int1, String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@Given("a project with the number {int} and name {string} exists")
+	public void aProjectWithTheNumberAndNameExists(Integer projectNumber, String projectName) throws OperationNotAllowedException {
+		// Daniel
+		app.createProject(projectName);
+		assertTrue(app.hasProjectWithNumber(projectNumber));
 	}
-	@When("the worker tries to change the name of the project to {string}")
-	public void theWorkerTriesToChangeTheNameOfTheProjectTo(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@When("the worker tries to change the name of the project {int} to {string}")
+	public void theWorkerTriesToChangeTheNameOfTheProjectTo(int projectNumber, String newProjectName) {
+		 // Daniel
+		 try {
+			 app.changeProjectName(projectNumber,newProjectName);
+		 } catch (OperationNotAllowedException e) {
+			 errorMessageHolder.setErrorMessage(e.getMessage());
+		 }
 	}
-	@Then("the name of the project changes to {string}")
-	public void theNameOfTheProjectChangesTo(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@Then("the name of the project {int} changes to {string}")
+	public void theNameOfTheProjectChangesTo(int projectNumber, String newProjectName) throws OperationNotAllowedException {
+		// Daniel
+		assertEquals(app.getProjectWithNumber(projectNumber).getName(),newProjectName);
 	}
 	@Given("two workers with the names {string} and {string} exists")
-	public void twoWorkersWithTheNamesAndExists(String string, String string2) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void twoWorkersWithTheNamesAndExists(String worker1, String worker2) throws OperationNotAllowedException {
+		worker = new Worker(worker1);
+		app.addNewWorker(worker);
+		worker = new Worker(worker2);
+		app.addNewWorker(worker);
+		assertTrue(app.isWorkerInWorkerList(worker1) && app.isWorkerInWorkerList(worker2));
 	}
-	@When("{string} tries to assign {string} as project leader")
-	public void triesToAssignAsProjectLeader(String string, String string2) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@And("the worker {string} is logged in")
+	public void theWorkerIsLoggedIn(String worker) {
+		app.logIn(worker);
+		assertTrue(app.getLoggedInStatus());
 	}
-	@Then("{string} becomes the project leader")
-	public void becomesTheProjectLeader(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@And("a project with the number {int} exists in the application")
+	public void aProjectWithTheNumberExistsInTheApplication(Integer projectNumber) throws OperationNotAllowedException {
+		app.createProject("Very important project");
+		assertTrue(app.hasProjectWithNumber(projectNumber));
 	}
-
+	@When("{string} is assigned as project leader to the project with number {int}")
+	public void isAssignedAsProjectLeaderToTheProjectWithNumber(String worker, int projectNumber) throws OperationNotAllowedException {
+		app.setProjectLeader(projectNumber, worker);
+	}
+	@Then("{string} becomes the project leader of the project {int}")
+	public void becomesTheProjectLeaderOfTheProject(String leader, int projectNumber) throws OperationNotAllowedException {
+		String newProjectLeader = app.getProjectWithNumber(projectNumber).getProjectLeader().getInitials();
+		assertEquals(leader, newProjectLeader);
+	}
 	@When("the worker tries to create a new project with the number {int}")
 	public void theWorkerTriesToCreateANewProjectWithTheNumber(Integer projectNumber) {
 		// Daniel
@@ -109,7 +128,6 @@ public class StepDefinitions {
 			errorMessageHolder.setErrorMessage(e.getMessage());
 		}
 	}
-
 	@Given("there is a worker with initials {string}")
 	public void thereIsAWorkerWithInitials(String initials) {
 		// Jonas
@@ -244,7 +262,6 @@ public class StepDefinitions {
 		// Jonas
 		assertEquals(halfHours.getTime(), time);
 	}
-
 	@When("halfHours is ingrementes with {int} hours {int} minuts")
 	public void halfhoursIsIngrementesWithHoursMinuts(int hour, int min) {
 		halfHours.increment(hour, min);
