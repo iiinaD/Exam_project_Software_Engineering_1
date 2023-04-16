@@ -132,7 +132,24 @@ public class Application {
     }
 
     public void changeProjectName(int projectNumber, String newProjectName) throws OperationNotAllowedException {
+        // Daniel
         Project project = getProjectWithNumber(projectNumber);
         project.setProjectName(newProjectName);
+    }
+
+    public void setProjectLeader(int projectNumber, String workerInitials) throws OperationNotAllowedException {
+        // Daniel
+        Project project = getProjectWithNumber(projectNumber);
+        Worker worker = getWorkerWithInitials(workerInitials);
+        project.setProjectLeader(worker);
+    }
+    private Worker getWorkerWithInitials(String workerInitials) {
+        // Daniel
+        for (Worker worker : workerList) {
+            if (workerInitials.equals(worker.getInitials())) {
+                return worker;
+            }
+        }
+        return null;
     }
 }

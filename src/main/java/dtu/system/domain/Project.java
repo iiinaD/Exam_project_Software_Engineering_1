@@ -52,6 +52,10 @@ public class Project {
     public String getName() {
         return projectName;
     }
+
+    public Worker getProjectLeader() {
+        return projectLeader;
+    }
 }
 
 

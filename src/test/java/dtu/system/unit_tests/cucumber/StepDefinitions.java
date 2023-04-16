@@ -15,10 +15,7 @@ import io.cucumber.java.en.When;
 import io.cucumber.java.en.Given;
 import org.mockito.internal.matchers.Null;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Date;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -69,21 +66,32 @@ public class StepDefinitions {
 		assertEquals(app.getProjectWithNumber(projectNumber).getName(),newProjectName);
 	}
 	@Given("two workers with the names {string} and {string} exists")
-	public void twoWorkersWithTheNamesAndExists(String string, String string2) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void twoWorkersWithTheNamesAndExists(String worker1, String worker2) throws OperationNotAllowedException {
+		worker = new Worker(worker1);
+		app.addNewWorker(worker);
+		worker = new Worker(worker2);
+		app.addNewWorker(worker);
+		assertTrue(app.isWorkerInWorkerList(worker1) && app.isWorkerInWorkerList(worker2));
 	}
-	@When("{string} tries to assign {string} as project leader")
-	public void triesToAssignAsProjectLeader(String string, String string2) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@And("the worker {string} is logged in")
+	public void theWorkerIsLoggedIn(String worker) {
+		app.logIn(worker);
+		assertTrue(app.getLoggedInStatus());
 	}
-	@Then("{string} becomes the project leader")
-	public void becomesTheProjectLeader(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@And("a project with the number {int} exists in the application")
+	public void aProjectWithTheNumberExistsInTheApplication(Integer projectNumber) throws OperationNotAllowedException {
+		app.createProject("Very important project");
+		assertTrue(app.hasProjectWithNumber(projectNumber));
 	}
-
+	@When("{string} is assigned as project leader to the project with number {int}")
+	public void isAssignedAsProjectLeaderToTheProjectWithNumber(String worker, int projectNumber) throws OperationNotAllowedException {
+		app.setProjectLeader(projectNumber, worker);
+	}
+	@Then("{string} becomes the project leader of the project {int}")
+	public void becomesTheProjectLeaderOfTheProject(String leader, int projectNumber) throws OperationNotAllowedException {
+		String newProjectLeader = app.getProjectWithNumber(projectNumber).getProjectLeader().getInitials();
+		assertEquals(leader, newProjectLeader);
+	}
 	@When("the worker tries to create a new project with the number {int}")
 	public void theWorkerTriesToCreateANewProjectWithTheNumber(Integer projectNumber) {
 		// Daniel
@@ -121,16 +129,6 @@ public class StepDefinitions {
 			errorMessageHolder.setErrorMessage(e.getMessage());
 		}
 	}
-
-
-	@Given("a project with the number  {int} exists")
-	public void aProjectWithTheNumberExists(Integer int1) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
-
-
-
 	@Given("there is a worker with initials {string}")
 	public void thereIsAWorkerWithInitials(String initials) {
 		// Jonas
