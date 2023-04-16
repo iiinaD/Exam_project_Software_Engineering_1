@@ -40,16 +40,6 @@ public class StepDefinitions {
 		this.errorMessageHolder = errorMessage;
 	}
 
-	@Given("a worker with the name {string} is logged in")
-	public void aWorkerWithTheNameIsLoggedIn(String initials) throws OperationNotAllowedException {
-		// Daniel
-		worker = new Worker(initials);
-		app.addNewWorker(worker);
-		app.logIn(initials);
-		assertTrue(app.getLoggedInStatus());
-	}
-
-
 	@Given("a project with the number {int} and name {string} exists")
 	public void aProjectWithTheNumberAndNameExists(Integer projectNumber, String projectName) throws OperationNotAllowedException {
 		// Daniel
