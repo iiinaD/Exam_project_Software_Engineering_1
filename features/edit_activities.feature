@@ -22,11 +22,20 @@ Feature: Edit activities
     When the worker changes the budget time to 420 hours
     Then the budget time of the activity should be 420 hours
 
-  #Jonas
+  #Daniel
   Scenario: Add Worker to an Activity
     Given there is a worker with initials "jodl" logged in to the system
+    And a worker with the initials "daha" exists
     And a project named "project 0" with an activity "23001-001"
+    When the project leader "jodl" assigns the worker "daha" to the activity
+    Then the worker "daha" is assigned to the activity
 
+  Scenario: Add Worker to an Activity when not project leader
+    Given there is a worker with initials "jodl" logged in to the system
+    And a worker with the initials "daha" exists
+    And a project named "project 0" with an activity "23001-001"
+    When "jodl" assigns the worker "daha" to the activity
+    Then an error message "Only project leaders can assign workers to activities" is given
 
   Scenario: The acticity needs planning when it starts and ends
     Given there is a worker with initials "jodl" logged in to the system

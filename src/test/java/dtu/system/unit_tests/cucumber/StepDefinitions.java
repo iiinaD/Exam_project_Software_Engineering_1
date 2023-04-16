@@ -16,6 +16,7 @@ import io.cucumber.java.en.Given;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -470,6 +471,25 @@ public class StepDefinitions {
 	public void iYearThereIsWeeks(int year, int week) {
 		assertEquals(week, date.getNumberOfWeeksInYear(year), "number of weeks in current year");
 	}
+	@When("the project leader {string} assigns the worker {string} to the activity")
+	public void theProjectLeaderAssignsTheWorkerToTheActivity(String projectLeaderInitials, String workerInitials) throws OperationNotAllowedException {
+		app.setProjectLeader(project.getProjectNumber(),projectLeaderInitials);
+		app.addWorkerToActivity(project.getProjectNumber(),activity.getActivityId(),workerInitials);
+
+	}
+	@Then("the worker {string} is assigned to the activity")
+	public void theWorkerIsAssignedToTheActivity(String workerInitials) {
+		List<Worker> activityWorkerList = app.WorkersAssignedToActivity(project,activity);
+		assertEquals(activityWorkerList.get(0).getInitials(), workerInitials);
+	}
+	@When("{string} assigns the worker {string} to the activity")
+	public void AssignsTheWorkerToTheActivity(String worker, String workerInitials) {
+		try {
+			app.addWorkerToActivity(project, activity, workerInitials);
+		} catch (OperationNotAllowedException e) {
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
+	}
 
 	@When("the activity is planned to start week {int} year {int} and end week {int} year {int}")
 	public void theActivityIsPlannedToStartWeekYearAndEndWeekYear(int week0, int year0, int week1, int year1) throws OperationNotAllowedException {
@@ -480,4 +500,5 @@ public class StepDefinitions {
 	public void thePlannedNumberOfWeeksIs(int weeks) {
 		assertEquals(weeks, activity);
 	}
+
 }

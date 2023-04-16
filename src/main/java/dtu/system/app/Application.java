@@ -239,6 +239,18 @@ public class Application {
     public void setDateServer(DateServer dateServer) {
         //to do
     }
+    public void addWorkerToActivity(int projectNumber, String activity, String workerInitials) throws OperationNotAllowedException {
+        loggedInTestError();
+        if (!isProjectLeader(projectNumber, loggedInWorker.getInitials())) {
+            throw new OperationNotAllowedException("Only project leaders can assign workers to activities");
+        }
+        Project project = getProjectWithNumber(projectNumber);
 
+    }
 
+    private boolean isProjectLeader(int projectNumber, String initials) throws OperationNotAllowedException {
+        Project project = getProjectWithNumber(projectNumber);
+        String projectLeader = project.getProjectLeader().getInitials();
+        return projectLeader.equals(initials);
+    }
 }
