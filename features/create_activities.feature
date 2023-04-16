@@ -16,4 +16,4 @@ Actor: Worker
     And there is a project 23001 in the system
     And the project has an empty activity list
     When the worker creates a new Activity to the project.
-    Then an error message "Need to login a worker before adding an activity to the project" is given
+    Then an error message "You must be logged in to access this feature. Please log in and try again." is given

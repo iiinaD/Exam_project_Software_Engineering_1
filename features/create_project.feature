@@ -13,5 +13,5 @@ Feature: Create a project
     Given a worker with the name "daha" exists
     And the worker is not logged in
     When the worker tries to create a new project with the number 23001
-    And an error message "no worker is logged in" is given
+    And an error message "You must be logged in to access this feature. Please log in and try again." is given
 

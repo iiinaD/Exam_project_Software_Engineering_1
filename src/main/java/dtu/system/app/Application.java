@@ -18,11 +18,11 @@ public class Application {
 
     public void addNewWorker(Worker worker) throws OperationNotAllowedException {
         //Jonas
-        if(!isWorkerInWorkerList(worker.getInitials())) {
-            workerList.add(worker);
-        } else {
+        if (isWorkerInWorkerList(worker.getInitials())){
             throw new OperationNotAllowedException("A worker with these initials already exists in the system.");
         }
+
+        workerList.add(worker);
     }
 
     public boolean isWorkerInWorkerList(String initials) {
@@ -61,28 +61,31 @@ public class Application {
         return loggedInWorker;
     }
 
+    public void loggedInTestError() throws OperationNotAllowedException{
+        //Jonas
+        if (!loggedIn){
+            throw new OperationNotAllowedException("You must be logged in to access this feature. Please log in and try again.");
+        }
+    }
+
     public Project createProject(String projectName, Worker projectLeader) throws OperationNotAllowedException {
         //Daniel
-        if (loggedIn){
-            int projectNumber = getNextProjectNumber();
-            Project project = new Project(projectName,projectLeader,projectNumber);
-            projectList.add(project);
-            return project;
-        } else {
-            throw new OperationNotAllowedException("no worker is logged in");
-        }
+        loggedInTestError();
+
+        int projectNumber = getNextProjectNumber();
+        Project project = new Project(projectName,projectLeader,projectNumber);
+        projectList.add(project);
+        return project;
     }
 
     public Project createProject(String projectName) throws OperationNotAllowedException{
         //Daniel
-        if (loggedIn){ //Disable the login check
-            int projectNumber = getNextProjectNumber();
-            Project project = new Project(projectName,projectNumber);
-            projectList.add(project);
-            return project;
-        } else {
-            throw new OperationNotAllowedException("no worker is logged in");
-        }
+        loggedInTestError();
+
+        int projectNumber = getNextProjectNumber();
+        Project project = new Project(projectName,projectNumber);
+        projectList.add(project);
+        return project;
     }
 
     public int getNextProjectNumber() {
@@ -110,28 +113,24 @@ public class Application {
 
     public Activity addActivityToProject(Project project) throws OperationNotAllowedException {
         //Jonas
-        if (loggedIn){ //Disable the login check
-            return project.addActivity();
-        } else {
-            throw new OperationNotAllowedException("Need to login a worker before adding an activity to the project");
-        }
+        loggedInTestError();
 
+        return project.addActivity();
     }
     public void incrementWorkTime(Worker worker, Activity activity, int hours, int minutes) throws OperationNotAllowedException {
         // Gee,
         //I don't do access control here for now, we might want to rethink the login check.
         // Response: Cant we just est if worker == loggedInWorker?
-        if(!worker.getWorkerActivityList().isEmpty()) {
-            List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
 
-            for(WorkerActivity workerActivity :workerActivityList){
-                if(Objects.equals(workerActivity.getActivity(), activity)){
-                    workerActivity.incrementWorkTime(hours, minutes);
-                }
-            }
-        }
-        else {
+        if (worker.getWorkerActivityList().isEmpty()){
             throw new OperationNotAllowedException("This worker doesn't have any activities yet.");
+        }
+
+        List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
+        for(WorkerActivity workerActivity :workerActivityList){
+            if(Objects.equals(workerActivity.getActivity(), activity)){
+                workerActivity.incrementWorkTime(hours, minutes);
+            }
         }
     }
 
@@ -154,15 +153,19 @@ public class Application {
         return workerList;
     }
     public void setActivityBudgetTime(Activity activity, HalfHours halfHours){
+        //Gee
         activity.setBudgetTime(halfHours);
     }
     public HalfHours getActivityBudgetTime(Activity activity){
+        //Gee
         return activity.budgetTime;
     }
     public void setActivityDescription(Activity activity, String description){
+        //Gee
         activity.setDescription(description);
     }
     public String getActivityDescription(Activity activity) {
+        //Gee
         return activity.description;
     }
     public boolean hasProjectWithNumber(int projectNumber) {
