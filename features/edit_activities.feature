@@ -21,3 +21,8 @@ Feature: Edit activities
     And the activity has a budget time of 100 hours
     When the worker changes the budget time to 420 hours
     Then the budget time of the activity should be 420 hours
+
+  #Jonas
+  Scenario: Add Worker to an Activity
+    Given there is a worker with initials "jodl" logged in to the system
+    And a project named "project 0" with an activity "23001-001"

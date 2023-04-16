@@ -11,7 +11,10 @@ public class Activity {
     public Calendar startWeek;
     public Calendar endWeek;
     public Project parentProject;
-    public ArrayList<WorkerActivity> workerActivityList = new ArrayList<WorkerActivity>(); //Stores WorkerActivity Objects
+
+    // This is worng need to be a worker List, its the worker class that should have this list.
+    //public ArrayList<WorkerActivity> workerActivityList = new ArrayList<WorkerActivity>(); //Stores WorkerActivity Objects
+    private ArrayList<Worker> WorkerList = new ArrayList<>();
 
     public Activity(String id, Project parentProject){
         this.id = id;
@@ -47,8 +50,8 @@ public class Activity {
         return parentProject;
     }
 
-    public void addWorkerActivity(WorkerActivity workerActivity){
-        workerActivityList.add(workerActivity);
-    }
+//    public void addWorkerActivity(WorkerActivity workerActivity){
+//        workerActivityList.add(workerActivity);
+//    }
 
 }

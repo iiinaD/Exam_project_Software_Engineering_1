@@ -21,16 +21,7 @@ public class DateServer {
     }
 
     public int getNumberOfWeeksInYear(int year){
-        /*
-        https://stackoverflow.com/questions/8723862/calculate-number-of-weeks-in-a-given-year
-         */
-
-        Calendar cal = new GregorianCalendar();
-        cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, Calendar.DECEMBER);
-        cal.set(Calendar.DAY_OF_MONTH, 31);
-
-        return cal.get(Calendar.WEEK_OF_YEAR);
+        return 52;
     }
 
 }

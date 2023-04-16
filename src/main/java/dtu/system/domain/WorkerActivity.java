@@ -9,7 +9,7 @@ public class WorkerActivity {
           // Danny
           this.activity = activity;
           this.worker = worker;
-          activity.addWorkerActivity(this); //link WorkerActivity to that Activity
+          //activity.addWorkerActivity(this); //link WorkerActivity to that Activity
      }
 
      public void incrementWorkTime(int hours, int min) {
