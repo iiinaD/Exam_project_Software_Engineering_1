@@ -15,7 +15,7 @@ public class Application {
     private List<Project> projectList = new ArrayList<>();
     private DateServer dateServer = new DateServer();
 
-
+    // Worker in system Related
     public void addNewWorker(Worker worker) throws OperationNotAllowedException {
         //Jonas
         if (isWorkerInWorkerList(worker.getInitials())){
@@ -35,6 +35,22 @@ public class Application {
         return false;
     }
 
+    public List<Worker> getWorkerList() {
+        // Danny
+        return workerList;
+    }
+
+    public Worker getWorkerWithInitials(String workerInitials) {
+        // Daniel
+        for (Worker worker : workerList) {
+            if (workerInitials.equals(worker.getInitials())) {
+                return worker;
+            }
+        }
+        return null;
+    }
+
+    // Login logOut related
     public void logIn(String initials) {
         //Jonas
         for (Worker i : workerList){
@@ -68,6 +84,7 @@ public class Application {
         }
     }
 
+    // Project Related
     public Project createProject(String projectName, Worker projectLeader) throws OperationNotAllowedException {
         //Daniel
         loggedInTestError();
@@ -111,12 +128,55 @@ public class Application {
         throw new OperationNotAllowedException("project " + projectNumber + " doesn't exist");
     }
 
+    public boolean hasProjectWithNumber(int projectNumber) {
+        // Daniel
+        try {
+            getProjectWithNumber(projectNumber);
+        } catch (OperationNotAllowedException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public void changeProjectName(int projectNumber, String newProjectName) throws OperationNotAllowedException {
+        // Daniel
+        Project project = getProjectWithNumber(projectNumber);
+        project.setProjectName(newProjectName);
+    }
+
+    public void setProjectLeader(int projectNumber, String workerInitials) throws OperationNotAllowedException {
+        // Daniel
+        Project project = getProjectWithNumber(projectNumber);
+        Worker worker = getWorkerWithInitials(workerInitials);
+        project.setProjectLeader(worker);
+    }
+
+    // Activity Related
     public Activity addActivityToProject(Project project) throws OperationNotAllowedException {
         //Jonas
         loggedInTestError();
 
         return project.addActivity();
     }
+
+    public void setActivityBudgetTime(Activity activity, HalfHours halfHours){
+        //Gee
+        activity.setBudgetTime(halfHours);
+    }
+    public HalfHours getActivityBudgetTime(Activity activity){
+        //Gee
+        return activity.budgetTime;
+    }
+    public void setActivityDescription(Activity activity, String description){
+        //Gee
+        activity.setDescription(description);
+    }
+    public String getActivityDescription(Activity activity) {
+        //Gee
+        return activity.description;
+    }
+
+    // Workers Activity's
     public void incrementWorkTime(Worker worker, Activity activity, int hours, int minutes) throws OperationNotAllowedException {
         // Gee,
         //I don't do access control here for now, we might want to rethink the login check.
@@ -148,55 +208,5 @@ public class Application {
         return worker.accessHoursOverview(activity);
     }
 
-    public List<Worker> getWorkerList() {
-        // Danny
-        return workerList;
-    }
-    public void setActivityBudgetTime(Activity activity, HalfHours halfHours){
-        //Gee
-        activity.setBudgetTime(halfHours);
-    }
-    public HalfHours getActivityBudgetTime(Activity activity){
-        //Gee
-        return activity.budgetTime;
-    }
-    public void setActivityDescription(Activity activity, String description){
-        //Gee
-        activity.setDescription(description);
-    }
-    public String getActivityDescription(Activity activity) {
-        //Gee
-        return activity.description;
-    }
-    public boolean hasProjectWithNumber(int projectNumber) {
-        // Daniel
-        try {
-            getProjectWithNumber(projectNumber);
-        } catch (OperationNotAllowedException e) {
-            return false;
-        }
-        return true;
-    }
 
-    public void changeProjectName(int projectNumber, String newProjectName) throws OperationNotAllowedException {
-        // Daniel
-        Project project = getProjectWithNumber(projectNumber);
-        project.setProjectName(newProjectName);
-    }
-
-    public void setProjectLeader(int projectNumber, String workerInitials) throws OperationNotAllowedException {
-        // Daniel
-        Project project = getProjectWithNumber(projectNumber);
-        Worker worker = getWorkerWithInitials(workerInitials);
-        project.setProjectLeader(worker);
-    }
-    public Worker getWorkerWithInitials(String workerInitials) {
-        // Daniel
-        for (Worker worker : workerList) {
-            if (workerInitials.equals(worker.getInitials())) {
-                return worker;
-            }
-        }
-        return null;
-    }
 }
