@@ -4,7 +4,7 @@ Feature: Edit a project
   Actors: Worker logged in, project leader
 
   Scenario: A worker can change the name of the project after project is created
-    Given there is a worker with initials "jodl" logged in to the system
+    Given there is a worker with initials "daha" logged in to the system
     And a project with the number 23001 and name "Web projekt" exists
     When the worker tries to change the name of the project 23001 to "Web projekt Google"
     Then the name of the project 23001 changes to "Web projekt Google"
