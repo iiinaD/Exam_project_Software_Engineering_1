@@ -468,9 +468,9 @@ public class StepDefinitions {
 		int x = dateHolder.dateServer.getDate().getWeeksInWeekYear();
 		int y = dateHolder.dateServer.getDate().getWeekYear();
 		int z = dateHolder.dateServer.getDate().get(Calendar.WEEK_OF_YEAR);
-		System.out.println("current year: " + y);
-		System.out.println("current week: " + z);
-		System.out.println( x + " weeks in year " + y);
+//		System.out.println("current year: " + y);
+//		System.out.println("current week: " + z);
+//		System.out.println( x + " weeks in year " + y);
 		assertEquals(y, date.getCurrentYear(), "current year test");
 		assertEquals(x, date.getNumberOfWeeksInYear(y), "number of weeks in current year");
 		assertEquals(z, date.getCurrentWeek());
