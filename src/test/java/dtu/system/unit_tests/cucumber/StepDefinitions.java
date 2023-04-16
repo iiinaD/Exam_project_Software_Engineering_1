@@ -470,4 +470,9 @@ public class StepDefinitions {
 	public void iYearThereIsWeeks(int year, int week) {
 		assertEquals(week, date.getNumberOfWeeksInYear(year), "number of weeks in current year");
 	}
+
+	@When("the activity is planned to start week {int} year {int} and end week {int} year {int}")
+	public void theActivityIsPlannedToStartWeekYearAndEndWeekYear(int week0, int year0, int week1, int year1) throws OperationNotAllowedException {
+		app.ActivityPlanStartAndEnd(project.getProjectNumber(), activity.getActivityId(), week0, week1, year0, year1);
+	}
 }
