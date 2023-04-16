@@ -16,29 +16,35 @@ import io.cucumber.java.en.Given;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StepDefinitions {
 
-	Worker worker;
-	Application app;
-	ErrorMessageHolder errorMessageHolder;
-	Project project;
-	Activity activity;
+	private Worker worker;
+	private Application app;
+	private ErrorMessageHolder errorMessageHolder;
+	private Project project;
+	private Activity activity;
 	private int projectNumberTemp;
-	HalfHours halfHours;
+	private HalfHours halfHours;
 	private DateServer date;
 	private Calendar currentDate;
 	private WorkerActivity workerActivity;
 	private String result;
+	private MockDateHolder dateHolder;
 
 
-	public StepDefinitions(Application app, ErrorMessageHolder errorMessage) {
+	public StepDefinitions(Application app, ErrorMessageHolder errorMessage, MockDateHolder date) {
 		// Jonas
 		this.app = app;
 		this.errorMessageHolder = errorMessage;
+		this.dateHolder = date;
 	}
+
+
+
 
 	@Given("a project with the number {int} and name {string} exists")
 	public void aProjectWithTheNumberAndNameExists(Integer projectNumber, String projectName) throws OperationNotAllowedException {
@@ -62,6 +68,7 @@ public class StepDefinitions {
 	}
 	@Given("two workers with the names {string} and {string} exists")
 	public void twoWorkersWithTheNamesAndExists(String worker1, String worker2) throws OperationNotAllowedException {
+		// Daniel
 		worker = new Worker(worker1);
 		app.addNewWorker(worker);
 		worker = new Worker(worker2);
@@ -70,20 +77,24 @@ public class StepDefinitions {
 	}
 	@And("the worker {string} is logged in")
 	public void theWorkerIsLoggedIn(String worker) throws OperationNotAllowedException {
+		// Daniel
 		app.logIn(worker);
 		assertTrue(app.getLoggedInStatus());
 	}
 	@And("a project with the number {int} exists in the application")
 	public void aProjectWithTheNumberExistsInTheApplication(Integer projectNumber) throws OperationNotAllowedException {
+		// Daniel
 		app.createProject("Very important project");
 		assertTrue(app.hasProjectWithNumber(projectNumber));
 	}
 	@When("{string} is assigned as project leader to the project with number {int}")
 	public void isAssignedAsProjectLeaderToTheProjectWithNumber(String worker, int projectNumber) throws OperationNotAllowedException {
+		// Daniel
 		app.setProjectLeader(projectNumber, worker);
 	}
 	@Then("{string} becomes the project leader of the project {int}")
 	public void becomesTheProjectLeaderOfTheProject(String leader, int projectNumber) throws OperationNotAllowedException {
+		// Daniel
 		String newProjectLeader = app.getProjectWithNumber(projectNumber).getProjectLeader().getInitials();
 		assertEquals(leader, newProjectLeader);
 	}
@@ -424,6 +435,7 @@ public class StepDefinitions {
 	}
 	@And("a project with the number {int} and name {string} and leader {string} exists")
 	public void aProjectWithTheNumberAndNameAndLeaderExists(int projectNumber, String projectName, String projectLeader) throws OperationNotAllowedException {
+		// Daniel
 		app.createProject("Very important project",app.getWorkerWithInitials(projectLeader));
 		assertTrue(app.hasProjectWithNumber(projectNumber));
 		project = app.getProjectWithNumber(projectNumber);
@@ -432,19 +444,72 @@ public class StepDefinitions {
 	}
 	@When("the project leader tries to mark the project as finished")
 	public void theProjectLeaderTriesToMarkTheProjectAsFinished() throws OperationNotAllowedException {
+		// Daniel
 		app.markProjectFinished(project);
 	}
 	@Then("the project is finished")
 	public void theProjectIsFinished() {
+		// Daniel
 		assertTrue(app.isProjectFinished(project));
 	}
 
 	@When("the non project leader tries to mark the project as finished")
 	public void theNonProjectLeaderTriesToMarkTheProjectAsFinished() throws OperationNotAllowedException {
+		// Daniel
 		try {
 			app.markProjectFinished(project);
 		} catch (OperationNotAllowedException e) {
 			errorMessageHolder.setErrorMessage(e.getMessage());
 		}
 	}
+	@Given("it works")
+	public void itWorks() {
+		//Jonas
+		int x = dateHolder.dateServer.getDate().getWeeksInWeekYear();
+		int y = dateHolder.dateServer.getDate().getWeekYear();
+		int z = dateHolder.dateServer.getDate().get(Calendar.WEEK_OF_YEAR);
+		System.out.println("current year: " + y);
+		System.out.println("current week: " + z);
+		System.out.println( x + " weeks in year " + y);
+		assertEquals(y, date.getCurrentYear(), "current year test");
+		assertEquals(x, date.getNumberOfWeeksInYear(y), "number of weeks in current year");
+		assertEquals(z, date.getCurrentWeek());
+	}
+
+	@Then("year {int} there is {int} weeks")
+	public void iYearThereIsWeeks(int year, int week) {
+		assertEquals(week, date.getNumberOfWeeksInYear(year), "number of weeks in current year");
+	}
+	@When("the project leader {string} assigns the worker {string} to the activity")
+	public void theProjectLeaderAssignsTheWorkerToTheActivity(String projectLeaderInitials, String workerInitials) throws OperationNotAllowedException {
+		// Daniel
+		app.setProjectLeader(project.getProjectNumber(),projectLeaderInitials);
+		app.addWorkerToActivity(project.getProjectNumber(),activity.getActivityId(),workerInitials);
+	}
+	@Then("the worker {string} is assigned to the activity")
+	public void theWorkerIsAssignedToTheActivity(String workerInitials) throws OperationNotAllowedException {
+		// Daniel
+		List<Worker> activityWorkerList = app.WorkersAssignedToActivity(project.getProjectNumber(),activity.getActivityId());
+		assertEquals(activityWorkerList.get(0).getInitials(), workerInitials);
+	}
+	@When("{string} assigns the worker {string} to the activity")
+	public void AssignsTheWorkerToTheActivity(String worker, String workerInitials) {
+		// Daniel
+		try {
+			app.addWorkerToActivity(project.getProjectNumber(),activity.getActivityId(), workerInitials);
+		} catch (OperationNotAllowedException e) {
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
+	}
+
+	@When("the activity is planned to start week {int} year {int} and end week {int} year {int}")
+	public void theActivityIsPlannedToStartWeekYearAndEndWeekYear(int week0, int year0, int week1, int year1) throws OperationNotAllowedException {
+		app.ActivityPlanStartAndEnd(project.getProjectNumber(), activity.getActivityId(), week0, week1, year0, year1);
+	}
+
+	@Then("the planned number of weeks is {int}")
+	public void thePlannedNumberOfWeeksIs(int weeks) {
+		assertEquals(weeks, activity.getBudgetWeeks());
+	}
+
 }

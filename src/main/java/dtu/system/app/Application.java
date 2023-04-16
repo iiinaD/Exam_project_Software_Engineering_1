@@ -3,7 +3,6 @@ package dtu.system.app;
 import dtu.system.domain.*;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -110,7 +109,8 @@ public class Application {
 
     public int getNextProjectNumber() {
         //Daniel
-        String year = String.valueOf(dateServer.getDate().get(Calendar.YEAR));
+        //String year = String.valueOf(dateServer.getDate().get(Calendar.YEAR));
+        String year = String.valueOf(dateServer.getCurrentYear());
         int twoDigitYear = Integer.parseInt(year.substring(2));
         return twoDigitYear*1000 + projectList.size() + 1;
     }
@@ -179,6 +179,15 @@ public class Application {
         return activity.description;
     }
 
+    public Activity getActivityFromProject(int projectNumber, String activityId) throws OperationNotAllowedException {
+        // Jonas
+        return getProjectWithNumber(projectNumber).getActivity(activityId);
+    }
+
+    public void ActivityPlanStartAndEnd(int projectNumber, String activityId, int week0, int week1, int year0, int year1) throws OperationNotAllowedException {
+        getActivityFromProject(projectNumber, activityId).setStartEndWeekAndYears(week0, week1, year0, year1);
+    }
+
     // Workers Activity's
     public void incrementWorkTime(Worker worker, Activity activity, int hours, int minutes) throws OperationNotAllowedException {
         // Gee,
@@ -224,5 +233,36 @@ public class Application {
     public boolean isProjectFinished(Project project) {
         // Daniel
         return project.getIsFinished();
+    }
+
+    // Date
+    public void setDateServer(DateServer dateServer) {
+        //to do
+    }
+    public void addWorkerToActivity(int projectNumber, String activityId, String workerInitials) throws OperationNotAllowedException {
+        // Daniel
+        loggedInTestError();
+        if (!isProjectLeader(projectNumber, loggedInWorker.getInitials())) {
+            throw new OperationNotAllowedException("Only project leaders can assign workers to activities");
+        }
+        Project project = getProjectWithNumber(projectNumber);
+        Activity activity = project.getActivity(activityId);
+        Worker worker = getWorkerWithInitials(workerInitials);
+        activity.addWorker(worker);
+    }
+
+    private boolean isProjectLeader(int projectNumber, String initials) throws OperationNotAllowedException {
+        Project project = getProjectWithNumber(projectNumber);
+        if (!project.hasProjectLeader()) {
+            return false;
+        }
+        String projectLeader = project.getProjectLeader().getInitials();
+        return projectLeader.equals(initials);
+    }
+
+    public List<Worker> WorkersAssignedToActivity(int projectNumber, String activityId) throws OperationNotAllowedException {
+        Project project = getProjectWithNumber(projectNumber);
+        Activity activity = project.getActivity(activityId);
+        return activity.getWorkerList();
     }
 }

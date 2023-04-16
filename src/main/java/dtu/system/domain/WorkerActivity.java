@@ -1,6 +1,7 @@
 package dtu.system.domain;
 
 public class WorkerActivity {
+     // Should not have a worker
      private Worker worker;
      private Activity activity;
      private HalfHours halfHours = new HalfHours();
@@ -9,7 +10,7 @@ public class WorkerActivity {
           // Danny
           this.activity = activity;
           this.worker = worker;
-          activity.addWorkerActivity(this); //link WorkerActivity to that Activity
+          //activity.addWorkerActivity(this); //link WorkerActivity to that Activity
      }
 
      public void incrementWorkTime(int hours, int min) {
