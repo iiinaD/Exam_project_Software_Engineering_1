@@ -4,7 +4,7 @@ Feature: Edit a project
   Actors: Worker logged in, project leader
 
   Scenario: A worker can change the name of the project after project is created
-    Given a worker with the name "daha" is logged in
+    Given there is a worker with initials "daha" logged in to the system
     And a project with the number 23001 and name "Web projekt" exists
     When the worker tries to change the name of the project 23001 to "Web projekt Google"
     Then the name of the project 23001 changes to "Web projekt Google"
@@ -16,4 +16,15 @@ Feature: Edit a project
     When "jodl" is assigned as project leader to the project with number 23001
     Then "jodl" becomes the project leader of the project 23001
 
-#  Scenario: some shit
+  Scenario: A project leader can mark the project finished
+    Given there is a worker with initials "daha" logged in to the system
+    And a project with the number 23001 and name "Web projekt" and leader "daha" exists
+    When the project leader tries to mark the project as finished
+    Then the project is finished
+
+  Scenario: A non project leader marks a project as finished
+    Given two workers with the names "daha" and "jodl" exists
+    And the worker "jodl" is logged in
+    And a project with the number 23001 and name "Web projekt" and leader "daha" exists
+    When the non project leader tries to mark the project as finished
+    Then an error message "Only project leaders can finish projects" is given

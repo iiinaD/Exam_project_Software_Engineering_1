@@ -420,4 +420,29 @@ public class StepDefinitions {
 	public void the_budget_time_of_the_activity_should_be_hours(Integer int1) {
 		assertEquals(new HalfHours(int1, 0).getTime(), app.getActivityBudgetTime(activity).getTime());
 	}
+	@And("a project with the number {int} and name {string} and leader {string} exists")
+	public void aProjectWithTheNumberAndNameAndLeaderExists(int projectNumber, String projectName, String projectLeader) throws OperationNotAllowedException {
+		app.createProject("Very important project",app.getWorkerWithInitials(projectLeader));
+		assertTrue(app.hasProjectWithNumber(projectNumber));
+		project = app.getProjectWithNumber(projectNumber);
+		String theAssignedLeader = project.getProjectLeader().getInitials();
+		assertEquals(projectLeader,theAssignedLeader);
+	}
+	@When("the project leader tries to mark the project as finished")
+	public void theProjectLeaderTriesToMarkTheProjectAsFinished() throws OperationNotAllowedException {
+		app.markProjectFinished(project);
+	}
+	@Then("the project is finished")
+	public void theProjectIsFinished() {
+		assertTrue(app.isProjectFinished(project));
+	}
+
+	@When("the non project leader tries to mark the project as finished")
+	public void theNonProjectLeaderTriesToMarkTheProjectAsFinished() throws OperationNotAllowedException {
+		try {
+			app.markProjectFinished(project);
+		} catch (OperationNotAllowedException e) {
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
+	}
 }

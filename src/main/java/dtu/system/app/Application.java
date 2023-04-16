@@ -209,4 +209,17 @@ public class Application {
     }
 
 
+    public void markProjectFinished(Project project) throws OperationNotAllowedException {
+        // Daniel
+        if (project.getProjectLeader().equals(loggedInWorker)) {
+            project.finishProject();
+        } else {
+            throw new OperationNotAllowedException("Only project leaders can finish projects");
+        }
+    }
+
+    public boolean isProjectFinished(Project project) {
+        // Daniel
+        return project.getIsFinished();
+    }
 }

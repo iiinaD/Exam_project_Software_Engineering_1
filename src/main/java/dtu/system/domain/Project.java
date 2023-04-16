@@ -7,8 +7,10 @@ public class Project {
     private String projectName;
     private Worker projectLeader;
     private int projectNumber;
+    private boolean isFinished = false;
     private int activityCounter = 1;
     private ArrayList<Activity> activities = new ArrayList<Activity>(); // an arraylist containing all the activities in this project
+
 
     public Project(String projectName, Worker projectLeader, int projectNumber) {
         // Daniel
@@ -61,6 +63,15 @@ public class Project {
 
     public Worker getProjectLeader() {
         return projectLeader;
+    }
+
+    public void finishProject() {
+        // Daniel
+        isFinished = true;
+    }
+
+    public boolean getIsFinished() {
+        return isFinished;
     }
 }
 
