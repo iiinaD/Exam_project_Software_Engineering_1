@@ -40,14 +40,6 @@ public class StepDefinitions {
 		this.errorMessageHolder = errorMessage;
 	}
 
-	@Given("a worker with the name {string} is logged in")
-	public void aWorkerWithTheNameIsLoggedIn(String initials) throws OperationNotAllowedException {
-		// Daniel
-		worker = new Worker(initials);
-		app.addNewWorker(worker);
-		app.logIn(initials);
-		assertTrue(app.getLoggedInStatus());
-	}
 	@Given("a project with the number {int} and name {string} exists")
 	public void aProjectWithTheNumberAndNameExists(Integer projectNumber, String projectName) throws OperationNotAllowedException {
 		// Daniel
@@ -77,7 +69,7 @@ public class StepDefinitions {
 		assertTrue(app.isWorkerInWorkerList(worker1) && app.isWorkerInWorkerList(worker2));
 	}
 	@And("the worker {string} is logged in")
-	public void theWorkerIsLoggedIn(String worker) {
+	public void theWorkerIsLoggedIn(String worker) throws OperationNotAllowedException {
 		app.logIn(worker);
 		assertTrue(app.getLoggedInStatus());
 	}
@@ -141,9 +133,13 @@ public class StepDefinitions {
 	}
 
 	@And("the worker can login using his initial {string} to login")
-	public void theWorkerCanLoginUsingHisInitialToLogin(String initials) {
+	public void theWorkerCanLoginUsingHisInitialToLogin(String initials) throws OperationNotAllowedException {
 		// Jonas
-		app.logIn(initials);
+		try {
+			app.logIn(initials);
+		} catch (OperationNotAllowedException e){
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 	}
 
 	@And("systems has a logged in worker")
@@ -165,9 +161,15 @@ public class StepDefinitions {
 		this.worker = new Worker(initials);
 		app.addNewWorker(worker);
 	}
+	@Given("a worker with the name {string} dont exist")
+	public void aWorkerWithTheNameDontExist(String initials) {
+		//Jonas
+		this.worker = new Worker(initials);
+		assertFalse(app.isWorkerInWorkerList(worker.getInitials()));
+	}
 
 	@Given("{string} is logged in")
-	public void jodlIsLoggedIn(String initials) {
+	public void jodlIsLoggedIn(String initials) throws OperationNotAllowedException {
 		// Jonas
 		app.logIn(initials);
 	}

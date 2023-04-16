@@ -29,3 +29,9 @@ Feature: a worker can login
   Scenario: if the app dont have a logged in worker and system try to get the loggedin it returns null
     Given a worker with the name "jodl" exists
     And the worker is not logged in
+
+  Scenario: tryig to login using initials that dont exist
+    Given a worker with the name "jodl" dont exist
+    And the worker can login using his initial "jodl" to login
+    Then an error message "This worker doesn't exist in our system" is given
+    And the worker is not logged in
