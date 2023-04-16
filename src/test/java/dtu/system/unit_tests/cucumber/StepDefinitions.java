@@ -68,6 +68,7 @@ public class StepDefinitions {
 	}
 	@Given("two workers with the names {string} and {string} exists")
 	public void twoWorkersWithTheNamesAndExists(String worker1, String worker2) throws OperationNotAllowedException {
+		// Daniel
 		worker = new Worker(worker1);
 		app.addNewWorker(worker);
 		worker = new Worker(worker2);
@@ -76,20 +77,24 @@ public class StepDefinitions {
 	}
 	@And("the worker {string} is logged in")
 	public void theWorkerIsLoggedIn(String worker) throws OperationNotAllowedException {
+		// Daniel
 		app.logIn(worker);
 		assertTrue(app.getLoggedInStatus());
 	}
 	@And("a project with the number {int} exists in the application")
 	public void aProjectWithTheNumberExistsInTheApplication(Integer projectNumber) throws OperationNotAllowedException {
+		// Daniel
 		app.createProject("Very important project");
 		assertTrue(app.hasProjectWithNumber(projectNumber));
 	}
 	@When("{string} is assigned as project leader to the project with number {int}")
 	public void isAssignedAsProjectLeaderToTheProjectWithNumber(String worker, int projectNumber) throws OperationNotAllowedException {
+		// Daniel
 		app.setProjectLeader(projectNumber, worker);
 	}
 	@Then("{string} becomes the project leader of the project {int}")
 	public void becomesTheProjectLeaderOfTheProject(String leader, int projectNumber) throws OperationNotAllowedException {
+		// Daniel
 		String newProjectLeader = app.getProjectWithNumber(projectNumber).getProjectLeader().getInitials();
 		assertEquals(leader, newProjectLeader);
 	}
@@ -430,6 +435,7 @@ public class StepDefinitions {
 	}
 	@And("a project with the number {int} and name {string} and leader {string} exists")
 	public void aProjectWithTheNumberAndNameAndLeaderExists(int projectNumber, String projectName, String projectLeader) throws OperationNotAllowedException {
+		// Daniel
 		app.createProject("Very important project",app.getWorkerWithInitials(projectLeader));
 		assertTrue(app.hasProjectWithNumber(projectNumber));
 		project = app.getProjectWithNumber(projectNumber);
@@ -438,15 +444,18 @@ public class StepDefinitions {
 	}
 	@When("the project leader tries to mark the project as finished")
 	public void theProjectLeaderTriesToMarkTheProjectAsFinished() throws OperationNotAllowedException {
+		// Daniel
 		app.markProjectFinished(project);
 	}
 	@Then("the project is finished")
 	public void theProjectIsFinished() {
+		// Daniel
 		assertTrue(app.isProjectFinished(project));
 	}
 
 	@When("the non project leader tries to mark the project as finished")
 	public void theNonProjectLeaderTriesToMarkTheProjectAsFinished() throws OperationNotAllowedException {
+		// Daniel
 		try {
 			app.markProjectFinished(project);
 		} catch (OperationNotAllowedException e) {
@@ -473,19 +482,21 @@ public class StepDefinitions {
 	}
 	@When("the project leader {string} assigns the worker {string} to the activity")
 	public void theProjectLeaderAssignsTheWorkerToTheActivity(String projectLeaderInitials, String workerInitials) throws OperationNotAllowedException {
+		// Daniel
 		app.setProjectLeader(project.getProjectNumber(),projectLeaderInitials);
 		app.addWorkerToActivity(project.getProjectNumber(),activity.getActivityId(),workerInitials);
-
 	}
 	@Then("the worker {string} is assigned to the activity")
-	public void theWorkerIsAssignedToTheActivity(String workerInitials) {
-		List<Worker> activityWorkerList = app.WorkersAssignedToActivity(project,activity);
+	public void theWorkerIsAssignedToTheActivity(String workerInitials) throws OperationNotAllowedException {
+		// Daniel
+		List<Worker> activityWorkerList = app.WorkersAssignedToActivity(project.getProjectNumber(),activity.getActivityId());
 		assertEquals(activityWorkerList.get(0).getInitials(), workerInitials);
 	}
 	@When("{string} assigns the worker {string} to the activity")
 	public void AssignsTheWorkerToTheActivity(String worker, String workerInitials) {
+		// Daniel
 		try {
-			app.addWorkerToActivity(project, activity, workerInitials);
+			app.addWorkerToActivity(project.getProjectNumber(),activity.getActivityId(), workerInitials);
 		} catch (OperationNotAllowedException e) {
 			errorMessageHolder.setErrorMessage(e.getMessage());
 		}

@@ -54,14 +54,17 @@ public class Project {
     }
 
     public void setProjectName(String newProjectName) {
+        // Daniel
         projectName = newProjectName;
     }
 
     public String getName() {
+        // Daniel
         return projectName;
     }
 
     public Worker getProjectLeader() {
+        // Daniel
         return projectLeader;
     }
 
@@ -71,6 +74,7 @@ public class Project {
     }
 
     public boolean getIsFinished() {
+        // Daniel
         return isFinished;
     }
 
@@ -81,6 +85,11 @@ public class Project {
             }
         }
         return null;
+    }
+
+    public boolean hasProjectLeader() {
+        // Daniel
+        return projectLeader != null;
     }
 }
 
