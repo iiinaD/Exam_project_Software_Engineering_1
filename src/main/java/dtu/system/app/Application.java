@@ -185,7 +185,7 @@ public class Application {
     }
 
     public void ActivityPlanStartAndEnd(int projectNumber, String activityId, int week0, int week1, int year0, int year1) throws OperationNotAllowedException {
-
+        getActivityFromProject(projectNumber, activityId).setStartEndWeekAndYears(week0, week1, year0, year1);
     }
 
     // Workers Activity's

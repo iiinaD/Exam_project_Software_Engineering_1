@@ -475,4 +475,9 @@ public class StepDefinitions {
 	public void theActivityIsPlannedToStartWeekYearAndEndWeekYear(int week0, int year0, int week1, int year1) throws OperationNotAllowedException {
 		app.ActivityPlanStartAndEnd(project.getProjectNumber(), activity.getActivityId(), week0, week1, year0, year1);
 	}
+
+	@Then("the planned number of weeks is {int}")
+	public void thePlannedNumberOfWeeksIs(int weeks) {
+		assertEquals(weeks, activity);
+	}
 }
