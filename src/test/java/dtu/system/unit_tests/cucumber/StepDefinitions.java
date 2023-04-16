@@ -498,7 +498,7 @@ public class StepDefinitions {
 
 	@Then("the planned number of weeks is {int}")
 	public void thePlannedNumberOfWeeksIs(int weeks) {
-		assertEquals(weeks, activity);
+		assertEquals(weeks, activity.getBudgetWeeks());
 	}
 
 }

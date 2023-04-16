@@ -1,6 +1,7 @@
 package dtu.system.domain;
 
 public class WorkerActivity {
+     // Should not have a worker
      private Worker worker;
      private Activity activity;
      private HalfHours halfHours = new HalfHours();
