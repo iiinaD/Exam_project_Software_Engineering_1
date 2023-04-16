@@ -21,24 +21,29 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class StepDefinitions {
 
-	Worker worker;
-	Application app;
-	ErrorMessageHolder errorMessageHolder;
-	Project project;
-	Activity activity;
+	private Worker worker;
+	private Application app;
+	private ErrorMessageHolder errorMessageHolder;
+	private Project project;
+	private Activity activity;
 	private int projectNumberTemp;
-	HalfHours halfHours;
+	private HalfHours halfHours;
 	private DateServer date;
 	private Calendar currentDate;
 	private WorkerActivity workerActivity;
 	private String result;
+	private MockDateHolder dateHolder;
 
 
-	public StepDefinitions(Application app, ErrorMessageHolder errorMessage) {
+	public StepDefinitions(Application app, ErrorMessageHolder errorMessage, MockDateHolder date) {
 		// Jonas
 		this.app = app;
 		this.errorMessageHolder = errorMessage;
+		this.dateHolder = date;
 	}
+
+
+
 
 	@Given("a project with the number {int} and name {string} exists")
 	public void aProjectWithTheNumberAndNameExists(Integer projectNumber, String projectName) throws OperationNotAllowedException {
@@ -446,5 +451,23 @@ public class StepDefinitions {
 		} catch (OperationNotAllowedException e) {
 			errorMessageHolder.setErrorMessage(e.getMessage());
 		}
+	}
+	@Given("it works")
+	public void itWorks() {
+		//Jonas
+		int x = dateHolder.dateServer.getDate().getWeeksInWeekYear();
+		int y = dateHolder.dateServer.getDate().getWeekYear();
+		int z = dateHolder.dateServer.getDate().get(Calendar.WEEK_OF_YEAR);
+		System.out.println("current year: " + y);
+		System.out.println("current week: " + z);
+		System.out.println( x + " weeks in year " + y);
+		assertEquals(y, date.getCurrentYear(), "current year test");
+		assertEquals(x, date.getNumberOfWeeksInYear(y), "number of weeks in current year");
+		assertEquals(z, date.getCurrentWeek());
+	}
+
+	@Then("year {int} there is {int} weeks")
+	public void iYearThereIsWeeks(int year, int week) {
+		assertEquals(week, date.getNumberOfWeeksInYear(year), "number of weeks in current year");
 	}
 }

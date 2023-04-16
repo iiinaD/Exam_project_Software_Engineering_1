@@ -110,7 +110,8 @@ public class Application {
 
     public int getNextProjectNumber() {
         //Daniel
-        String year = String.valueOf(dateServer.getDate().get(Calendar.YEAR));
+        //String year = String.valueOf(dateServer.getDate().get(Calendar.YEAR));
+        String year = String.valueOf(dateServer.getCurrentYear());
         int twoDigitYear = Integer.parseInt(year.substring(2));
         return twoDigitYear*1000 + projectList.size() + 1;
     }
@@ -224,5 +225,10 @@ public class Application {
     public boolean isProjectFinished(Project project) {
         // Daniel
         return project.getIsFinished();
+    }
+
+    // Date
+    public void setDateServer(DateServer dateServer) {
+        //to do
     }
 }
