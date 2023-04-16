@@ -2,6 +2,7 @@ package dtu.system.domain;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class Activity {
 
@@ -13,7 +14,6 @@ public class Activity {
     public int sartyear;
     public int endYear;
     public Project parentProject;
-
     // This is worng need to be a worker List, its the worker class that should have this list.
     //public ArrayList<WorkerActivity> workerActivityList = new ArrayList<WorkerActivity>(); //Stores WorkerActivity Objects
     private ArrayList<Worker> WorkerList = new ArrayList<>();
@@ -46,6 +46,16 @@ public class Activity {
 
     public Project getParentProject(){
         return parentProject;
+    }
+
+    public void addWorker(Worker worker) {
+        // Daniel
+        WorkerList.add(worker);
+    }
+
+    public List<Worker> getWorkerList() {
+        // Daniel
+        return WorkerList;
     }
 
 //    public void addWorkerActivity(WorkerActivity workerActivity){
