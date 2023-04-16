@@ -41,5 +41,5 @@ Feature: Edit activities
     Given there is a worker with initials "jodl" logged in to the system
     And a project named "project 0" with an activity "23001-001"
     And "jodl" is assigned as project leader to the project with number 23001
-    When the activity is planned to start week 50 year 2023 and end week 5 year 2024
-    Then the planned number of weeks is 7
+    When the activity is planned to start week 20 year 2023 and end week 19 year 2025
+    Then the planned number of weeks is 103

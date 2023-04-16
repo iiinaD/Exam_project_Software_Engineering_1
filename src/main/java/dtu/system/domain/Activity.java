@@ -56,6 +56,10 @@ public class Activity {
         this.budgetWeeks = endWeek - startWeek + years;
     }
 
+    public int getBudgetWeeks() {
+        return budgetWeeks;
+    }
+
     public String getActivityId() {
         // Danny
         return id;
@@ -65,9 +69,6 @@ public class Activity {
         return parentProject;
     }
 
-
-    public int getBudgetWeeks() {
-        return budgetWeeks;
 
     public void addWorker(Worker worker){
         // Daniel
