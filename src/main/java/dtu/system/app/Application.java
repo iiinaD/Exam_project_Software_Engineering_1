@@ -56,11 +56,8 @@ public class Application {
         return loggedIn;
     }
 
-    public Worker getLoggedInWorker() throws OperationNotAllowedException {
+    public Worker getLoggedInWorker(){
         //Jonas
-        if (loggedInWorker == null){
-            throw new OperationNotAllowedException("no worker is logged in");
-        }
         return loggedInWorker;
     }
 
@@ -78,7 +75,7 @@ public class Application {
 
     public Project createProject(String projectName) throws OperationNotAllowedException{
         //Daniel
-        if (true){ //Disable the login check
+        if (loggedIn){ //Disable the login check
             int projectNumber = getNextProjectNumber();
             Project project = new Project(projectName,projectNumber);
             projectList.add(project);
@@ -113,7 +110,7 @@ public class Application {
 
     public Activity addActivityToProject(Project project) throws OperationNotAllowedException {
         //Jonas
-        if (true){ //Disable the login check
+        if (loggedIn){ //Disable the login check
             return project.addActivity();
         } else {
             throw new OperationNotAllowedException("Need to login a worker before adding an activity to the project");
@@ -124,6 +121,7 @@ public class Application {
     public void incrementWorkTime(Worker worker, Activity activity, int hours, int minutes) throws OperationNotAllowedException {
         // Gee
         //I don't do access control here for now, we might want to rethink the login check.
+        // Response: Cant we just est if worker == loggedInWorker?
         if(!worker.getWorkerActivityList().isEmpty()) {
             List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
 
