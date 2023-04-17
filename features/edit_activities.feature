@@ -29,7 +29,9 @@ Feature: Edit activities
     And a project named "project 0" with an activity "23001-001"
     When the project leader "jodl" assigns the worker "daha" to the activity
     Then the worker "daha" is assigned to the activity
+    And "daha" has activity "23001-001" in his activity list
 
+  #Daniel
   Scenario: Add Worker to an Activity when not project leader
     Given there is a worker with initials "jodl" logged in to the system
     And a worker with the initials "daha" exists
@@ -37,9 +39,11 @@ Feature: Edit activities
     When "jodl" assigns the worker "daha" to the activity
     Then an error message "Only project leaders can assign workers to activities" is given
 
+  #Jonas
   Scenario: The acticity needs planning when it starts and ends
     Given there is a worker with initials "jodl" logged in to the system
     And a project named "project 0" with an activity "23001-001"
     And "jodl" is assigned as project leader to the project with number 23001
     When the activity is planned to start week 20 year 2023 and end week 19 year 2025
     Then the planned number of weeks is 103
+

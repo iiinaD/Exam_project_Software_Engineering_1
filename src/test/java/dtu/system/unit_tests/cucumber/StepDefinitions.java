@@ -13,6 +13,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Given;
+import org.junit.Assert;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -34,6 +35,7 @@ public class StepDefinitions {
 	private WorkerActivity workerActivity;
 	private String result;
 	private MockDateHolder dateHolder;
+	private Activity activity2;
 
 
 	public StepDefinitions(Application app, ErrorMessageHolder errorMessage, MockDateHolder date) {
@@ -84,7 +86,7 @@ public class StepDefinitions {
 	@And("a project with the number {int} exists in the application")
 	public void aProjectWithTheNumberExistsInTheApplication(Integer projectNumber) throws OperationNotAllowedException {
 		// Daniel
-		app.createProject("Very important project");
+		project = app.createProject("Very important project");
 		assertTrue(app.hasProjectWithNumber(projectNumber));
 	}
 	@When("{string} is assigned as project leader to the project with number {int}")
@@ -376,31 +378,47 @@ public class StepDefinitions {
 	//access_hours_overview.feature
 
 	@Given("a project named {string} with an activity {string}")
-	public void a_project_named_with_an_activity(String string, String string2) {
-		//app.logIn("xxxx");
+	public void aProjectNamedWithAnActivity(String string, String string2) {
 		try {
 			project = app.createProject(string); //create project
-			activity = app.addActivityToProject(project); //add an activity
-			//activity.setID(string2);
+			activity = app.addActivityToProject(project);
+			app.addActivityToWorker(worker, activity);
+
 		} catch (OperationNotAllowedException e){
 			errorMessageHolder.setErrorMessage(e.getMessage());
 		}
 	}
+	@Given("add a activity {string}\"")
+	public void addAActivity(String string) {
+		try {
+			activity2 = app.addActivityToProject(project);//add an activity
+			app.addActivityToWorker(worker, activity2);
+		} catch (OperationNotAllowedException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-	@Given("{string} worked for {int} hours on activity {string}")
-	public void worked_for_hours_on_activity(String string, Integer int1, String string2) throws OperationNotAllowedException {
-		app.addActivityToWorker(worker, activity);
-		app.incrementWorkTime(worker, activity, int1, 0);
+	@Given("{string} worked for {int} hours and {int} minutes on activity {string}")
+	public void workedForHoursAndMinutesOnActivity(String string, Integer int1, Integer int2, String string2) {
+		try {
+			app.incrementWorkTime(worker, app.findWorkerActivity(worker, string2).getActivity(), int1, int2);
+		} catch (OperationNotAllowedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@When("the worker access hours overview for activity {string}")
 	public void the_worker_access_hours_overview_for_activity(String string) {
-		this.result = app.hoursOverview(this.worker, string);
+		this.result = app.hoursOverview(app.findWorkerActivity(this.worker, string));
+	}
+	@When("the worker access personal hours overview")
+	public void theWorkerAccessPersonalHoursOverview() {
+		this.result = app.hoursOverview(worker);
 	}
 
-	@Then("the worker should see {string}")
-	public void the_worker_should_see(String string) {
-		assertEquals(string, result);
+	@Then("the worker should see")
+	public void theWorkerShouldSee(String docString) {
+		assertEquals(docString, result);
 	}
 
 	//edit_activities.feature
@@ -504,12 +522,24 @@ public class StepDefinitions {
 
 	@When("the activity is planned to start week {int} year {int} and end week {int} year {int}")
 	public void theActivityIsPlannedToStartWeekYearAndEndWeekYear(int week0, int year0, int week1, int year1) throws OperationNotAllowedException {
+		//Jonas
 		app.ActivityPlanStartAndEnd(project.getProjectNumber(), activity.getActivityId(), week0, week1, year0, year1);
 	}
 
 	@Then("the planned number of weeks is {int}")
 	public void thePlannedNumberOfWeeksIs(int weeks) {
+		//Jonas
 		assertEquals(weeks, activity.getBudgetWeeks());
 	}
 
+    @When("the worker try to acces activity {string} it dont exist")
+    public void theWorkerTryToAccesActivityItDontExist(String activity) throws OperationNotAllowedException {
+		//Jonas
+		assertNull(app.getActivityFromProject(project.getProjectNumber(), activity));
+    }
+
+	@And("{string} has activity {string} in his activity list")
+	public void hasActivityInHisActivityList(String initials, String activity) {
+		app.getWorkerActivityWorkerWorksOn(initials, activity);
+	}
 }

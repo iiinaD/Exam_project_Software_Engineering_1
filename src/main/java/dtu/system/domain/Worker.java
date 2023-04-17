@@ -11,10 +11,10 @@ public class Worker {
     public Worker(String initials) { // the error handling should be handled by the app
         // Danny
         if (initials.length() < 2 || initials.length() > 4) {
-             throw new IllegalArgumentException("Worker initials can't contain less than 2 or more than 4 characters.");
+             throw new IllegalArgumentException("Worker initials can't contain less than 2 or more than 4 characters."); // missing test
         }
         else if(!initials.matches("[a-zA-Z]+")) {
-            throw new IllegalArgumentException("Worker initials can't contain numbers or special characters.");
+            throw new IllegalArgumentException("Worker initials can't contain numbers or special characters."); // missing test
         }
 
         this.initials = initials;
@@ -29,39 +29,6 @@ public class Worker {
         return workerActivity;
     }
 
-    private String fetchWorkData(WorkerActivity workerActivity){
-        // Gee
-        Activity theAct = workerActivity.getActivity(); //get Activity
-        String actName = theAct.getActivityId(); //get Activity ID
-        String projName = theAct.getParentProject().getProjectName();//get Project Name
-        double time = workerActivity.getWorkTime().getTime();
-        int timeInt = (int)time; //get time spent as integer
-        return String.format("%s\t%s\t%d Hrs",actName, projName, timeInt);
-    }
-
-    public String accessHoursOverview(Activity activity){
-        // Gee
-        for (WorkerActivity workerActivity: workerActivityList) { //look through the worker's list of activity
-            if (activity.equals(workerActivity.getActivity())){
-                return fetchWorkData(workerActivity);
-            }
-        }
-        return "Activity not found.";
-    }
-
-    public String accessHoursOverview(String activity) {
-        // Gee
-        if (workerActivityList.isEmpty()) return "No activity for this worker.";
-
-        for (WorkerActivity workerActivity: workerActivityList) {
-            if (workerActivity.getActivity() != null && Objects.equals(workerActivity.getActivity().getActivityId(), activity)){
-                return fetchWorkData(workerActivity);
-            }
-        }
-
-        return "Activity not found from string.";
-    }
-
     public String getInitials() {
         // Jonas
         return initials;
@@ -70,5 +37,15 @@ public class Worker {
     public List<WorkerActivity> getWorkerActivityList() {
         // Danny
         return workerActivityList;
+    }
+
+    public WorkerActivity getWorkerActivity(String activity) {
+        //Jonas
+        for (WorkerActivity wa : workerActivityList){
+            if (wa.getActivity().getActivityId().equals(activity)){
+                return wa;
+            }
+        }
+        return null;
     }
 }

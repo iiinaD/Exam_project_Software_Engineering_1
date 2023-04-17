@@ -79,12 +79,13 @@ public class Project {
     }
 
     public Activity getActivity(String activityId) {
+        //Jonas
         for (Activity i : activities){
             if (i.id.equals(activityId)){
                 return i;
             }
         }
-        return null;
+        return null; //mangler test
     }
 
     public boolean hasProjectLeader() {
