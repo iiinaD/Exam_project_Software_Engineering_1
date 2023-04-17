@@ -211,6 +211,27 @@ public class Application {
         return worker.addWorkerActivity(activity);
     }
 
+    public  String hoursOverview(Worker worker){
+        String output = "";
+        List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
+        for(WorkerActivity workerActivity : workerActivityList){
+            output += workerActivity.prettyPrintData()+"\n";
+        }
+        return output;
+    }
+
+    public  String hoursOverview(Activity activity){
+        String output = "";
+        List<Worker> workerList = activity.getWorkerList();
+        for(Worker worker : workerList){
+            for(WorkerActivity workerActivity: worker.getWorkerActivityList()){
+                if(workerActivity.getActivity().equals(activity)){
+                    output += workerActivity.prettyPrintData()+"\n";
+                }
+            }
+        }
+        return output;
+    }
     public String hoursOverview(WorkerActivity workerActivity){
         // Gee
         return workerActivity.prettyPrintData();
