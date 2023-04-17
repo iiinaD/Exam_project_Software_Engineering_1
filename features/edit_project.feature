@@ -35,3 +35,9 @@ Feature: Edit a project
     And a project with the number 23001 and name "Web projekt" and leader "daha" exists
     When the non project leader tries to mark the project as finished
     Then an error message "Only project leaders can finish projects" is given
+
+  #Jonas
+  Scenario: An activity that dont exist, dont exist.
+    Given there is a worker with initials "jodl" logged in to the system
+    And a project with the number 23001 exists in the application
+    When the worker try to acces activity "23001-001" it dont exist

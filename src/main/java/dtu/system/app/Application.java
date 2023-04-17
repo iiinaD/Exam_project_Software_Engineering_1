@@ -254,9 +254,11 @@ public class Application {
         Activity activity = project.getActivity(activityId);
         Worker worker = getWorkerWithInitials(workerInitials);
         activity.addWorker(worker);
+        worker.addWorkerActivity(activity);
     }
 
     private boolean isProjectLeader(int projectNumber, String initials) throws OperationNotAllowedException {
+        //Daniel
         Project project = getProjectWithNumber(projectNumber);
         if (!project.hasProjectLeader()) {
             return false;
@@ -266,8 +268,15 @@ public class Application {
     }
 
     public List<Worker> WorkersAssignedToActivity(int projectNumber, String activityId) throws OperationNotAllowedException {
+        // Daniel
         Project project = getProjectWithNumber(projectNumber);
         Activity activity = project.getActivity(activityId);
         return activity.getWorkerList();
+    }
+
+    public WorkerActivity getWorkerActivityWorkerWorksOn(String initials, String activity) {
+        //Jonas
+        Worker worker = getWorkerWithInitials(initials);
+        return worker.getWorkerActivity(activity);
     }
 }
