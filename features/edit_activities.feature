@@ -37,6 +37,7 @@ Feature: Edit activities
     When "jodl" assigns the worker "daha" to the activity
     Then an error message "Only project leaders can assign workers to activities" is given
 
+  #Jonas
   Scenario: The acticity needs planning when it starts and ends
     Given there is a worker with initials "jodl" logged in to the system
     And a project named "project 0" with an activity "23001-001"
