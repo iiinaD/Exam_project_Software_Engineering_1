@@ -211,13 +211,19 @@ public class Application {
         return worker.addWorkerActivity(activity);
     }
 
-    public String hoursOverview(Worker worker, Activity activity){
+    public String hoursOverview(WorkerActivity workerActivity){
         // Gee
-        return worker.accessHoursOverview(activity);
+        return workerActivity.prettyPrintData();
     }
-    public String hoursOverview(Worker worker, String activity){
-        // Gee
-        return worker.accessHoursOverview(activity);
+
+    public WorkerActivity findWorkerActivity(Worker worker, String id){
+        List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
+        for (WorkerActivity workerActivity: workerActivityList) {
+            if (workerActivity.getActivity() != null && Objects.equals(workerActivity.getActivity().getActivityId(), id)){
+                return workerActivity;
+            }
+        }
+        return null;
     }
 
 

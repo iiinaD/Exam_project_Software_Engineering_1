@@ -29,39 +29,6 @@ public class Worker {
         return workerActivity;
     }
 
-    private String fetchWorkData(WorkerActivity workerActivity){
-        // Gee
-        Activity theAct = workerActivity.getActivity(); //get Activity
-        String actName = theAct.getActivityId(); //get Activity ID
-        String projName = theAct.getParentProject().getProjectName();//get Project Name
-        double time = workerActivity.getWorkTime().getTime();
-        int timeInt = (int)time; //get time spent as integer
-        return String.format("%s\t%s\t%d Hrs",actName, projName, timeInt);
-    }
-
-    public String accessHoursOverview(Activity activity){
-        // Gee
-        for (WorkerActivity workerActivity: workerActivityList) { //look through the worker's list of activity
-            if (activity.equals(workerActivity.getActivity())){
-                return fetchWorkData(workerActivity);
-            }
-        }
-        return "Activity not found.";
-    }
-
-    public String accessHoursOverview(String activity) {
-        // Gee
-        if (workerActivityList.isEmpty()) return "No activity for this worker.";
-
-        for (WorkerActivity workerActivity: workerActivityList) {
-            if (workerActivity.getActivity() != null && Objects.equals(workerActivity.getActivity().getActivityId(), activity)){
-                return fetchWorkData(workerActivity);
-            }
-        }
-
-        return "Activity not found from string.";
-    }
-
     public String getInitials() {
         // Jonas
         return initials;
