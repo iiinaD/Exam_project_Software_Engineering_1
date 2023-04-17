@@ -1,5 +1,7 @@
 package dtu.system.domain;
 
+import java.util.Locale;
+
 public class WorkerActivity {
      // Should not have a worker
      private Worker worker;
@@ -39,6 +41,6 @@ public class WorkerActivity {
           String actName = theAct.getActivityId(); //get Activity ID
           String projName = theAct.getParentProject().getProjectName();//get Project Name
           double time = getWorkTime().getTime();
-          return String.format("%s\t%s\t%.1f Hrs",actName, projName, time);
+          return String.format(Locale.CANADA_FRENCH, "%s\t%s\t%.1f Hrs",actName, projName, time);
      }
 }

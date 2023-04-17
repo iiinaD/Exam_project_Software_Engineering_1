@@ -10,14 +10,14 @@ Feature: Access hours overview
     When the worker access hours overview for activity "23001-001"
     Then the worker should see
     """
-    23001-001	project 0	5.5 Hrs
+    23001-001	project 0	5,5 Hrs
     """
 
   Scenario: Employee gets personal hours overview
     When the worker access personal hours overview
     Then the worker should see
     """
-    23001-001	project 0	5.5 Hrs
-    23001-002	project 0	3.5 Hrs
+    23001-001	project 0	5,5 Hrs
+    23001-002	project 0	3,5 Hrs
 
     """
