@@ -395,7 +395,7 @@ public class StepDefinitions {
 
 	@When("the worker access hours overview for activity {string}")
 	public void the_worker_access_hours_overview_for_activity(String string) {
-		this.result = app.hoursOverview(this.worker, string);
+		this.result = app.hoursOverview(app.findWorkerActivity(this.worker, string));
 	}
 
 	@Then("the worker should see {string}")
