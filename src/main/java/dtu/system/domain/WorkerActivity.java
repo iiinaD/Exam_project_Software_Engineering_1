@@ -39,7 +39,6 @@ public class WorkerActivity {
           String actName = theAct.getActivityId(); //get Activity ID
           String projName = theAct.getParentProject().getProjectName();//get Project Name
           double time = getWorkTime().getTime();
-          int timeInt = (int)time; //get time spent as integer
-          return String.format("%s\t%s\t%d Hrs",actName, projName, timeInt);
+          return String.format("%s\t%s\t%.1f Hrs",actName, projName, time);
      }
 }

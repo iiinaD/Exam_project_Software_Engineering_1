@@ -385,10 +385,14 @@ public class StepDefinitions {
 		}
 	}
 
-	@Given("{string} worked for {int} hours on activity {string}")
-	public void worked_for_hours_on_activity(String string, Integer int1, String string2) throws OperationNotAllowedException {
+	@Given("{string} worked for {int} hours and {int} minutes on activity {string}")
+	public void workedForHoursAndMinutesOnActivity(String string, Integer int1, Integer int2, String string2) {
 		app.addActivityToWorker(worker, activity);
-		app.incrementWorkTime(worker, activity, int1, 0);
+		try {
+			app.incrementWorkTime(worker, activity, int1, int2);
+		} catch (OperationNotAllowedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@When("the worker access hours overview for activity {string}")
