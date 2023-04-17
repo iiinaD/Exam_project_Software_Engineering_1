@@ -22,7 +22,7 @@ public class Worker {
 
     public WorkerActivity addWorkerActivity(Activity activity) {
         // Danny
-        WorkerActivity workerActivity = new WorkerActivity(this, activity);
+        WorkerActivity workerActivity = new WorkerActivity(activity);
 
         workerActivityList.add(workerActivity);
 

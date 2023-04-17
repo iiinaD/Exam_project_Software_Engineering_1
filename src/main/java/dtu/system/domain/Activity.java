@@ -18,8 +18,6 @@ public class Activity {
     public int startYear;
     public int endYear;
     public Project parentProject;
-    // This is worng need to be a worker List, its the worker class that should have this list.
-    //public ArrayList<WorkerActivity> workerActivityList = new ArrayList<WorkerActivity>(); //Stores WorkerActivity Objects
     private ArrayList<Worker> WorkerList = new ArrayList<>();
     private int budgetWeeks;
 
