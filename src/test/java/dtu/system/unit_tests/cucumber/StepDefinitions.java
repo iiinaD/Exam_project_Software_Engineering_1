@@ -13,6 +13,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Given;
+import org.junit.Assert;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -84,7 +85,7 @@ public class StepDefinitions {
 	@And("a project with the number {int} exists in the application")
 	public void aProjectWithTheNumberExistsInTheApplication(Integer projectNumber) throws OperationNotAllowedException {
 		// Daniel
-		app.createProject("Very important project");
+		project = app.createProject("Very important project");
 		assertTrue(app.hasProjectWithNumber(projectNumber));
 	}
 	@When("{string} is assigned as project leader to the project with number {int}")
@@ -502,12 +503,24 @@ public class StepDefinitions {
 
 	@When("the activity is planned to start week {int} year {int} and end week {int} year {int}")
 	public void theActivityIsPlannedToStartWeekYearAndEndWeekYear(int week0, int year0, int week1, int year1) throws OperationNotAllowedException {
+		//Jonas
 		app.ActivityPlanStartAndEnd(project.getProjectNumber(), activity.getActivityId(), week0, week1, year0, year1);
 	}
 
 	@Then("the planned number of weeks is {int}")
 	public void thePlannedNumberOfWeeksIs(int weeks) {
+		//Jonas
 		assertEquals(weeks, activity.getBudgetWeeks());
 	}
 
+    @When("the worker try to acces activity {string} it dont exist")
+    public void theWorkerTryToAccesActivityItDontExist(String activity) throws OperationNotAllowedException {
+		//Jonas
+		assertNull(app.getActivityFromProject(project.getProjectNumber(), activity));
+    }
+
+	@And("{string} has activity {string} in his activity list")
+	public void hasActivityInHisActivityList(String initials, String activity) {
+		app.getWorkerActivityWorkerWorksOn(initials, activity);
+	}
 }
