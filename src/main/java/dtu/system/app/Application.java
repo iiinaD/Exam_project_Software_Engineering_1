@@ -4,6 +4,7 @@ import dtu.system.domain.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Application {
@@ -214,6 +215,7 @@ public class Application {
     public  String hoursOverview(Worker worker){
         String output = "";
         List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
+        if(workerList.isEmpty()) return "This worker has no activity";
         for(WorkerActivity workerActivity : workerActivityList){
             output += workerActivity.prettyPrintData()+"\n";
         }
@@ -223,10 +225,12 @@ public class Application {
     public  String hoursOverview(Activity activity){
         String output = "";
         List<Worker> workerList = activity.getWorkerList();
+        if(workerList.isEmpty()) return "No workers in this activity";
+        output += String.format("%s\t%s\n", activity.getActivityId(), activity.getParentProject().getProjectName());
         for(Worker worker : workerList){
             for(WorkerActivity workerActivity: worker.getWorkerActivityList()){
                 if(workerActivity.getActivity().equals(activity)){
-                    output += workerActivity.prettyPrintData()+"\n";
+                    output += String.format(Locale.GERMANY,"%s\t%.1f Hrs\n", worker.getInitials(),workerActivity.getWorkTime().getTime());
                 }
             }
         }

@@ -382,7 +382,9 @@ public class StepDefinitions {
 		try {
 			project = app.createProject(string); //create project
 			activity = app.addActivityToProject(project);
-			app.addActivityToWorker(worker, activity);
+			//app.addActivityToWorker(worker, activity);
+			app.setProjectLeader(project.getProjectNumber(), worker.getInitials());
+			app.addWorkerToActivity(project.getProjectNumber(), string2, worker.getInitials());
 
 		} catch (OperationNotAllowedException e){
 			errorMessageHolder.setErrorMessage(e.getMessage());
@@ -414,6 +416,11 @@ public class StepDefinitions {
 	@When("the worker access personal hours overview")
 	public void theWorkerAccessPersonalHoursOverview() {
 		this.result = app.hoursOverview(worker);
+	}
+
+	@When("the worker access activity hours overview")
+	public void theWorkerAccessActivityHoursOverview() {
+		this.result = app.hoursOverview(activity);
 	}
 
 	@Then("the worker should see")
