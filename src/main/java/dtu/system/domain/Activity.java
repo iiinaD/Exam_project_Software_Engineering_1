@@ -29,7 +29,7 @@ public class Activity {
     }
 
     public void setID(String id){
-        this.id = id;
+        this.id = id; // do we need this?
     }
 
     public void setDescription(String description){

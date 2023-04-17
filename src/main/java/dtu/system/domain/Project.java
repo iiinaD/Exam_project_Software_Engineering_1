@@ -84,7 +84,7 @@ public class Project {
                 return i;
             }
         }
-        return null;
+        return null; //mangler test
     }
 
     public boolean hasProjectLeader() {

@@ -46,7 +46,7 @@ public class Application {
                 return worker;
             }
         }
-        return null;
+        return null; //mangler test
     }
 
     // Login logOut related
@@ -127,7 +127,7 @@ public class Application {
                 return p;
             }
         }
-
+        // mangler test
         throw new OperationNotAllowedException("project " + projectNumber + " doesn't exist");
     }
 
@@ -135,7 +135,7 @@ public class Application {
         // Daniel
         try {
             getProjectWithNumber(projectNumber);
-        } catch (OperationNotAllowedException e) {
+        } catch (OperationNotAllowedException e) { //Mangler test
             return false;
         }
         return true;
