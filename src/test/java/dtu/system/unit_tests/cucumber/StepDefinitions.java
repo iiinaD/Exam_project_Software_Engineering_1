@@ -34,6 +34,7 @@ public class StepDefinitions {
 	private WorkerActivity workerActivity;
 	private String result;
 	private MockDateHolder dateHolder;
+	private Activity activity2;
 
 
 	public StepDefinitions(Application app, ErrorMessageHolder errorMessage, MockDateHolder date) {
@@ -376,20 +377,30 @@ public class StepDefinitions {
 	//access_hours_overview.feature
 
 	@Given("a project named {string} with an activity {string}")
-	public void a_project_named_with_an_activity(String string, String string2) {
+	public void aProjectNamedWithAnActivity(String string, String string2) {
 		try {
 			project = app.createProject(string); //create project
-			activity = app.addActivityToProject(project); //add an activity
+			activity = app.addActivityToProject(project);
+			app.addActivityToWorker(worker, activity);
+
 		} catch (OperationNotAllowedException e){
 			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
+	}
+	@Given("add a activity {string}\"")
+	public void addAActivity(String string) {
+		try {
+			activity2 = app.addActivityToProject(project);//add an activity
+			app.addActivityToWorker(worker, activity2);
+		} catch (OperationNotAllowedException e) {
+			throw new RuntimeException(e);
 		}
 	}
 
 	@Given("{string} worked for {int} hours and {int} minutes on activity {string}")
 	public void workedForHoursAndMinutesOnActivity(String string, Integer int1, Integer int2, String string2) {
-		app.addActivityToWorker(worker, activity);
 		try {
-			app.incrementWorkTime(worker, activity, int1, int2);
+			app.incrementWorkTime(worker, app.findWorkerActivity(worker, string2).getActivity(), int1, int2);
 		} catch (OperationNotAllowedException e) {
 			throw new RuntimeException(e);
 		}
@@ -399,10 +410,14 @@ public class StepDefinitions {
 	public void the_worker_access_hours_overview_for_activity(String string) {
 		this.result = app.hoursOverview(app.findWorkerActivity(this.worker, string));
 	}
+	@When("the worker access personal hours overview")
+	public void theWorkerAccessPersonalHoursOverview() {
+		this.result = app.hoursOverview(worker);
+	}
 
-	@Then("the worker should see {string}")
-	public void the_worker_should_see(String string) {
-		assertEquals(string, result);
+	@Then("the worker should see")
+	public void theWorkerShouldSee(String docString) {
+		assertEquals(docString, result);
 	}
 
 	//edit_activities.feature
