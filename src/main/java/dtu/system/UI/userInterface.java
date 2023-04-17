@@ -47,18 +47,29 @@ public class userInterface {
     }
     public static void mainMenu(Application app, Scanner terminal) {
         // Daniel
-        while(app.getLoggedInStatus()) {
+        while (app.getLoggedInStatus()) {
             printMainMenu();
             System.out.print("Please choose an item from the menu list: ");
             int input = getIntInput(terminal,4,"The number has to correspond to one of the menu items.");
             if (input == 1) {
                 System.out.print("Please input the name of the project: ");
                 String projectName = terminal.next();
+                System.out.print("\nPlease input the initials of the project leader (if not yet known leave empty): ");
+                String projectLeader = terminal.next();
                 try {
-                    app.createProject(projectName);
+                    if (projectLeader.isEmpty()) {
+                        app.createProject(projectName);
+                    }
+                    app.createProject(projectName,app.getWorkerWithInitials(projectLeader));
                 } catch (OperationNotAllowedException e) {
                     System.out.println(e.getMessage() + "\n");
                 }
+            } else if (input == 2) {
+
+            } else if (input == 3) {
+
+            } else if (input == 4) {
+
             }
         }
         return;
@@ -67,7 +78,7 @@ public class userInterface {
         // Daniel
         // Check for a valid number
         int choice;
-        while(true) {
+        while (true) {
             boolean intInput = terminal.hasNextInt();
             if (intInput) {
                 choice = terminal.nextInt();
