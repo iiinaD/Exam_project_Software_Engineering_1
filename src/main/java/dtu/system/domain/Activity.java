@@ -28,10 +28,6 @@ public class Activity {
         this.parentProject = parentProject;
     }
 
-    public void setID(String id){
-        this.id = id; // do we need this?
-    }
-
     public void setDescription(String description){
         this.description = description;
     }

@@ -226,7 +226,6 @@ public class Application {
         return null;
     }
 
-
     public void markProjectFinished(Project project) throws OperationNotAllowedException {
         // Daniel
         if (project.getProjectLeader().equals(loggedInWorker)) {
