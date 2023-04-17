@@ -1,7 +1,5 @@
 package dtu.system.domain;
 
-import dtu.system.app.OperationNotAllowedException;
-
 import java.util.ArrayList;
 
 public class Project {
@@ -9,8 +7,10 @@ public class Project {
     private String projectName;
     private Worker projectLeader;
     private int projectNumber;
-    private int activityCounter = 0;
+    private boolean isFinished = false;
+    private int activityCounter = 1;
     private ArrayList<Activity> activities = new ArrayList<Activity>(); // an arraylist containing all the activities in this project
+
 
     public Project(String projectName, Worker projectLeader, int projectNumber) {
         // Daniel
@@ -35,21 +35,61 @@ public class Project {
         return projectNumber;
     }
 
-    public Activity addActivity(){
-        //gee
-        if(activityCounter == 0)
-        {
-            activityCounter = 1;
-        }
+    public String getProjectName() {
+        // Gee
+        return projectName;
+    }
 
-        Activity act = new Activity(projectNumber + "-" + String.valueOf(1000 + activityCounter).substring(1));
+    public Activity addActivity(){
+        // Gee
+        Activity act = new Activity(projectNumber + "-" + String.valueOf(1000 + activityCounter).substring(1), this);
         activities.add(act); //add to activities List
         activityCounter += 1; //increment id counter by 1
         return act;
     }
 
     public ArrayList<Activity> getActivityList(){
+        // Gee
         return activities;
+    }
+
+    public void setProjectName(String newProjectName) {
+        // Daniel
+        projectName = newProjectName;
+    }
+
+    public String getName() {
+        // Daniel
+        return projectName;
+    }
+
+    public Worker getProjectLeader() {
+        // Daniel
+        return projectLeader;
+    }
+
+    public void finishProject() {
+        // Daniel
+        isFinished = true;
+    }
+
+    public boolean getIsFinished() {
+        // Daniel
+        return isFinished;
+    }
+
+    public Activity getActivity(String activityId) {
+        for (Activity i : activities){
+            if (i.id.equals(activityId)){
+                return i;
+            }
+        }
+        return null;
+    }
+
+    public boolean hasProjectLeader() {
+        // Daniel
+        return projectLeader != null;
     }
 }
 

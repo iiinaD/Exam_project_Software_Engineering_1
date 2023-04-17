@@ -1,12 +1,10 @@
 package dtu.system.domain;
 
-import dtu.system.app.OperationNotAllowedException;
-
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class Worker
-{
+public class Worker {
     private String initials;
     private List<WorkerActivity> workerActivityList = new ArrayList<>();
 
@@ -24,11 +22,44 @@ public class Worker
 
     public WorkerActivity addWorkerActivity(Activity activity) {
         // Danny
-        WorkerActivity workerActivity = new WorkerActivity(activity);
+        WorkerActivity workerActivity = new WorkerActivity(this, activity);
 
         workerActivityList.add(workerActivity);
 
         return workerActivity;
+    }
+
+    private String fetchWorkData(WorkerActivity workerActivity){
+        // Gee
+        Activity theAct = workerActivity.getActivity(); //get Activity
+        String actName = theAct.getActivityId(); //get Activity ID
+        String projName = theAct.getParentProject().getProjectName();//get Project Name
+        double time = workerActivity.getWorkTime().getTime();
+        int timeInt = (int)time; //get time spent as integer
+        return String.format("%s\t%s\t%d Hrs",actName, projName, timeInt);
+    }
+
+    public String accessHoursOverview(Activity activity){
+        // Gee
+        for (WorkerActivity workerActivity: workerActivityList) { //look through the worker's list of activity
+            if (activity.equals(workerActivity.getActivity())){
+                return fetchWorkData(workerActivity);
+            }
+        }
+        return "Activity not found.";
+    }
+
+    public String accessHoursOverview(String activity) {
+        // Gee
+        if (workerActivityList.isEmpty()) return "No activity for this worker.";
+
+        for (WorkerActivity workerActivity: workerActivityList) {
+            if (workerActivity.getActivity() != null && Objects.equals(workerActivity.getActivity().getActivityId(), activity)){
+                return fetchWorkData(workerActivity);
+            }
+        }
+
+        return "Activity not found from string.";
     }
 
     public String getInitials() {

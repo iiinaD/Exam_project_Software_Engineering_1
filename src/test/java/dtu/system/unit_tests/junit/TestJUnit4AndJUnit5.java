@@ -27,5 +27,4 @@ public class TestJUnit4AndJUnit5 {
 	}
 
 
-
 }

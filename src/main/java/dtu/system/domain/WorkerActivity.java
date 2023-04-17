@@ -1,26 +1,35 @@
 package dtu.system.domain;
 
-public class WorkerActivity
-{
+public class WorkerActivity {
+     // Should not have a worker
+     private Worker worker;
      private Activity activity;
-     private double workTime = 0.0; // Worng
      private HalfHours halfHours = new HalfHours();
 
-     public WorkerActivity(Activity activity) {
+     public WorkerActivity(Worker worker, Activity activity) {
           // Danny
           this.activity = activity;
+          this.worker = worker;
+          //activity.addWorkerActivity(this); //link WorkerActivity to that Activity
      }
 
-     public Activity getWorkerActivity() {
+     public void incrementWorkTime(int hours, int min) {
+          // Jonas
+          halfHours.increment(hours, min);
+     }
+
+     public Activity getActivity() {
           // Danny
           return activity;
      }
 
-     public HalfHours getWorkTime() {
-          return halfHours;
+     public Worker getWorker(){
+          // Gee
+          return worker;
      }
 
-     public void incrementWorkTime(int hours, int min) {
-          halfHours.increment(hours, min);
+     public HalfHours getWorkTime() {
+          // Jonas
+          return halfHours;
      }
 }

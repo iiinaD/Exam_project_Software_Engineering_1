@@ -9,75 +9,95 @@ import dtu.system.domain.HalfHours;
 import dtu.system.domain.Worker;
 import dtu.system.domain.Project;
 import dtu.system.domain.WorkerActivity;
-import io.cucumber.java.bs.A;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Given;
-import org.mockito.internal.matchers.Null;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Date;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StepDefinitions {
 
-	Worker worker;
-	Application app;
-	ErrorMessageHolder errorMessageHolder;
-	Project project;
-	Activity activity;
+	private Worker worker;
+	private Application app;
+	private ErrorMessageHolder errorMessageHolder;
+	private Project project;
+	private Activity activity;
 	private int projectNumberTemp;
-	HalfHours halfHours;
+	private HalfHours halfHours;
 	private DateServer date;
 	private Calendar currentDate;
 	private WorkerActivity workerActivity;
+	private String result;
+	private MockDateHolder dateHolder;
 
-	public StepDefinitions(Application app, ErrorMessageHolder errorMessage) {
+
+	public StepDefinitions(Application app, ErrorMessageHolder errorMessage, MockDateHolder date) {
 		// Jonas
 		this.app = app;
 		this.errorMessageHolder = errorMessage;
+		this.dateHolder = date;
 	}
 
-	@Given("a worker with the name {string} is logged in")
-	public void aWorkerWithTheNameIsLoggedIn(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+
+
+
+	@Given("a project with the number {int} and name {string} exists")
+	public void aProjectWithTheNumberAndNameExists(Integer projectNumber, String projectName) throws OperationNotAllowedException {
+		// Daniel
+		app.createProject(projectName);
+		assertTrue(app.hasProjectWithNumber(projectNumber));
 	}
-	@Given("a project with the number  {int} and  name {string} exists")
-	public void aProjectWithTheNumberAndNameExists(Integer int1, String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@When("the worker tries to change the name of the project {int} to {string}")
+	public void theWorkerTriesToChangeTheNameOfTheProjectTo(int projectNumber, String newProjectName) {
+		 // Daniel
+		 try {
+			 app.changeProjectName(projectNumber,newProjectName);
+		 } catch (OperationNotAllowedException e) {
+			 errorMessageHolder.setErrorMessage(e.getMessage());
+		 }
 	}
-	@When("the worker tries to change the name of the project to {string}")
-	public void theWorkerTriesToChangeTheNameOfTheProjectTo(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
-	@Then("the name of the project changes to {string}")
-	public void theNameOfTheProjectChangesTo(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@Then("the name of the project {int} changes to {string}")
+	public void theNameOfTheProjectChangesTo(int projectNumber, String newProjectName) throws OperationNotAllowedException {
+		// Daniel
+		assertEquals(app.getProjectWithNumber(projectNumber).getName(),newProjectName);
 	}
 	@Given("two workers with the names {string} and {string} exists")
-	public void twoWorkersWithTheNamesAndExists(String string, String string2) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void twoWorkersWithTheNamesAndExists(String worker1, String worker2) throws OperationNotAllowedException {
+		// Daniel
+		worker = new Worker(worker1);
+		app.addNewWorker(worker);
+		worker = new Worker(worker2);
+		app.addNewWorker(worker);
+		assertTrue(app.isWorkerInWorkerList(worker1) && app.isWorkerInWorkerList(worker2));
 	}
-	@When("{string} tries to assign {string} as project leader")
-	public void triesToAssignAsProjectLeader(String string, String string2) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@And("the worker {string} is logged in")
+	public void theWorkerIsLoggedIn(String worker) throws OperationNotAllowedException {
+		// Daniel
+		app.logIn(worker);
+		assertTrue(app.getLoggedInStatus());
 	}
-	@Then("{string} becomes the project leader")
-	public void becomesTheProjectLeader(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@And("a project with the number {int} exists in the application")
+	public void aProjectWithTheNumberExistsInTheApplication(Integer projectNumber) throws OperationNotAllowedException {
+		// Daniel
+		app.createProject("Very important project");
+		assertTrue(app.hasProjectWithNumber(projectNumber));
 	}
-
+	@When("{string} is assigned as project leader to the project with number {int}")
+	public void isAssignedAsProjectLeaderToTheProjectWithNumber(String worker, int projectNumber) throws OperationNotAllowedException {
+		// Daniel
+		app.setProjectLeader(projectNumber, worker);
+	}
+	@Then("{string} becomes the project leader of the project {int}")
+	public void becomesTheProjectLeaderOfTheProject(String leader, int projectNumber) throws OperationNotAllowedException {
+		// Daniel
+		String newProjectLeader = app.getProjectWithNumber(projectNumber).getProjectLeader().getInitials();
+		assertEquals(leader, newProjectLeader);
+	}
 	@When("the worker tries to create a new project with the number {int}")
 	public void theWorkerTriesToCreateANewProjectWithTheNumber(Integer projectNumber) {
 		// Daniel
@@ -99,11 +119,7 @@ public class StepDefinitions {
 	public void theWorkerIsNotLoggedIn() {
 		// Jonas
 		assertFalse(app.getLoggedInStatus(), "App logged in status is true");
-		try {
-			app.getLoggedInWorker();
-		} catch (OperationNotAllowedException e) {
-			errorMessageHolder.setErrorMessage(e.getMessage());
-		}
+		assertNull(app.getLoggedInWorker());
 	}
 
 	@Then("the new project {int} does not get created")
@@ -115,7 +131,6 @@ public class StepDefinitions {
 			errorMessageHolder.setErrorMessage(e.getMessage());
 		}
 	}
-
 	@Given("there is a worker with initials {string}")
 	public void thereIsAWorkerWithInitials(String initials) {
 		// Jonas
@@ -127,22 +142,15 @@ public class StepDefinitions {
 		// Jonas
 		app.addNewWorker(worker);
 	}
-	@Then("the worker is in the systems worker list")
-	public void isInTheSystemsWorkerList() {
-		// Jonas
-		assertTrue(app.isWorkerInWorkerList(worker.getInitials()));
-	}
-
-	@Then("the worker exist in systems worker List")
-	public void theWorkerExistInSystemsWorkerList() {
-		// Jonas
-		assertTrue(app.isWorkerInWorkerList(worker.getInitials()));
-	}
 
 	@And("the worker can login using his initial {string} to login")
-	public void theWorkerCanLoginUsingHisInitialToLogin(String initials) {
+	public void theWorkerCanLoginUsingHisInitialToLogin(String initials) throws OperationNotAllowedException {
 		// Jonas
-		app.logIn(initials);
+		try {
+			app.logIn(initials);
+		} catch (OperationNotAllowedException e){
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 	}
 
 	@And("systems has a logged in worker")
@@ -158,73 +166,23 @@ public class StepDefinitions {
 		assertEquals(worker, app.getLoggedInWorker());
 	}
 
-
 	@Given("a worker with the name {string} exists")
 	public void aWorkerWithTheNameJodlExists(String initials) throws OperationNotAllowedException {
 		// Jonas
 		this.worker = new Worker(initials);
 		app.addNewWorker(worker);
 	}
+	@Given("a worker with the name {string} dont exist")
+	public void aWorkerWithTheNameDontExist(String initials) {
+		//Jonas
+		this.worker = new Worker(initials);
+		assertFalse(app.isWorkerInWorkerList(worker.getInitials()));
+	}
 
 	@Given("{string} is logged in")
-	public void jodlIsLoggedIn(String initials) {
+	public void jodlIsLoggedIn(String initials) throws OperationNotAllowedException {
 		// Jonas
 		app.logIn(initials);
-	}
-
-	@Given("there is a project {string} with an activity {string}")
-	public void thereIsAProjectWithAnActivity(String string, String string2) throws OperationNotAllowedException {
-		// Gee
-		project = app.createProject(string);
-		activity = project.addActivity();
-	}
-
-	@When("the worker removes the activity named {string}")
-	public void theWorkerRemovesTheActivityNamed(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
-
-	@Then("the activity named {string} should not exist in the activity list of project “{int}”")
-	public void theActivityNamedShouldNotExistInTheActivityListOfProject(String string, Integer int1) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
-
-	@Given("the activity has a description of “Debugging software”")
-	public void theActivityHasADescriptionOfDebuggingSoftware() {
-		// Gee
-		activity.setDescription("Debugging software");
-	}
-
-	@When("the worker set the description of an activity of “Do not give up on life”")
-	public void theWorkerSetTheDescriptionOfAnActivityOfDoNotGiveUpOnLife() {
-		// Gee
-		activity.setDescription("Do not give up on life");
-	}
-
-	@Then("the description of the activity should be “Do not give up on life”") // NEED FIX dont hard code fix cucumber
-	public void theDescriptionOfTheActivityShouldBeDoNotGiveUpOnLife() {
-		// Gee
-		assertEquals("Do not give up on life",activity.description);
-	}
-
-	@Given("the activity has a budget time of {int}")
-	public void theActivityHasABudgetTimeOf(Integer int1) {
-		// Gee
-		activity.setBudgetTime(int1);
-	}
-
-	@When("the worker changes the budget time to {int}")
-	public void theWorkerChangesTheBudgetTimeTo(Integer int1) {
-		// Gee
-		activity.setBudgetTime(int1);
-	}
-
-	@Then("the budget time of the activity should be {int}")
-	public void theBudgetTimeOfTheActivityShouldBe(Integer int1) {
-		// Gee
-		assertEquals(int1, activity.budgetTime);
 	}
 
 	@Given("there is a worker with initials {string} logged in to the system")
@@ -240,6 +198,7 @@ public class StepDefinitions {
 		assertTrue(app.isWorkerInWorkerList(initials));
 	}
 
+	//calendar.feature
 	@Given("the date server is running")
 	public void the_date_server_is_running() {
 		// Gee
@@ -260,7 +219,7 @@ public class StepDefinitions {
 		assertEquals(expectedDate.getTime(), currentDate.getTime());
 	}
 
-	@Given("a worker with the initials {string} exist")
+	@Given("a worker with the initials {string} exists")
 	public void a_worker_with_the_initials_jodl_exists(String initials) throws OperationNotAllowedException {
 		// Gee
 		this.worker = new Worker(initials);
@@ -275,10 +234,10 @@ public class StepDefinitions {
 	}
 
 	@When("the worker creates a new Activity to the project.")
-	public void theWorkerCreatesANewActivityToTheProject() throws OperationNotAllowedException {
+	public void theWorkerCreatesANewActivityToTheProject() {
 		//Jonas
 		try {
-			this.activity = app.addActivityToProject(project.getProjectNumber());
+			this.activity = app.addActivityToProject(project);
 		} catch (OperationNotAllowedException e){
 			errorMessageHolder.setErrorMessage(e.getMessage());
 		}
@@ -316,6 +275,10 @@ public class StepDefinitions {
 		// Jonas
 		assertEquals(halfHours.getTime(), time);
 	}
+	@When("halfHours is ingrementes with {int} hours {int} minuts")
+	public void halfhoursIsIngrementesWithHoursMinuts(int hour, int min) {
+		halfHours.increment(hour, min);
+	}
 
 	//////////////////////////////////////////////////////////////
 	///// DANNY (for better overview during implementation) //////
@@ -339,8 +302,8 @@ public class StepDefinitions {
 		}
 	}
 
-	@Then("a worker with these initials exist in the system")
-	public void aWorkerWithTheseInitialsExistInTheSystem() { // why not use the method just below (@Then("an error message {string} is given"))??
+	@Then("a worker with these initials exists in the system")
+	public void aWorkerWithTheseInitialsExistInTheSystem() {
 		// Danny
 		assertTrue(app.isWorkerInWorkerList(worker.getInitials()));
 	}
@@ -354,57 +317,199 @@ public class StepDefinitions {
 	@Given("the project has activity {string} in its activity list")
 	public void theProjectHasActivityInItsActivityList(String activityId) throws OperationNotAllowedException {
 		// Danny
-		this.activity = app.addActivityToProject(project.getProjectNumber());
+		activity = app.addActivityToProject(project);
 
 		assertEquals(activityId, activity.getActivityId());
+		assertTrue(app.getProjectWithNumber(project.getProjectNumber()).getActivityList().contains(activity));
 	}
 
 	@Given("the worker has an activity {string} in his activity list")
-	public void theWorkerHasAnActivityInHisActivityList(String activityId) { // need to use the app
+	public void theWorkerHasAnActivityInHisActivityList(String activityId) {
 		// Danny
-		workerActivity = worker.addWorkerActivity(activity);
+		workerActivity = app.addActivityToWorker(worker, activity);
 
-		assertEquals(activityId, workerActivity.getWorkerActivity().getActivityId());
+		assertEquals(activityId, workerActivity.getActivity().getActivityId());
+		assertTrue(app.getWorkerList().get(app.getWorkerList().indexOf(worker)).getWorkerActivityList().contains(workerActivity));
 	}
 
 	@Given("the worker has worked for {int} hours and {int} minutes on the activity")
-	public void theWorkerHasWorkedForHoursAndMinutesOnTheActivity(int hours, int minutes) { //need to use the app
-		workerActivity.incrementWorkTime(hours, minutes);
+	public void theWorkerHasWorkedForHoursAndMinutesOnTheActivity(int hours, int minutes) throws OperationNotAllowedException {
+		// Danny
+		app.incrementWorkTime(worker, activity, hours, minutes);
 	}
 
 	@When("the worker increments his working hours to {int} hours and {int} minutes")
-	public void theWorkerIncrementsHisWorkingHoursToHoursAndMinutes(int hours, int minutes) { //need to use the app
-		workerActivity.incrementWorkTime(hours, minutes);
+	public void theWorkerIncrementsHisWorkingHoursToHoursAndMinutes(int hours, int minutes) throws OperationNotAllowedException {
+		// Danny
+		app.incrementWorkTime(worker, activity, hours, minutes);
 	}
 
 	@Then("the worker has spent {int} hours and {int} minutes on the activity")
-	public void theWorkerHasSpentHoursAndMinutesOnTheActivity(int hours, int minutes) { // need to use the app
+	public void theWorkerHasSpentHoursAndMinutesOnTheActivity(int hours, int minutes) {
 		// Danny
-		halfHours = new HalfHours(hours, minutes);
+		workerActivity.incrementWorkTime(hours, minutes);
+		int workerActivityIndex = app.getWorkerList().get(app.getWorkerList().indexOf(worker)).getWorkerActivityList().indexOf(workerActivity);
 
-		assertEquals(halfHours.getTime(), workerActivity.getWorkTime().getTime());
+		assertEquals(workerActivity.getWorkTime(), app.getWorkerList().get(app.getWorkerList().indexOf(worker)).getWorkerActivityList().get(workerActivityIndex).getWorkTime());
 	}
 
 	@Given("the worker has no activities in his activity list")
 	public void theWorkerHasNoActivitiesInHisActivityList(){
 		// Danny
-		assertTrue(worker.getWorkerActivityList().isEmpty());
+		assertTrue(app.getWorkerList().get(app.getWorkerList().indexOf(worker)).getWorkerActivityList().isEmpty());
 	}
 
-	@When("the worker tries to edit his working hours") // WHAT DOES THIS DO??
+	@When("the worker tries to edit his working hours")
 	public void theWorkerTriesToEditHisWorkingHours() {
 		// Danny
-		//worker.getWorkerActivityList().get(0).incrementWorkTime(halfHours);
-		assertTrue(false);
+		try {
+			app.incrementWorkTime(worker, activity, 1, 0);
+		} catch(OperationNotAllowedException e) {
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 	}
 
-    @When("halfHours is ingrementes with {int} hours {int} minuts")
-    public void halfhoursIsIngrementesWithHoursMinuts(int hour, int min) {
-		//Jonas
-		halfHours.increment(hour, min);
-    }
-
     //////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////
+
+	//access_hours_overview.feature
+
+	@Given("a project named {string} with an activity {string}")
+	public void a_project_named_with_an_activity(String string, String string2) {
+		//app.logIn("xxxx");
+		try {
+			project = app.createProject(string); //create project
+			activity = app.addActivityToProject(project); //add an activity
+			//activity.setID(string2);
+		} catch (OperationNotAllowedException e){
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
+	}
+
+	@Given("{string} worked for {int} hours on activity {string}")
+	public void worked_for_hours_on_activity(String string, Integer int1, String string2) throws OperationNotAllowedException {
+		app.addActivityToWorker(worker, activity);
+		app.incrementWorkTime(worker, activity, int1, 0);
+	}
+
+	@When("the worker access hours overview for activity {string}")
+	public void the_worker_access_hours_overview_for_activity(String string) {
+		this.result = app.hoursOverview(this.worker, string);
+	}
+
+	@Then("the worker should see {string}")
+	public void the_worker_should_see(String string) {
+		assertEquals(string, result);
+	}
+
+	//edit_activities.feature
+	@Given("the activity has a description of {string}")
+	public void the_activity_has_a_description_of(String string) {
+		app.setActivityDescription(activity, string);
+	}
+
+	@When("the worker set the description of an activity of {string}")
+	public void the_worker_set_the_description_of_an_activity_of(String string) {
+		app.setActivityDescription(activity, string);
+	}
+
+	@Then("the description of the activity should be {string}")
+	public void the_description_of_the_activity_should_be(String string) {
+		assertEquals(string, app.getActivityDescription(activity));
+	}
+
+	@Given("the activity has a budget time of {int} hours")
+	public void the_activity_has_a_budget_time_of_hours(Integer int1) {
+		app.setActivityBudgetTime(activity,new HalfHours(int1, 0));
+	}
+
+	@When("the worker changes the budget time to {int} hours")
+	public void the_worker_changes_the_budget_time_to_hours(Integer int1) {
+		app.setActivityBudgetTime(activity,new HalfHours(int1, 0));
+	}
+
+	@Then("the budget time of the activity should be {int} hours")
+	public void the_budget_time_of_the_activity_should_be_hours(Integer int1) {
+		assertEquals(new HalfHours(int1, 0).getTime(), app.getActivityBudgetTime(activity).getTime());
+	}
+	@And("a project with the number {int} and name {string} and leader {string} exists")
+	public void aProjectWithTheNumberAndNameAndLeaderExists(int projectNumber, String projectName, String projectLeader) throws OperationNotAllowedException {
+		// Daniel
+		app.createProject("Very important project",app.getWorkerWithInitials(projectLeader));
+		assertTrue(app.hasProjectWithNumber(projectNumber));
+		project = app.getProjectWithNumber(projectNumber);
+		String theAssignedLeader = project.getProjectLeader().getInitials();
+		assertEquals(projectLeader,theAssignedLeader);
+	}
+	@When("the project leader tries to mark the project as finished")
+	public void theProjectLeaderTriesToMarkTheProjectAsFinished() throws OperationNotAllowedException {
+		// Daniel
+		app.markProjectFinished(project);
+	}
+	@Then("the project is finished")
+	public void theProjectIsFinished() {
+		// Daniel
+		assertTrue(app.isProjectFinished(project));
+	}
+
+	@When("the non project leader tries to mark the project as finished")
+	public void theNonProjectLeaderTriesToMarkTheProjectAsFinished() throws OperationNotAllowedException {
+		// Daniel
+		try {
+			app.markProjectFinished(project);
+		} catch (OperationNotAllowedException e) {
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
+	}
+	@Given("it works")
+	public void itWorks() {
+		//Jonas
+		int x = dateHolder.dateServer.getDate().getWeeksInWeekYear();
+		int y = dateHolder.dateServer.getDate().getWeekYear();
+		int z = dateHolder.dateServer.getDate().get(Calendar.WEEK_OF_YEAR);
+//		System.out.println("current year: " + y);
+//		System.out.println("current week: " + z);
+//		System.out.println( x + " weeks in year " + y);
+		assertEquals(y, date.getCurrentYear(), "current year test");
+		assertEquals(x, date.getNumberOfWeeksInYear(y), "number of weeks in current year");
+		assertEquals(z, date.getCurrentWeek());
+	}
+
+	@Then("year {int} there is {int} weeks")
+	public void iYearThereIsWeeks(int year, int week) {
+		assertEquals(week, date.getNumberOfWeeksInYear(year), "number of weeks in current year");
+	}
+	@When("the project leader {string} assigns the worker {string} to the activity")
+	public void theProjectLeaderAssignsTheWorkerToTheActivity(String projectLeaderInitials, String workerInitials) throws OperationNotAllowedException {
+		// Daniel
+		app.setProjectLeader(project.getProjectNumber(),projectLeaderInitials);
+		app.addWorkerToActivity(project.getProjectNumber(),activity.getActivityId(),workerInitials);
+	}
+	@Then("the worker {string} is assigned to the activity")
+	public void theWorkerIsAssignedToTheActivity(String workerInitials) throws OperationNotAllowedException {
+		// Daniel
+		List<Worker> activityWorkerList = app.WorkersAssignedToActivity(project.getProjectNumber(),activity.getActivityId());
+		assertEquals(activityWorkerList.get(0).getInitials(), workerInitials);
+	}
+	@When("{string} assigns the worker {string} to the activity")
+	public void AssignsTheWorkerToTheActivity(String worker, String workerInitials) {
+		// Daniel
+		try {
+			app.addWorkerToActivity(project.getProjectNumber(),activity.getActivityId(), workerInitials);
+		} catch (OperationNotAllowedException e) {
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
+	}
+
+	@When("the activity is planned to start week {int} year {int} and end week {int} year {int}")
+	public void theActivityIsPlannedToStartWeekYearAndEndWeekYear(int week0, int year0, int week1, int year1) throws OperationNotAllowedException {
+		app.ActivityPlanStartAndEnd(project.getProjectNumber(), activity.getActivityId(), week0, week1, year0, year1);
+	}
+
+	@Then("the planned number of weeks is {int}")
+	public void thePlannedNumberOfWeeksIs(int weeks) {
+		assertEquals(weeks, activity.getBudgetWeeks());
+	}
+
 }
