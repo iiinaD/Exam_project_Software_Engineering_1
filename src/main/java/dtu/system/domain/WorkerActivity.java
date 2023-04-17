@@ -3,16 +3,12 @@ package dtu.system.domain;
 import java.util.Locale;
 
 public class WorkerActivity {
-     // Should not have a worker
-     private Worker worker;
-     private Activity activity;
+          private Activity activity;
      private HalfHours halfHours = new HalfHours();
 
-     public WorkerActivity(Worker worker, Activity activity) {
+     public WorkerActivity(Activity activity) {
           // Danny
           this.activity = activity;
-          this.worker = worker;
-          //activity.addWorkerActivity(this); //link WorkerActivity to that Activity
      }
 
      public void incrementWorkTime(int hours, int min) {
@@ -23,11 +19,6 @@ public class WorkerActivity {
      public Activity getActivity() {
           // Danny
           return activity;
-     }
-
-     public Worker getWorker(){
-          // Gee
-          return worker;
      }
 
      public HalfHours getWorkTime() {
