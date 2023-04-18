@@ -168,7 +168,7 @@ public class StepDefinitions {
 	}
 
 	@Given("a worker with the name {string} exists")
-	public void aWorkerWithTheNameJodlExists(String initials) throws OperationNotAllowedException {
+	public void aWorkerWithTheNameExists(String initials) throws OperationNotAllowedException {
 		// Jonas
 		this.worker = new Worker(initials);
 		app.addNewWorker(worker);
@@ -181,7 +181,7 @@ public class StepDefinitions {
 	}
 
 	@Given("{string} is logged in")
-	public void jodlIsLoggedIn(String initials) throws OperationNotAllowedException {
+	public void IsLoggedIn(String initials) throws OperationNotAllowedException {
 		// Jonas
 		app.logIn(initials);
 	}
@@ -221,7 +221,7 @@ public class StepDefinitions {
 	}
 
 	@Given("a worker with the initials {string} exists")
-	public void a_worker_with_the_initials_jodl_exists(String initials) throws OperationNotAllowedException {
+	public void a_worker_with_the_initials_exists(String initials) throws OperationNotAllowedException {
 		// Gee
 		this.worker = new Worker(initials);
 
