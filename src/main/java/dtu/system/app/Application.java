@@ -249,13 +249,15 @@ public class Application {
     }
 
     public WorkerActivity findWorkerActivity(Worker worker, String id){
+        // GEE
+        // this is the same as getWorkerActivityWorkerWorksOn() in app, no?
         List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
         for (WorkerActivity workerActivity: workerActivityList) {
             if (workerActivity.getActivity() != null && Objects.equals(workerActivity.getActivity().getActivityId(), id)){
                 return workerActivity;
             }
         }
-        return null;
+        return null; // missing test
     }
 
     public void markProjectFinished(Project project) throws OperationNotAllowedException {
@@ -293,7 +295,7 @@ public class Application {
         //Daniel
         Project project = getProjectWithNumber(projectNumber);
         if (!project.hasProjectLeader()) {
-            return false;
+            return false; // Missing test
         }
         String projectLeader = project.getProjectLeader().getInitials();
         return projectLeader.equals(initials);
