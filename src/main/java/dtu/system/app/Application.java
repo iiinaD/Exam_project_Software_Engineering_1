@@ -159,7 +159,6 @@ public class Application {
     public Activity addActivityToProject(Project project) throws OperationNotAllowedException {
         //Jonas
         loggedInTestError();
-
         return project.addActivity();
     }
 

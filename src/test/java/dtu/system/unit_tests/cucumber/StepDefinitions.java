@@ -550,7 +550,7 @@ public class StepDefinitions {
     }
 
 	@And("{string} has activity {string} in his activity list")
-	public void hasActivityInHisActivityList(String initials, String activity) {
-		app.getWorkerActivityWorkerWorksOn(initials, activity);
+	public void hasActivityInHisActivityList(String initials, String activity) throws OperationNotAllowedException {
+		assertEquals(app.getWorkerActivityWorkerWorksOn(initials, activity).getActivity(), app.getActivityFromProject(project.getProjectNumber(), activity));
 	}
 }

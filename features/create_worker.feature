@@ -12,3 +12,4 @@ Feature: Create worker
     Given a worker with the initials "jodl" exists
     When the worker creates a new worker using these initials
     Then an error message "A worker with these initials already exists in the system." is given
+
