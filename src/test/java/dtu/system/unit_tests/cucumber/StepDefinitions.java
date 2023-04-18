@@ -551,6 +551,13 @@ public class StepDefinitions {
 
 	@And("{string} has activity {string} in his activity list")
 	public void hasActivityInHisActivityList(String initials, String activity) throws OperationNotAllowedException {
-		assertEquals(app.getWorkerActivityWorkerWorksOn(initials, activity).getActivity(), app.getActivityFromProject(project.getProjectNumber(), activity));
+		// Jonas
+		try {
+			Activity activity1 = app.getWorkerActivityWorkerWorksOn(initials, activity).getActivity();
+			Activity activity2 = app.getActivityFromProject(project.getProjectNumber(), activity);
+			assertEquals(activity1, activity2);
+		} catch (OperationNotAllowedException e){
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 	}
 }

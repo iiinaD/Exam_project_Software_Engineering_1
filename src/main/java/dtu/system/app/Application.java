@@ -306,9 +306,13 @@ public class Application {
         return activity.getWorkerList();
     }
 
-    public WorkerActivity getWorkerActivityWorkerWorksOn(String initials, String activity) {
+    public WorkerActivity getWorkerActivityWorkerWorksOn(String initials, String activity) throws OperationNotAllowedException {
         //Jonas
         Worker worker = getWorkerWithInitials(initials);
-        return worker.getWorkerActivity(activity);
+        WorkerActivity workerActivity = worker.getWorkerActivity(activity);
+        if (workerActivity == null){
+            throw new OperationNotAllowedException(initials + " dont have activity: "+ activity + " in its workerActivityList");
+        }
+        return workerActivity;
     }
 }
