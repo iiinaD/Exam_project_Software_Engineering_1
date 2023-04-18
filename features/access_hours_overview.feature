@@ -21,3 +21,11 @@ Feature: Access hours overview
     23001-002	project 0	3,5 Hrs
 
     """
+  Scenario: Employee gets activity hours overview
+    When the worker access activity hours overview
+    Then the worker should see
+    """
+    23001-001	project 0
+    jodl	5,5 Hrs
+
+    """

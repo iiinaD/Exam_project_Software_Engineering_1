@@ -4,6 +4,7 @@ import dtu.system.domain.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Application {
@@ -158,7 +159,6 @@ public class Application {
     public Activity addActivityToProject(Project project) throws OperationNotAllowedException {
         //Jonas
         loggedInTestError();
-
         return project.addActivity();
     }
 
@@ -181,11 +181,19 @@ public class Application {
 
     public Activity getActivityFromProject(int projectNumber, String activityId) throws OperationNotAllowedException {
         // Jonas
-        return getProjectWithNumber(projectNumber).getActivity(activityId);
+        Activity activity = getProjectWithNumber(projectNumber).getActivity(activityId);
+        if (activity == null){
+            throw new OperationNotAllowedException(activityId + " dont exist");
+        }
+        return activity;
     }
 
     public void ActivityPlanStartAndEnd(int projectNumber, String activityId, int week0, int week1, int year0, int year1) throws OperationNotAllowedException {
-        getActivityFromProject(projectNumber, activityId).setStartEndWeekAndYears(week0, week1, year0, year1);
+        // Jonas
+        Activity a = getActivityFromProject(projectNumber, activityId);
+        if (a != null){
+            a.setStartEndWeekAndYears(week0, week1, year0, year1);
+        }
     }
 
     // Workers Activity's
@@ -214,6 +222,7 @@ public class Application {
     public  String hoursOverview(Worker worker){
         String output = "";
         List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
+        if(workerList.isEmpty()) return "This worker has no activity";
         for(WorkerActivity workerActivity : workerActivityList){
             output += workerActivity.prettyPrintData()+"\n";
         }
@@ -223,10 +232,12 @@ public class Application {
     public  String hoursOverview(Activity activity){
         String output = "";
         List<Worker> workerList = activity.getWorkerList();
+        if(workerList.isEmpty()) return "No workers in this activity";
+        output += String.format("%s\t%s\n", activity.getActivityId(), activity.getParentProject().getProjectName());
         for(Worker worker : workerList){
             for(WorkerActivity workerActivity: worker.getWorkerActivityList()){
                 if(workerActivity.getActivity().equals(activity)){
-                    output += workerActivity.prettyPrintData()+"\n";
+                    output += String.format(Locale.GERMANY,"%s\t%.1f Hrs\n", worker.getInitials(),workerActivity.getWorkTime().getTime());
                 }
             }
         }
@@ -235,16 +246,6 @@ public class Application {
     public String hoursOverview(WorkerActivity workerActivity){
         // Gee
         return workerActivity.prettyPrintData();
-    }
-
-    public WorkerActivity findWorkerActivity(Worker worker, String id){
-        List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
-        for (WorkerActivity workerActivity: workerActivityList) {
-            if (workerActivity.getActivity() != null && Objects.equals(workerActivity.getActivity().getActivityId(), id)){
-                return workerActivity;
-            }
-        }
-        return null;
     }
 
     public void markProjectFinished(Project project) throws OperationNotAllowedException {
@@ -282,7 +283,7 @@ public class Application {
         //Daniel
         Project project = getProjectWithNumber(projectNumber);
         if (!project.hasProjectLeader()) {
-            return false;
+            return false; // Missing test
         }
         String projectLeader = project.getProjectLeader().getInitials();
         return projectLeader.equals(initials);
@@ -295,9 +296,13 @@ public class Application {
         return activity.getWorkerList();
     }
 
-    public WorkerActivity getWorkerActivityWorkerWorksOn(String initials, String activity) {
+    public WorkerActivity findWorkerActivity(String initials, String activity) throws OperationNotAllowedException {
         //Jonas
         Worker worker = getWorkerWithInitials(initials);
-        return worker.getWorkerActivity(activity);
+        WorkerActivity workerActivity = worker.getWorkerActivity(activity);
+        if (workerActivity == null){
+            throw new OperationNotAllowedException(initials + " dont have activity: "+ activity + " in its workerActivityList");
+        }
+        return workerActivity;
     }
 }

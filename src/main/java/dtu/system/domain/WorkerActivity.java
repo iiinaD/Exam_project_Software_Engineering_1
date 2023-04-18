@@ -3,7 +3,7 @@ package dtu.system.domain;
 import java.util.Locale;
 
 public class WorkerActivity {
-          private Activity activity;
+     private Activity activity;
      private HalfHours halfHours = new HalfHours();
 
      public WorkerActivity(Activity activity) {

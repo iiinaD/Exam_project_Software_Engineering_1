@@ -47,3 +47,20 @@ Feature: Edit activities
     When the activity is planned to start week 20 year 2023 and end week 19 year 2025
     Then the planned number of weeks is 103
 
+  #Jonas
+  Scenario: An activity that dont exist, dont exist.
+    Given there is a worker with initials "jodl" logged in to the system
+    And a project named "project 0" with an activity "23001-001"
+    When the worker try to acces activity "23001-002"
+    Then an error message "23001-002 dont exist" is given
+
+  #Jonas
+  Scenario: A worker with an acticty in his workeractivity list, try to acces an activity that the worker dont have
+    Given there is a worker with initials "jodl" logged in to the system
+    And a worker with the initials "daha" exists
+    And a project named "project 0" with an activity "23001-001"
+    When the project leader "jodl" assigns the worker "daha" to the activity
+    Then the worker "daha" is assigned to the activity
+    And "daha" has activity "23001-002" in his activity list
+    Then an error message "daha dont have activity: 23001-002 in its workerActivityList" is given
+

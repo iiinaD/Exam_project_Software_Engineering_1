@@ -13,7 +13,6 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Given;
-import org.junit.Assert;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -33,7 +32,7 @@ public class StepDefinitions {
 	private DateServer date;
 	private Calendar currentDate;
 	private WorkerActivity workerActivity;
-	private String result;
+	private String string;
 	private MockDateHolder dateHolder;
 	private Activity activity2;
 
@@ -382,7 +381,9 @@ public class StepDefinitions {
 		try {
 			project = app.createProject(string); //create project
 			activity = app.addActivityToProject(project);
-			app.addActivityToWorker(worker, activity);
+			//app.addActivityToWorker(worker, activity);
+			app.setProjectLeader(project.getProjectNumber(), worker.getInitials());
+			app.addWorkerToActivity(project.getProjectNumber(), string2, worker.getInitials());
 
 		} catch (OperationNotAllowedException e){
 			errorMessageHolder.setErrorMessage(e.getMessage());
@@ -401,24 +402,29 @@ public class StepDefinitions {
 	@Given("{string} worked for {int} hours and {int} minutes on activity {string}")
 	public void workedForHoursAndMinutesOnActivity(String string, Integer int1, Integer int2, String string2) {
 		try {
-			app.incrementWorkTime(worker, app.findWorkerActivity(worker, string2).getActivity(), int1, int2);
+			app.incrementWorkTime(worker, app.findWorkerActivity(worker.getInitials(), string2).getActivity(), int1, int2);
 		} catch (OperationNotAllowedException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@When("the worker access hours overview for activity {string}")
-	public void the_worker_access_hours_overview_for_activity(String string) {
-		this.result = app.hoursOverview(app.findWorkerActivity(this.worker, string));
+	public void the_worker_access_hours_overview_for_activity(String string) throws OperationNotAllowedException {
+		this.string = app.hoursOverview(app.findWorkerActivity(worker.getInitials(), string));
 	}
 	@When("the worker access personal hours overview")
 	public void theWorkerAccessPersonalHoursOverview() {
-		this.result = app.hoursOverview(worker);
+		this.string = app.hoursOverview(worker);
+	}
+
+	@When("the worker access activity hours overview")
+	public void theWorkerAccessActivityHoursOverview() {
+		this.string = app.hoursOverview(activity);
 	}
 
 	@Then("the worker should see")
 	public void theWorkerShouldSee(String docString) {
-		assertEquals(docString, result);
+		assertEquals(docString, string);
 	}
 
 	//edit_activities.feature
@@ -532,14 +538,25 @@ public class StepDefinitions {
 		assertEquals(weeks, activity.getBudgetWeeks());
 	}
 
-    @When("the worker try to acces activity {string} it dont exist")
+    @When("the worker try to acces activity {string}")
     public void theWorkerTryToAccesActivityItDontExist(String activity) throws OperationNotAllowedException {
 		//Jonas
-		assertNull(app.getActivityFromProject(project.getProjectNumber(), activity));
+		try {
+			app.getActivityFromProject(project.getProjectNumber(), activity);
+		} catch (OperationNotAllowedException e){
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
     }
 
 	@And("{string} has activity {string} in his activity list")
-	public void hasActivityInHisActivityList(String initials, String activity) {
-		app.getWorkerActivityWorkerWorksOn(initials, activity);
+	public void hasActivityInHisActivityList(String initials, String activity) throws OperationNotAllowedException {
+		// Jonas
+		try {
+			Activity activity1 = app.findWorkerActivity(initials, activity).getActivity();
+			Activity activity2 = app.getActivityFromProject(project.getProjectNumber(), activity);
+			assertEquals(activity1, activity2);
+		} catch (OperationNotAllowedException e){
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 	}
 }
