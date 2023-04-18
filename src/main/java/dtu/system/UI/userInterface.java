@@ -2,10 +2,9 @@ package dtu.system.UI;
 
 import dtu.system.app.Application;
 import dtu.system.app.OperationNotAllowedException;
+import dtu.system.domain.Project;
 import dtu.system.domain.Worker;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class userInterface {
@@ -16,14 +15,16 @@ public class userInterface {
         boolean isExitChosen = false;
         while (!isExitChosen) {
             System.out.println();
-            printLoginMenu();
+            System.out.println("----- Login menu -----");
+            int numMenuItems = printLoginMenu();
             System.out.print("Please choose an item from the menu list\n> ");
-            int input = getIntInput(terminal,3,"The number has to correspond to one of the menu items.");
+            int input = getIntInput(terminal,numMenuItems,"The number has to correspond to one of the menu items.");
             if (input == 1) {
                 System.out.print("Please input your worker initials\n> ");
                 String initials = terminal.next();
                 try {
                     app.logIn(initials);
+                    System.out.println("Worker " + initials + " is now logged in");
                     // Load main menu
                     mainMenu(app, terminal);
                 } catch (OperationNotAllowedException e) {
@@ -35,7 +36,7 @@ public class userInterface {
                 try {
                     Worker newWorker = new Worker(initials);
                     app.addNewWorker(newWorker);
-                    System.out.println("The worker has been added\n");
+                    System.out.println("The worker " + initials + " has been added\n");
                 } catch (OperationNotAllowedException | IllegalArgumentException e) {
                     System.out.println(e.getMessage() + "\n");
                 }
@@ -50,9 +51,10 @@ public class userInterface {
         // Daniel
         while (app.getLoggedInStatus()) {
             System.out.println();
-            printMainMenu();
+            System.out.println("----- Main menu -----");
+            int numMenuItems = printMainMenu();
             System.out.print("Please choose an item from the menu list\n> ");
-            int input = getIntInput(terminal,4,"The number has to correspond to one of the menu items.");
+            int input = getIntInput(terminal,numMenuItems,"The number has to correspond to one of the menu items.");
             if (input == 1) {
                 System.out.print("Please input the name of the project\n> ");
                 String garbage = terminal.nextLine();
@@ -60,28 +62,58 @@ public class userInterface {
                 System.out.print("\nPlease input the initials of the project leader (if not yet known enter 1)\n> ");
                 String projectLeader = terminal.next();
                 try {
+                    Project createdProject;
                     if (projectLeader.equals("1")) {
-                        app.createProject(projectName);
+                        createdProject = app.createProject(projectName);
                     } else {
-                        app.createProject(projectName, app.getWorkerWithInitials(projectLeader));
+                        createdProject = app.createProject(projectName, app.getWorkerWithInitials(projectLeader));
                     }
-                    System.out.println("Project has been created");
+                    System.out.println("Project with number " + createdProject.getProjectNumber() + " has been created");
+
                 } catch (OperationNotAllowedException e) {
                     System.out.println(e.getMessage() + "\n");
                 }
             } else if (input == 2) {
-                System.out.println(app.getProjectList().get(0).getProjectNumber());
-                System.out.println(app.getProjectList().get(0).getProjectName());
-                System.out.println(app.getProjectList().get(0).getProjectLeader().getInitials());
+                System.out.print("Please input the id of the project\n> ");
+                int projectNumber = terminal.nextInt();
+                try {
+                    Project accessProject = app.getProjectWithNumber(projectNumber);
+                    System.out.println("Project has been created");
+                    projectMenu(app,terminal,accessProject);
+                } catch (OperationNotAllowedException e) {
+                    System.out.println(e.getMessage() + "\n");
+                }
             } else if (input == 3) {
-                
+
             } else if (input == 4) {
                 app.logOut();
                 System.out.println("Worker has been logged out");
             }
         }
-        return;
     }
+
+    private static void projectMenu(Application app, Scanner terminal, Project project) {
+        boolean returnToMainMenu = false;
+        while (!returnToMainMenu) {
+            System.out.println();
+            System.out.println("----- " + project.getProjectName() + " (" + project.getProjectNumber() + ")" + " -----");
+            int numMenuItems = printProjectMenu();
+            System.out.print("Please choose an item from the menu list\n> ");
+            int input = getIntInput(terminal,numMenuItems,"The number has to correspond to one of the menu items.");
+            if (input == 1) {
+
+            } else if (input == 2) {
+
+            } else if (input == 3) {
+
+            } else if (input == 4) {
+
+            } else if (input == 5) {
+                returnToMainMenu = true;
+            }
+        }
+    }
+
     public static int getIntInput(Scanner terminal,int numberOfMenuItems,String message) {
         // Daniel
         // Check for a valid number
@@ -102,26 +134,30 @@ public class userInterface {
         System.out.println();
         return choice;
     }
-    public static void printLoginMenu() {
+    public static int printLoginMenu() {
         // Daniel
         System.out.println("1. Log in");
         System.out.println("2. Add new worker");
         System.out.println("3. Exit program");
+        return 3;
     }
-    public static void printMainMenu() {
+    public static int printMainMenu() {
         // Daniel
         System.out.println("1. Create a project");
         System.out.println("2. Access a project");
         System.out.println("3. Register working hours");
-        System.out.println("4. Logout");
+        System.out.println("4. Logout and return to login screen");
+        return 4;
     }
 
-    public static void printProjectMenu() {
+    public static int printProjectMenu() {
         // Daniel
         System.out.println("1. Edit project");
         System.out.println("2. Add an activity");
         System.out.println("3. Access an acivity");
-        System.out.println();
+        System.out.println("4. Print project info");
+        System.out.println("5. Return to main menu");
+        return 5;
     }
 
     public static void printActivityMenu() {
