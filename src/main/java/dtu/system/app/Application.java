@@ -248,18 +248,6 @@ public class Application {
         return workerActivity.prettyPrintData();
     }
 
-    public WorkerActivity findWorkerActivity(Worker worker, String id){
-        // GEE
-        // this is the same as getWorkerActivityWorkerWorksOn() in app, no?
-        List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
-        for (WorkerActivity workerActivity: workerActivityList) {
-            if (workerActivity.getActivity() != null && Objects.equals(workerActivity.getActivity().getActivityId(), id)){
-                return workerActivity;
-            }
-        }
-        return null; // missing test
-    }
-
     public void markProjectFinished(Project project) throws OperationNotAllowedException {
         // Daniel
         if (project.getProjectLeader().equals(loggedInWorker)) {
@@ -308,7 +296,7 @@ public class Application {
         return activity.getWorkerList();
     }
 
-    public WorkerActivity getWorkerActivityWorkerWorksOn(String initials, String activity) throws OperationNotAllowedException {
+    public WorkerActivity findWorkerActivity(String initials, String activity) throws OperationNotAllowedException {
         //Jonas
         Worker worker = getWorkerWithInitials(initials);
         WorkerActivity workerActivity = worker.getWorkerActivity(activity);
