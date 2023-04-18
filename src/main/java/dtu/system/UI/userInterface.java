@@ -15,11 +15,12 @@ public class userInterface {
         Scanner terminal = new Scanner(System.in);
         boolean isExitChosen = false;
         while (!isExitChosen) {
+            System.out.println();
             printLoginMenu();
-            System.out.print("Please choose an item from the menu list: ");
+            System.out.print("Please choose an item from the menu list\n> ");
             int input = getIntInput(terminal,3,"The number has to correspond to one of the menu items.");
             if (input == 1) {
-                System.out.print("Please input your worker initials: ");
+                System.out.print("Please input your worker initials\n> ");
                 String initials = terminal.next();
                 try {
                     app.logIn(initials);
@@ -29,13 +30,13 @@ public class userInterface {
                     System.out.println(e.getMessage() + "\n");
                 }
             } else if (input == 2) {
-                System.out.print("Please input the worker's initials: ");
+                System.out.print("Please input the worker's initials\n> ");
                 String initials = terminal.next();
                 try {
                     Worker newWorker = new Worker(initials);
                     app.addNewWorker(newWorker);
                     System.out.println("The worker has been added\n");
-                } catch (OperationNotAllowedException e) {
+                } catch (OperationNotAllowedException | IllegalArgumentException e) {
                     System.out.println(e.getMessage() + "\n");
                 }
 
@@ -48,28 +49,35 @@ public class userInterface {
     public static void mainMenu(Application app, Scanner terminal) {
         // Daniel
         while (app.getLoggedInStatus()) {
+            System.out.println();
             printMainMenu();
-            System.out.print("Please choose an item from the menu list: ");
+            System.out.print("Please choose an item from the menu list\n> ");
             int input = getIntInput(terminal,4,"The number has to correspond to one of the menu items.");
             if (input == 1) {
-                System.out.print("Please input the name of the project: ");
-                String projectName = terminal.next();
-                System.out.print("\nPlease input the initials of the project leader (if not yet known leave empty): ");
+                System.out.print("Please input the name of the project\n> ");
+                String garbage = terminal.nextLine();
+                String projectName = terminal.nextLine();
+                System.out.print("\nPlease input the initials of the project leader (if not yet known enter 1)\n> ");
                 String projectLeader = terminal.next();
                 try {
-                    if (projectLeader.isEmpty()) {
+                    if (projectLeader.equals("1")) {
                         app.createProject(projectName);
+                    } else {
+                        app.createProject(projectName, app.getWorkerWithInitials(projectLeader));
                     }
-                    app.createProject(projectName,app.getWorkerWithInitials(projectLeader));
+                    System.out.println("Project has been created");
                 } catch (OperationNotAllowedException e) {
                     System.out.println(e.getMessage() + "\n");
                 }
             } else if (input == 2) {
-
+                System.out.println(app.getProjectList().get(0).getProjectNumber());
+                System.out.println(app.getProjectList().get(0).getProjectName());
+                System.out.println(app.getProjectList().get(0).getProjectLeader().getInitials());
             } else if (input == 3) {
-
+                
             } else if (input == 4) {
-
+                app.logOut();
+                System.out.println("Worker has been logged out");
             }
         }
         return;
