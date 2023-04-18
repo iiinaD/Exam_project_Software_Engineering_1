@@ -47,3 +47,10 @@ Feature: Edit activities
     When the activity is planned to start week 20 year 2023 and end week 19 year 2025
     Then the planned number of weeks is 103
 
+  #Jonas
+  Scenario: An activity that dont exist, dont exist.
+    Given there is a worker with initials "jodl" logged in to the system
+    And a project named "project 0" with an activity "23001-001"
+    When the worker try to acces activity "23001-002"
+    Then an error message "23001-002 dont exist" is given
+

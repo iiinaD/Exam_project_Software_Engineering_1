@@ -182,11 +182,19 @@ public class Application {
 
     public Activity getActivityFromProject(int projectNumber, String activityId) throws OperationNotAllowedException {
         // Jonas
-        return getProjectWithNumber(projectNumber).getActivity(activityId);
+        Activity activity = getProjectWithNumber(projectNumber).getActivity(activityId);
+        if (activity == null){
+            throw new OperationNotAllowedException(activityId + " dont exist");
+        }
+        return activity;
     }
 
     public void ActivityPlanStartAndEnd(int projectNumber, String activityId, int week0, int week1, int year0, int year1) throws OperationNotAllowedException {
-        getActivityFromProject(projectNumber, activityId).setStartEndWeekAndYears(week0, week1, year0, year1);
+        // Jonas
+        Activity a = getActivityFromProject(projectNumber, activityId);
+        if (a != null){
+            a.setStartEndWeekAndYears(week0, week1, year0, year1);
+        }
     }
 
     // Workers Activity's

@@ -539,10 +539,14 @@ public class StepDefinitions {
 		assertEquals(weeks, activity.getBudgetWeeks());
 	}
 
-    @When("the worker try to acces activity {string} it dont exist")
+    @When("the worker try to acces activity {string}")
     public void theWorkerTryToAccesActivityItDontExist(String activity) throws OperationNotAllowedException {
 		//Jonas
-		assertNull(app.getActivityFromProject(project.getProjectNumber(), activity));
+		try {
+			app.getActivityFromProject(project.getProjectNumber(), activity);
+		} catch (OperationNotAllowedException e){
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
     }
 
 	@And("{string} has activity {string} in his activity list")
