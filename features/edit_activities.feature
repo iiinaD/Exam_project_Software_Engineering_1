@@ -36,7 +36,7 @@ Feature: Edit activities
     Given there is a worker with initials "jodl" logged in to the system
     And a worker with the initials "daha" exists
     And a project named "project 0" with an activity "23001-001"
-    When "jodl" assigns the worker "daha" to the activity
+    When "daha" assigns the worker "daha" to the activity
     Then an error message "Only project leaders can assign workers to activities" is given
 
   #Jonas

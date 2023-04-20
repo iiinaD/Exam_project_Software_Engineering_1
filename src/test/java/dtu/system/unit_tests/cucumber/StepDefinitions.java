@@ -91,7 +91,11 @@ public class StepDefinitions {
 	@When("{string} is assigned as project leader to the project with number {int}")
 	public void isAssignedAsProjectLeaderToTheProjectWithNumber(String worker, int projectNumber) throws OperationNotAllowedException {
 		// Daniel
-		app.setProjectLeader(projectNumber, worker);
+		try {
+			app.setProjectLeader(projectNumber, worker);
+		} catch (OperationNotAllowedException e) {
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 	}
 	@Then("{string} becomes the project leader of the project {int}")
 	public void becomesTheProjectLeaderOfTheProject(String leader, int projectNumber) throws OperationNotAllowedException {
@@ -168,7 +172,7 @@ public class StepDefinitions {
 	}
 
 	@Given("a worker with the name {string} exists")
-	public void aWorkerWithTheNameJodlExists(String initials) throws OperationNotAllowedException {
+	public void aWorkerWithTheNameExists(String initials) throws OperationNotAllowedException {
 		// Jonas
 		this.worker = new Worker(initials);
 		app.addNewWorker(worker);
@@ -181,7 +185,7 @@ public class StepDefinitions {
 	}
 
 	@Given("{string} is logged in")
-	public void jodlIsLoggedIn(String initials) throws OperationNotAllowedException {
+	public void IsLoggedIn(String initials) throws OperationNotAllowedException {
 		// Jonas
 		app.logIn(initials);
 	}
@@ -221,7 +225,7 @@ public class StepDefinitions {
 	}
 
 	@Given("a worker with the initials {string} exists")
-	public void a_worker_with_the_initials_jodl_exists(String initials) throws OperationNotAllowedException {
+	public void a_worker_with_the_initials_exists(String initials) throws OperationNotAllowedException {
 		// Gee
 		this.worker = new Worker(initials);
 
@@ -382,7 +386,7 @@ public class StepDefinitions {
 			project = app.createProject(string); //create project
 			activity = app.addActivityToProject(project);
 			//app.addActivityToWorker(worker, activity);
-			app.setProjectLeader(project.getProjectNumber(), worker.getInitials());
+			app.setProjectLeader(project.getProjectNumber(), app.getLoggedInWorker().getInitials());
 			app.addWorkerToActivity(project.getProjectNumber(), string2, worker.getInitials());
 
 		} catch (OperationNotAllowedException e){
@@ -517,8 +521,10 @@ public class StepDefinitions {
 		assertEquals(activityWorkerList.get(0).getInitials(), workerInitials);
 	}
 	@When("{string} assigns the worker {string} to the activity")
-	public void AssignsTheWorkerToTheActivity(String worker, String workerInitials) {
+	public void AssignsTheWorkerToTheActivity(String worker, String workerInitials) throws OperationNotAllowedException {
 		// Daniel
+		app.logOut();
+		app.logIn(worker);
 		try {
 			app.addWorkerToActivity(project.getProjectNumber(),activity.getActivityId(), workerInitials);
 		} catch (OperationNotAllowedException e) {
