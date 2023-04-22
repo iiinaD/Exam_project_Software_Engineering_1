@@ -10,10 +10,8 @@ public class Activity {
     private String id;
     private String description;
     private HalfHours budgetTime;
-    private int startWeek;
-    private int endWeek;
-    private int startYear;
-    private int endYear;
+    private Date startDate;
+    private Date endDate;
     private Project parentProject;
     private ArrayList<Worker> workerList = new ArrayList<>();
     private int budgetWeeks;
@@ -33,26 +31,18 @@ public class Activity {
 
     public void setStartEndWeekAndYears(int startWeek, int endWeek, int startYear, int endYear){
         //Jonas
-        this.startWeek = startWeek;
-        this.startYear = startYear;
-        this.endWeek = endWeek;
-        this.endYear = endYear;
+        this.startDate = new Date(startWeek, startYear);
+        this.endDate = new Date(endWeek, endYear);
         calculateBudgetWeek();
     }
 
     public void calculateBudgetWeek() {
         //Jonas
-        this.budgetWeeks = calculateWeeksToStartWeek(endWeek, startYear);
-    }
-
-    private int calculateWeeksToStartWeek(int endWeek, int startYear){
-        // Jonas
-        int weeksInYear = 52;
-        int years = (endYear - startYear)*weeksInYear;
-        return endWeek - startWeek + years;
+        this.budgetWeeks = startDate.calculateWeeksToStartWeek(endDate);
     }
 
     public int getBudgetWeeks() {
+        // Jonas
         return budgetWeeks;
     }
 
@@ -89,7 +79,7 @@ public class Activity {
 
     public boolean isInGivenWeekAndYear(int week, int year) {
         // Jonas
-        int weeks = calculateWeeksToStartWeek(week, year);
+        int weeks = startDate.calculateWeeksToStartWeek(new Date(week, year));
         if (weeks >= 0 && weeks <= budgetWeeks){
             return true;
         }
@@ -98,17 +88,12 @@ public class Activity {
 
     public String getStartDate() {
         // Jonas
-        return stringOfDate(startWeek, endYear);
+        return startDate.stringOfDate();
     }
 
     public String getEndDate() {
         // Jonas
-        return stringOfDate(endWeek, endYear);
-    }
-
-    private String stringOfDate(int week, int year){
-        // Jonas
-        return "Week " + week + " of " + year;
+        return endDate.stringOfDate();
     }
 
     public HalfHours getBudgetTime() {
