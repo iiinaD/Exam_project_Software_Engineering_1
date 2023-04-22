@@ -1,25 +1,19 @@
 package dtu.system.domain;
 
-import dtu.system.app.DateServer;
-
 import java.util.ArrayList;
 
-import java.util.Calendar;
 import java.util.List;
-
 
 public class Activity {
 
-    public String id;
-    public String name;
-    public String description;
-    public HalfHours budgetTime;
-    public int startWeek;
-    public int endWeek;
-    public int startYear;
-    public int endYear;
-    public Project parentProject;
-    private ArrayList<Worker> WorkerList = new ArrayList<>();
+    private String id;
+    private String name;
+    private String description;
+    private HalfHours budgetTime;
+    private Date startDate;
+    private Date endDate;
+    private Project parentProject;
+    private ArrayList<Worker> workerList = new ArrayList<>();
     private int budgetWeeks;
 
     public Activity(String id, Project parentProject){
@@ -45,18 +39,14 @@ public class Activity {
 
     public void setStartEndWeekAndYears(int startWeek, int endWeek, int startYear, int endYear){
         //Jonas
-        this.startWeek = startWeek;
-        this.startYear = startYear;
-        this.endWeek = endWeek;
-        this.endYear = endYear;
+        this.startDate = new Date(startWeek, startYear);
+        this.endDate = new Date(endWeek, endYear);
         calculateBudgetWeek();
     }
 
-    private void calculateBudgetWeek() {
+    public void calculateBudgetWeek() {
         //Jonas
-        int weeksInYear = 52;
-        int years = (endYear - startYear)*weeksInYear;
-        this.budgetWeeks = endWeek - startWeek + years;
+        this.budgetWeeks = startDate.calculateWeeksToStartWeek(endDate);
     }
 
     public void addWorker(Worker worker){
@@ -65,6 +55,7 @@ public class Activity {
     }
 
     public int getBudgetWeeks() {
+        // Jonas
         return budgetWeeks;
     }
 
@@ -78,20 +69,57 @@ public class Activity {
         return parentProject;
     }
 
+    public void addWorker(Worker worker){
+        // Daniel
+        workerList.add(worker);
+    }
+    
     public List<Worker> getWorkerList() {
         // Daniel
-        return WorkerList;
+        return workerList;
     }
 
+    public Boolean isWorkerAssigned(String initials) {
+        //Jonas
+        for (Worker worker : workerList){
+            if (worker.getInitials().equals(initials)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean isInGivenWeekAndYear(int week, int year) {
+        // Jonas
+        int weeks = startDate.calculateWeeksToStartWeek(new Date(week, year));
+        if (weeks >= 0 && weeks <= budgetWeeks){
+            return true;
+        }
+        return false;
+    }
+
+    public String getStartDate() {
+        // Jonas
+        return startDate.stringOfDate();
+    }
+
+    public String getEndDate() {
+        // Jonas
+        return endDate.stringOfDate();
+    }
+
+    public HalfHours getBudgetTime() {
+        // Jonas
+        return budgetTime;
+    }
+    
     public String getActivityName()
     {
         // Danny
         return name;
     }
 
-    public String getActivityDescription()
-    {
-        // Danny
-        return description;
+    public String getDescription() {
+        // Jonas
     }
 }

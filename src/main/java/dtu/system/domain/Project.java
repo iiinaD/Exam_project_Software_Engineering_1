@@ -90,9 +90,9 @@ public class Project {
 
     public Activity getActivity(String activityId) {
         //Jonas
-        for (Activity i : activities){
-            if (i.id.equals(activityId)){
-                return i;
+        for (Activity activity : activities){
+            if (activity.getActivityId().equals(activityId)){
+                return activity;
             }
         }
         return null;

@@ -14,6 +14,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Given;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -35,6 +36,9 @@ public class StepDefinitions {
 	private String string;
 	private MockDateHolder dateHolder;
 	private Activity activity2;
+	private ArrayList<Activity> activityList = new ArrayList<>();
+	private int week;
+	private int year;
 
 
 	public StepDefinitions(Application app, ErrorMessageHolder errorMessage, MockDateHolder date) {
@@ -580,5 +584,44 @@ public class StepDefinitions {
 		} catch (OperationNotAllowedException e){
 			errorMessageHolder.setErrorMessage(e.getMessage());
 		}
+	}
+
+    @And("{int} gets a new activity {string}")
+    public void getsANewActivity(int projectNumber, String activityId) throws OperationNotAllowedException {
+		// Jonas
+		this.project = app.getProjectWithNumber(projectNumber);
+		project.addActivity();
+		this.activity = app.getActivityFromProject(projectNumber, activityId);
+		assertEquals(activity.getActivityId(), activityId);
+    }
+
+	@And("{string} is added to {string}")
+	public void isAddedTo(String initials, String activityId) throws OperationNotAllowedException {
+		// Jonas
+		int projectNumber = Integer.valueOf(activityId.substring(0,5));
+		app.addWorkerToActivity(projectNumber, activityId, initials);
+		assertTrue(app.getActivityFromProject(projectNumber, activityId).isWorkerAssigned(initials));
+	}
+
+	@When("a worker want to know which workers work in week {int} year {int}")
+	public void aWorkerWantToKnowWhichWorkersWorkInWeekYear(int week, int year) {
+		// Jonas
+		this.week = week;
+		this.year = year;
+		this.activityList = app.activitiesInWeekAndYear(week,year);
+	}
+
+	@Then("a activityList will have length {int}")
+	public void aActivityListWillHaveLength(int length) {
+		// Jonas
+		assertEquals(activityList.size(), length);
+	}
+
+	@When("the worker wants to view which workers are assigned the activity's a string is given")
+	public void theWorkerWantsToViewWhichWorksAreAssignedTheAnticipatesAStringIsGiven() {
+		// Jonas
+		String print = app.timeSchedule(week, year);
+		assertNotNull(print);
+		//System.out.println(print);
 	}
 }
