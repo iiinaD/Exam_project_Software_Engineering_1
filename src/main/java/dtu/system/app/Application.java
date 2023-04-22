@@ -170,6 +170,13 @@ public class Application {
         return project.addActivity();
     }
 
+    public Activity addActivityToProjectWithNameAndDescription(Project project, String activityName, String activityDescription) throws OperationNotAllowedException {
+        // Danny
+        loggedInTestError();
+
+        return project.addActivityWithNameAndDescription(activityName, activityDescription);
+    }
+
     public void setActivityBudgetTime(Activity activity, HalfHours halfHours){
         //Gee
         activity.setBudgetTime(halfHours);

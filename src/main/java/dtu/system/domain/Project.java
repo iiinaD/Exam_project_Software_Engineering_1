@@ -48,6 +48,16 @@ public class Project {
         return act;
     }
 
+    public Activity addActivityWithNameAndDescription(String activityName, String activityDescription){
+        // Danny
+        Activity activity = new Activity(projectNumber + "-" + String.valueOf(1000 + activityCounter).substring(1), activityName, activityDescription, this);
+
+        activities.add(activity);
+        activityCounter++;
+
+        return activity;
+    }
+
     public ArrayList<Activity> getActivityList(){
         // Gee
         return activities;

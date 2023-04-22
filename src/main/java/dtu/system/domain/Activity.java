@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-
 public class Activity {
 
     private String id;
+    private String name;
     private String description;
     private HalfHours budgetTime;
     private Date startDate;
@@ -18,6 +18,14 @@ public class Activity {
 
     public Activity(String id, Project parentProject){
         this.id = id;
+        this.parentProject = parentProject;
+    }
+
+    public Activity(String id, String name, String description, Project parentProject) {
+        // Danny
+        this.id = id;
+        this.name = name;
+        this.description = description;
         this.parentProject = parentProject;
     }
 
@@ -41,6 +49,11 @@ public class Activity {
         this.budgetWeeks = startDate.calculateWeeksToStartWeek(endDate);
     }
 
+    public void addWorker(Worker worker){
+        // Daniel
+        WorkerList.add(worker);
+    }
+
     public int getBudgetWeeks() {
         // Jonas
         return budgetWeeks;
@@ -56,12 +69,11 @@ public class Activity {
         return parentProject;
     }
 
-
     public void addWorker(Worker worker){
         // Daniel
         workerList.add(worker);
     }
-
+    
     public List<Worker> getWorkerList() {
         // Daniel
         return workerList;
@@ -76,7 +88,7 @@ public class Activity {
         }
         return false;
     }
-
+    
     public boolean isInGivenWeekAndYear(int week, int year) {
         // Jonas
         int weeks = startDate.calculateWeeksToStartWeek(new Date(week, year));
@@ -100,9 +112,14 @@ public class Activity {
         // Jonas
         return budgetTime;
     }
+    
+    public String getActivityName()
+    {
+        // Danny
+        return name;
+    }
 
     public String getDescription() {
         // Jonas
-        return description;
     }
 }

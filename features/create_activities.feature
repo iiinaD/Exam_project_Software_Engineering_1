@@ -17,3 +17,12 @@ Actor: Worker
     And the project has an empty activity list
     When the worker creates a new Activity to the project.
     Then an error message "You must be logged in to access this feature. Please log in and try again." is given
+
+  #Danny
+  Scenario: Worker creates a new activity with a given name and description
+    Given there is a worker with initials "jodl" logged in to the system
+    And there is a project 23001 in the system
+    And the project has an empty activity list
+    When the worker creates a new activity with the name "Testing" and the description "Do testing here, there and everywhere."
+    Then the project has activity "23001-001" in its activity list with the given name and description
+
