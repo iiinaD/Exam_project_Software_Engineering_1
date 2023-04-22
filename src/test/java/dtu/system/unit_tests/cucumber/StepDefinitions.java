@@ -599,6 +599,7 @@ public class StepDefinitions {
 	public void theWorkerWantsToViewWhichWorksAreAssignedTheAnticipatesAStringIsGiven() {
 		// Jonas
 		String print = app.timeSchedule(week, year);
-		System.out.println(print);
+		assertNotNull(print);
+		//System.out.println(print);
 	}
 }
