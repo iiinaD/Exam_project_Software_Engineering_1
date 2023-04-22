@@ -92,6 +92,10 @@ public class Project {
         // Daniel
         return projectLeader != null;
     }
+
+    public String overview(){
+        return null;
+    }
 }
 
 
