@@ -68,11 +68,6 @@ public class Activity {
         // Gee
         return parentProject;
     }
-
-    public void addWorker(Worker worker){
-        // Daniel
-        workerList.add(worker);
-    }
     
     public List<Worker> getWorkerList() {
         // Daniel
