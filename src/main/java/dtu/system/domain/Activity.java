@@ -51,7 +51,7 @@ public class Activity {
 
     public void addWorker(Worker worker){
         // Daniel
-        WorkerList.add(worker);
+        workerList.add(worker);
     }
 
     public int getBudgetWeeks() {
@@ -116,5 +116,6 @@ public class Activity {
 
     public String getDescription() {
         // Jonas
+        return description;
     }
 }
