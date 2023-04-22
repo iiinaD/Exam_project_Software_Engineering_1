@@ -170,6 +170,13 @@ public class Application {
         return project.addActivity();
     }
 
+    public Activity addActivityToProjectWithNameAndDescription(Project project, String activityName, String activityDescription) throws OperationNotAllowedException {
+        // Danny
+        loggedInTestError();
+
+        return project.addActivityWithNameAndDescription(activityName, activityDescription);
+    }
+
     public void setActivityBudgetTime(Activity activity, HalfHours halfHours){
         //Gee
         activity.setBudgetTime(halfHours);
@@ -339,9 +346,7 @@ public class Application {
             for (Activity activity : activityList){
                 if (activity.isWorkerAssigned(worker.getInitials())){
                     foundOne = true;
-                    print += "\t" + activity.getActivityId() + "\n";
-                    print += "\t\t Start date: " + activity.getStartDate() + "\n";
-                    print += "\t\t End date  : " + activity.getEndDate() + "\n";
+                    print += activity.overview(false);
                 }
             }
             if (!foundOne){
