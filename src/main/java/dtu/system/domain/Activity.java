@@ -118,4 +118,35 @@ public class Activity {
         // Jonas
         return description;
     }
+
+    public String overview(Boolean includeWorkerList){
+        // Jonas
+        String print = "";
+        print += "\t activity: " + id + "\n";
+        if (name != null){
+            print += "\t\t name: \n";
+            print += "\t\t\t " + name + "\n";
+        }
+        if (startDate != null && endDate != null) {
+            print += "\t\t Scheduled: \n";
+            print += "\t\t\t Start date: " + getStartDate() + "\n";
+            print += "\t\t\t   End date: " + getEndDate() + "\n";
+            print += "\t\t\t Total number of weeks: " + budgetWeeks + "\n";
+        }
+        if (budgetTime != null){
+            print += "\t\t Budget Time: \n";
+            print += "\t\t\t " + budgetTime + "\n";
+        }
+        if (includeWorkerList){
+            print += "\t\t Worker assigned to activity: \n";
+            for (Worker worker : workerList){
+                print += "\t\t\t " + worker.getInitials() + "\n";
+            }
+            if (workerList.isEmpty()){
+                print += "\t\t\t <empty> \n";
+            }
+        }
+
+        return print;
+    }
 }

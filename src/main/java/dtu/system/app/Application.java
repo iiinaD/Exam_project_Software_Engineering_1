@@ -346,9 +346,7 @@ public class Application {
             for (Activity activity : activityList){
                 if (activity.isWorkerAssigned(worker.getInitials())){
                     foundOne = true;
-                    print += "\t" + activity.getActivityId() + "\n";
-                    print += "\t\t Start date: " + activity.getStartDate() + "\n";
-                    print += "\t\t End date  : " + activity.getEndDate() + "\n";
+                    print += activity.overview(false);
                 }
             }
             if (!foundOne){
