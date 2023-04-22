@@ -95,7 +95,11 @@ public class StepDefinitions {
 	@When("{string} is assigned as project leader to the project with number {int}")
 	public void isAssignedAsProjectLeaderToTheProjectWithNumber(String worker, int projectNumber) throws OperationNotAllowedException {
 		// Daniel
-		app.setProjectLeader(projectNumber, worker);
+		try {
+			app.setProjectLeader(projectNumber, worker);
+		} catch (OperationNotAllowedException e) {
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 	}
 	@Then("{string} becomes the project leader of the project {int}")
 	public void becomesTheProjectLeaderOfTheProject(String leader, int projectNumber) throws OperationNotAllowedException {
@@ -386,7 +390,7 @@ public class StepDefinitions {
 			project = app.createProject(string); //create project
 			activity = app.addActivityToProject(project);
 			//app.addActivityToWorker(worker, activity);
-			app.setProjectLeader(project.getProjectNumber(), worker.getInitials());
+			app.setProjectLeader(project.getProjectNumber(), app.getLoggedInWorker().getInitials());
 			app.addWorkerToActivity(project.getProjectNumber(), string2, worker.getInitials());
 
 		} catch (OperationNotAllowedException e){
@@ -521,8 +525,10 @@ public class StepDefinitions {
 		assertEquals(activityWorkerList.get(0).getInitials(), workerInitials);
 	}
 	@When("{string} assigns the worker {string} to the activity")
-	public void AssignsTheWorkerToTheActivity(String worker, String workerInitials) {
+	public void AssignsTheWorkerToTheActivity(String worker, String workerInitials) throws OperationNotAllowedException {
 		// Daniel
+		app.logOut();
+		app.logIn(worker);
 		try {
 			app.addWorkerToActivity(project.getProjectNumber(),activity.getActivityId(), workerInitials);
 		} catch (OperationNotAllowedException e) {

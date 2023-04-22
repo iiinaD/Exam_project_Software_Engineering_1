@@ -40,14 +40,14 @@ public class Application {
         return workerList;
     }
 
-    public Worker getWorkerWithInitials(String workerInitials) {
+    public Worker getWorkerWithInitials(String workerInitials) throws OperationNotAllowedException {
         // Daniel
         for (Worker worker : workerList) {
             if (workerInitials.equals(worker.getInitials())) {
                 return worker;
             }
         }
-        return null; //mangler test
+        throw new OperationNotAllowedException("No worker with the initials " + workerInitials + " exists in the system");
     }
 
     // Login logOut related
@@ -129,7 +129,7 @@ public class Application {
             }
         }
         // mangler test
-        throw new OperationNotAllowedException("project " + projectNumber + " doesn't exist");
+        throw new OperationNotAllowedException("No project with the id " + projectNumber + " exists in the system");
     }
 
     public boolean hasProjectWithNumber(int projectNumber) {
@@ -146,13 +146,21 @@ public class Application {
         // Daniel
         Project project = getProjectWithNumber(projectNumber);
         project.setProjectName(newProjectName);
+
     }
 
     public void setProjectLeader(int projectNumber, String workerInitials) throws OperationNotAllowedException {
         // Daniel
         Project project = getProjectWithNumber(projectNumber);
         Worker worker = getWorkerWithInitials(workerInitials);
-        project.setProjectLeader(worker);
+        String loggedInWorkerName = getLoggedInWorker().getInitials();
+        if (project.hasProjectLeader() && loggedInWorkerName.equals(project.getProjectLeader().getInitials())) {
+            project.setProjectLeader(worker);
+        } else if (project.hasProjectLeader()) {
+            throw new OperationNotAllowedException("Only the current project leader can assign a new leader");
+        } else {
+            project.setProjectLeader(worker);
+        }
     }
 
     // Activity Related
