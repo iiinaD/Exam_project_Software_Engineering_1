@@ -374,6 +374,22 @@ public class StepDefinitions {
 		}
 	}
 
+	@When("the worker creates a new activity with the name {string} and the description {string}")
+	public void theWorkerCreatesANewActivityWithTheNameAndTheDescription(String activityName, String activityDescription) throws OperationNotAllowedException {
+		// Danny
+		activity = app.addActivityToProjectWithNameAndDescription(project, activityName, activityDescription);
+	}
+
+	@Then("the project has activity {string} in its activity list with the given name and description")
+	public void theProjectHasActivityInItsActivityListWithTheGivenNameAndDescription(String activityId) throws OperationNotAllowedException {
+		// Danny
+		int projectActivityIndex = app.getProjectWithNumber(project.getProjectNumber()).getActivityList().indexOf(activity);
+
+		assertEquals(activityId, app.getProjectWithNumber(project.getProjectNumber()).getActivityList().get(projectActivityIndex).getActivityId());
+		assertEquals(activity.getActivityName(), app.getProjectWithNumber(project.getProjectNumber()).getActivityList().get(projectActivityIndex).getActivityName());
+		assertEquals(activity.getActivityDescription(), app.getProjectWithNumber(project.getProjectNumber()).getActivityList().get(projectActivityIndex).getActivityDescription());
+	}
+
     //////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////
