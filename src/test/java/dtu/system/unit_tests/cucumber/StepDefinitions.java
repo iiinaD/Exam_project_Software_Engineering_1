@@ -391,7 +391,7 @@ public class StepDefinitions {
 
 		assertEquals(activityId, app.getProjectWithNumber(project.getProjectNumber()).getActivityList().get(projectActivityIndex).getActivityId());
 		assertEquals(activity.getActivityName(), app.getProjectWithNumber(project.getProjectNumber()).getActivityList().get(projectActivityIndex).getActivityName());
-		assertEquals(activity.getActivityDescription(), app.getProjectWithNumber(project.getProjectNumber()).getActivityList().get(projectActivityIndex).getActivityDescription());
+		assertEquals(activity.getDescription(), app.getProjectWithNumber(project.getProjectNumber()).getActivityList().get(projectActivityIndex).getDescription());
 	}
 
     //////////////////////////////////////////////////////////////
