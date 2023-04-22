@@ -1,24 +1,21 @@
 package dtu.system.domain;
 
-import dtu.system.app.DateServer;
-
 import java.util.ArrayList;
 
-import java.util.Calendar;
 import java.util.List;
 
 
 public class Activity {
 
-    public String id;
-    public String description;
-    public HalfHours budgetTime;
-    public int startWeek;
-    public int endWeek;
-    public int startYear;
-    public int endYear;
-    public Project parentProject;
-    private ArrayList<Worker> WorkerList = new ArrayList<>();
+    private String id;
+    private String description;
+    private HalfHours budgetTime;
+    private int startWeek;
+    private int endWeek;
+    private int startYear;
+    private int endYear;
+    private Project parentProject;
+    private ArrayList<Worker> workerList = new ArrayList<>();
     private int budgetWeeks;
 
     public Activity(String id, Project parentProject){
@@ -43,11 +40,16 @@ public class Activity {
         calculateBudgetWeek();
     }
 
-    private void calculateBudgetWeek() {
+    public void calculateBudgetWeek() {
         //Jonas
+        this.budgetWeeks = calculateWeeksToStartWeek(endWeek, startYear);
+    }
+
+    private int calculateWeeksToStartWeek(int endWeek, int startYear){
+        // Jonas
         int weeksInYear = 52;
         int years = (endYear - startYear)*weeksInYear;
-        this.budgetWeeks = endWeek - startWeek + years;
+        return endWeek - startWeek + years;
     }
 
     public int getBudgetWeeks() {
@@ -67,12 +69,55 @@ public class Activity {
 
     public void addWorker(Worker worker){
         // Daniel
-        WorkerList.add(worker);
+        workerList.add(worker);
     }
 
     public List<Worker> getWorkerList() {
         // Daniel
-        return WorkerList;
+        return workerList;
     }
 
+    public Boolean isWorkerAssigned(String initials) {
+        //Jonas
+        for (Worker worker : workerList){
+            if (worker.getInitials().equals(initials)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isInGivenWeekAndYear(int week, int year) {
+        // Jonas
+        int weeks = calculateWeeksToStartWeek(week, year);
+        if (weeks >= 0 && weeks <= budgetWeeks){
+            return true;
+        }
+        return false;
+    }
+
+    public String getStartDate() {
+        // Jonas
+        return stringOfDate(startWeek, endYear);
+    }
+
+    public String getEndDate() {
+        // Jonas
+        return stringOfDate(endWeek, endYear);
+    }
+
+    private String stringOfDate(int week, int year){
+        // Jonas
+        return "Week " + week + " of " + year;
+    }
+
+    public HalfHours getBudgetTime() {
+        // Jonas
+        return budgetTime;
+    }
+
+    public String getDescription() {
+        // Jonas
+        return description;
+    }
 }
