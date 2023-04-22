@@ -8,8 +8,8 @@ public class Project {
     private Worker projectLeader;
     private int projectNumber;
     private boolean isFinished = false;
-    private int activityCounter = 1;
-    private ArrayList<Activity> activities = new ArrayList<Activity>(); // an arraylist containing all the activities in this project
+    private int activityCounter = 1; // should it not start at 0?
+    private ArrayList<Activity> activityList = new ArrayList<Activity>();
 
 
     public Project(String projectName, Worker projectLeader, int projectNumber) {
@@ -43,7 +43,7 @@ public class Project {
     public Activity addActivity(){
         // Gee
         Activity act = new Activity(projectNumber + "-" + String.valueOf(1000 + activityCounter).substring(1), this);
-        activities.add(act); //add to activities List
+        activityList.add(act); //add to activities List
         activityCounter += 1; //increment id counter by 1
         return act;
     }
@@ -52,7 +52,7 @@ public class Project {
         // Danny
         Activity activity = new Activity(projectNumber + "-" + String.valueOf(1000 + activityCounter).substring(1), activityName, activityDescription, this);
 
-        activities.add(activity);
+        activityList.add(activity);
         activityCounter++;
 
         return activity;
@@ -60,7 +60,7 @@ public class Project {
 
     public ArrayList<Activity> getActivityList(){
         // Gee
-        return activities;
+        return activityList;
     }
 
     public void setProjectName(String newProjectName) {
@@ -90,7 +90,7 @@ public class Project {
 
     public Activity getActivity(String activityId) {
         //Jonas
-        for (Activity activity : activities){
+        for (Activity activity : activityList){
             if (activity.getActivityId().equals(activityId)){
                 return activity;
             }
@@ -103,8 +103,37 @@ public class Project {
         return projectLeader != null;
     }
 
-    public String overview(){
-        return null;
+    public String overview(int numberOfTaps){
+        // Jonas
+        String taps = "";
+        for (int i = 0; i < numberOfTaps; i++){
+            taps += "\t";
+        }
+        String print = "";
+
+        print += taps + "Project: " + projectNumber + " Overview \n";
+        if (projectName != null){
+            print += taps + "\t Project name: \n";
+            print += taps + "\t\t " + projectName + "\n";
+        }
+        if (hasProjectLeader()){
+            print += taps + "\t Project Leader: \n";
+            print += taps + "\t\t " + projectLeader.getInitials() + "\n";
+        }
+
+        print += taps + "\t Project status:\n";
+        print += taps + "\t\t " + isFinished + "\n";
+
+        print += taps + "\t Activity List: \n";
+        for (Activity activity : activityList){
+            print += taps + activity.overview(3, true);
+        }
+        if (activityList.isEmpty()){
+            print += taps + "\t\t <empty> \n";
+        }
+        print += "\n";
+
+        return print;
     }
 }
 

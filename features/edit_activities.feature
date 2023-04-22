@@ -1,13 +1,5 @@
 Feature: Edit activities
 
-#   Scenario: Remove an activity
-#     Given a worker with the name "jodl" exists
-#     And "jodl" is logged in
-#     And there is a project "23001" with an activity "23001-001"
-#     When the worker removes the activity named "23001-001"
-#     Then the activity named "23001-001" should not exist in the activity list of project "23001"
-# ^^^This belongs to project features, TODO^^^
-
   Scenario: Change description of an activity
     Given there is a worker with initials "jodl" logged in to the system
     And a project named "project 0" with an activity "23001-001"

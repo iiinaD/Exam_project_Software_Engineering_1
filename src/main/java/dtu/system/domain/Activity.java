@@ -119,31 +119,36 @@ public class Activity {
         return description;
     }
 
-    public String overview(Boolean includeWorkerList){
+    public String overview(int numberOfTaps, Boolean includeWorkerList){
         // Jonas
+        String taps = "";
+        for (int i = 0; i < numberOfTaps; i++){
+            taps += "\t";
+        }
+
         String print = "";
-        print += "\t activity: " + id + "\n";
+        print += taps + " Activity: " + id + "\n";
         if (name != null){
-            print += "\t\t name: \n";
-            print += "\t\t\t " + name + "\n";
+            print += taps + "\t Activity name: \n";
+            print += taps + "\t\t " + name + "\n";
         }
         if (startDate != null && endDate != null) {
-            print += "\t\t Scheduled: \n";
-            print += "\t\t\t Start date: " + getStartDate() + "\n";
-            print += "\t\t\t   End date: " + getEndDate() + "\n";
-            print += "\t\t\t Total number of weeks: " + budgetWeeks + "\n";
+            print += taps + "\t Scheduled: \n";
+            print += taps + "\t\t Start date: " + getStartDate() + "\n";
+            print += taps + "\t\t End date  : " + getEndDate() + "\n";
+            print += taps + "\t\t Total number of weeks: " + budgetWeeks + "\n";
         }
         if (budgetTime != null){
-            print += "\t\t Budget Time: \n";
-            print += "\t\t\t " + budgetTime + "\n";
+            print += taps + "\t Budget Time: \n";
+            print += taps + "\t\t " + budgetTime.getTime() + " Hours \n";
         }
         if (includeWorkerList){
-            print += "\t\t Worker assigned to activity: \n";
+            print += taps + "\t Worker assigned to activity: \n";
             for (Worker worker : workerList){
-                print += "\t\t\t " + worker.getInitials() + "\n";
+                print += taps + "\t\t " + worker.getInitials() + "\n";
             }
             if (workerList.isEmpty()){
-                print += "\t\t\t <empty> \n";
+                print += taps + "\t\t <empty> \n";
             }
         }
 

@@ -622,6 +622,29 @@ public class StepDefinitions {
 		// Jonas
 		String print = app.timeSchedule(week, year);
 		assertNotNull(print);
+		//System.out.println(print);
+	}
+
+
+	@Given("a worker wants to get an overview of project {int}")
+	public void aWorkerWantsToGetAnOverviewOfProject(int projectNumber) throws OperationNotAllowedException {
+		// Jonas
+		String print = app.getProjectOverview(projectNumber);
+		assertNotNull(print);
+		System.out.println(print);
+	}
+
+	@Given("there is {int} projects int the system")
+	public void thereIsProjectsIntTheSystem(int size) {
+		// Jonas
+		assertEquals(app.getProjectList().size(), size);
+	}
+
+	@Given("a worker wants to get an overview of activity {string}")
+	public void aWorkerWantsToGetAnOverviewOfActivity(String activityId) throws OperationNotAllowedException {
+		// Jonas
+		String print = app.getActivityOverview(activityId);
+		assertNotNull(print);
 		System.out.println(print);
 	}
 }

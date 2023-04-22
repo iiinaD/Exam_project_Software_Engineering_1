@@ -1,6 +1,6 @@
 # Jonas
 # this feature can be a bit overwhelming so I have left some comments
-Feature:
+Feature: view time schedule
   Description: A project leader should be able to view which workers, that should be available a given week.
   We are gonna let anybody able to access the feature.
   Actor: project Leader

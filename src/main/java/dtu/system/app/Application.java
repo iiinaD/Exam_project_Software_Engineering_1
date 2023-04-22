@@ -346,7 +346,7 @@ public class Application {
             for (Activity activity : activityList){
                 if (activity.isWorkerAssigned(worker.getInitials())){
                     foundOne = true;
-                    print += activity.overview(false);
+                    print += activity.overview(1,false);
                 }
             }
             if (!foundOne){
@@ -356,5 +356,21 @@ public class Application {
             foundOne = false;
         }
         return print;
+    }
+
+    public String getProjectOverview(int projectNumber) throws OperationNotAllowedException {
+        // Jonas
+        return getProjectWithNumber(projectNumber).overview(1);
+    }
+
+    public String getActivityOverview(String activityId) throws OperationNotAllowedException {
+        // Jonas
+        Activity activity = getActivityFromProject(getProjectNumberFromActivityId(activityId), activityId);
+        return activity.overview(1, true);
+    }
+
+    public int getProjectNumberFromActivityId(String activityId){
+        // Jonas
+        return Integer.valueOf(activityId.substring(0,5));
     }
 }
