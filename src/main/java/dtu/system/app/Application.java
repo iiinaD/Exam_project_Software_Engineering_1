@@ -91,7 +91,6 @@ public class Application {
     public Project createProject(String projectName, Worker projectLeader) throws OperationNotAllowedException {
         //Daniel
         loggedInTestError();
-
         int projectNumber = getNextProjectNumber();
         Project project = new Project(projectName,projectLeader,projectNumber);
         projectList.add(project);
@@ -122,6 +121,7 @@ public class Application {
 
     public Project getProjectWithNumber(int projectNumber) throws OperationNotAllowedException {
         //Jonas
+        validProjectNumberTest(projectNumber);
         for (Project p : projectList){
             if (p.getProjectNumber() == projectNumber) {
                 return p;
@@ -195,6 +195,7 @@ public class Application {
 
     public Activity getActivityFromProject(int projectNumber, String activityId) throws OperationNotAllowedException {
         // Jonas
+        validActivityIdTest(activityId);
         Activity activity = getProjectWithNumber(projectNumber).getActivity(activityId);
         if (activity == null){
             throw new OperationNotAllowedException(activityId + " dont exist");
@@ -204,6 +205,7 @@ public class Application {
 
     public void ActivityPlanStartAndEnd(int projectNumber, String activityId, int week0, int week1, int year0, int year1) throws OperationNotAllowedException {
         // Jonas
+        validActivityIdTest(activityId);
         Activity a = getActivityFromProject(projectNumber, activityId);
         if (a != null){
             a.setStartEndWeekAndYears(week0, week1, year0, year1);
@@ -234,28 +236,30 @@ public class Application {
     }
 
     public  String hoursOverview(Worker worker){
-        String output = "";
+        //Gee
+        StringBuilder output = new StringBuilder();
         List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
         if(workerList.isEmpty()) return "This worker has no activity";
         for(WorkerActivity workerActivity : workerActivityList){
-            output += workerActivity.prettyPrintData()+"\n";
+            output.append(workerActivity.prettyPrintData()).append("\n");
         }
-        return output;
+        return output.toString();
     }
 
     public  String hoursOverview(Activity activity){
-        String output = "";
+        //Gee
+        StringBuilder output = new StringBuilder();
         List<Worker> workerList = activity.getWorkerList();
         if(workerList.isEmpty()) return "No workers in this activity";
-        output += String.format("%s\t%s\n", activity.getActivityId(), activity.getParentProject().getProjectName());
+        output.append(String.format("%s\t%s\n", activity.getActivityId(), activity.getParentProject().getProjectName()));
         for(Worker worker : workerList){
             for(WorkerActivity workerActivity: worker.getWorkerActivityList()){
                 if(workerActivity.getActivity().equals(activity)){
-                    output += String.format(Locale.GERMANY,"%s\t%.1f Hrs\n", worker.getInitials(),workerActivity.getWorkTime().getTime());
+                    output.append(String.format(Locale.GERMANY, "%s\t%.1f Hrs\n", worker.getInitials(), workerActivity.getWorkTime().getTime()));
                 }
             }
         }
-        return output;
+        return output.toString();
     }
 
     public String hoursOverview(WorkerActivity workerActivity){
@@ -287,6 +291,7 @@ public class Application {
         if (!isProjectLeader(projectNumber, loggedInWorker.getInitials())) {
             throw new OperationNotAllowedException("Only project leaders can assign workers to activities");
         }
+        validActivityIdTest(activityId);
         Project project = getProjectWithNumber(projectNumber);
         Activity activity = project.getActivity(activityId);
         Worker worker = getWorkerWithInitials(workerInitials);
@@ -306,23 +311,26 @@ public class Application {
 
     public List<Worker> WorkersAssignedToActivity(int projectNumber, String activityId) throws OperationNotAllowedException {
         // Daniel
+        validActivityIdTest(activityId);
         Project project = getProjectWithNumber(projectNumber);
         Activity activity = project.getActivity(activityId);
         return activity.getWorkerList();
     }
 
-    public WorkerActivity findWorkerActivity(String initials, String activity) throws OperationNotAllowedException {
+    public WorkerActivity findWorkerActivity(String initials, String activityId) throws OperationNotAllowedException {
         //Jonas
+        validActivityIdTest(activityId);
         Worker worker = getWorkerWithInitials(initials);
-        WorkerActivity workerActivity = worker.getWorkerActivity(activity);
+        WorkerActivity workerActivity = worker.getWorkerActivity(activityId);
         if (workerActivity == null){
-            throw new OperationNotAllowedException(initials + " dont have activity: "+ activity + " in its workerActivityList");
+            throw new OperationNotAllowedException(initials + " dont have activity: "+ activityId + " in its workerActivityList");
         }
         return workerActivity;
     }
 
-    public ArrayList<Activity> activitiesInWeekAndYear(int week, int year) {
+    public ArrayList<Activity> activitiesInWeekAndYear(int week, int year) throws OperationNotAllowedException {
         // Jonas
+        validWeekYearTest(week, year);
         ArrayList<Activity> activityList = new ArrayList<>();
         for (Project project : projectList){
             for (Activity activity : project.getActivityList()){
@@ -334,7 +342,16 @@ public class Application {
         return activityList;
     }
 
-    public String timeSchedule(int week, int year) {
+    private void validWeekYearTest(int week, int year) throws OperationNotAllowedException {
+        if(week < 1 || week >52){
+            throw new OperationNotAllowedException("Invalid week: Week must be between 1-52");
+        }
+        if(year < 1000 || year >9999){
+            throw new OperationNotAllowedException("Invalid year: Year must be between 1000-9999");
+        }
+    }
+
+    public String timeSchedule(int week, int year) throws OperationNotAllowedException {
         // Jonas
         String print = "\n" + "Worker overview of week "+ week + " in year " + year +"\n\n";
         ArrayList<Activity> activityList = activitiesInWeekAndYear(week, year);
@@ -364,17 +381,45 @@ public class Application {
 
     public String getActivityOverview(String activityId) throws OperationNotAllowedException {
         // Jonas
+        validActivityIdTest(activityId);
         Activity activity = getActivityFromProject(getProjectNumberFromActivityId(activityId), activityId);
         return activity.overview(1, true, true, true);
     }
 
-    public int getProjectNumberFromActivityId(String activityId){
+    public int getProjectNumberFromActivityId(String activityId) throws OperationNotAllowedException{
         // Jonas
+        validActivityIdTest(activityId);
         return Integer.valueOf(activityId.substring(0,5));
     }
-
+    
     public void changeActivityName(Activity activity, String newName) {
         // Daniel
         activity.setActivityName(newName);
+    }
+        
+    public void validProjectNumberTest(int number) throws OperationNotAllowedException{
+        if(number < 10000 ||number > 99999 ){
+            throw new OperationNotAllowedException("Project number invalid: Incorrect format. Should be between 10000 and 99999");
+        }
+    }
+    
+    public void validActivityIdTest(String id) throws OperationNotAllowedException{
+        if (!id.contains("-")){
+            //missing "-"
+            throw new OperationNotAllowedException("Activity ID invalid: Incorrect format. Should be [Project Number]-[Activity ID]");
+        }
+        String[] strings = id.split("-", 0);
+        if(strings.length != 2){
+            //missing front or back
+            throw new OperationNotAllowedException("Activity ID invalid: Incorrect format. Should be [Project Number]-[Activity ID]");
+        }
+        if (!strings[0].matches("[0-9]+") || strings[0].length() != 5){
+            //should contain numbers only and correct length
+            throw new OperationNotAllowedException("Activity ID invalid: Incorrect format. Should be [Project Number]-[Activity ID]");
+        }
+        if (!strings[1].matches("[0-9]+") || strings[1].length() != 3){
+            //ditto
+            throw new OperationNotAllowedException("Activity ID invalid: Incorrect format. Should be [Project Number]-[Activity ID]");
+        }
     }
 }
