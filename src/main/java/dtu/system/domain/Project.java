@@ -35,6 +35,13 @@ public class Project {
         return projectNumber;
     }
 
+    public boolean isProjectLeader(Worker worker) {
+        if (projectLeader == null) {
+            return false;
+        }
+        return projectLeader.getInitials().equals(worker.getInitials());
+    }
+
     public String getProjectName() {
         // Gee
         return projectName;
@@ -103,42 +110,48 @@ public class Project {
         return projectLeader != null;
     }
 
-    public String overview(int numberOfTaps){
+    public String overview(int numberOfTabs){
+        // Jonas
+        String tabs = "";
+        for (int i = 0; i < numberOfTabs; i++){
+            tabs += "\t";
+        }
+        String print = "";
+
+        print += tabs + "----- Project Overview: "+ infoString(0) +" -----\n";
+
+        if (hasProjectLeader()){
+            print += tabs + "\t Project Leader: \n";
+            print += tabs + "\t\t " + projectLeader.getInitials() + "\n";
+        }
+
+        print += tabs + "\t Project status:\n";
+        if (isFinished){
+            print += tabs + "\t\t  completed \n";
+        } else {
+            print += tabs + "\t\t  incomplete \n";
+        }
+
+
+        print += tabs + "\t Activity List: \n";
+        for (Activity activity : activityList){
+            print += tabs + activity.overview(3, true, true, true);
+        }
+        if (activityList.isEmpty()){
+            print += tabs + "\t\t <empty> \n";
+        }
+        print += "\n";
+
+        return print;
+    }
+
+    public String infoString(int numberOfTaps){
         // Jonas
         String taps = "";
         for (int i = 0; i < numberOfTaps; i++){
             taps += "\t";
         }
-        String print = "";
-
-        print += taps + "Project: " + projectNumber + " Overview \n";
-        if (projectName != null){
-            print += taps + "\t Project name: \n";
-            print += taps + "\t\t " + projectName + "\n";
-        }
-        if (hasProjectLeader()){
-            print += taps + "\t Project Leader: \n";
-            print += taps + "\t\t " + projectLeader.getInitials() + "\n";
-        }
-
-        print += taps + "\t Project status:\n";
-        if (isFinished){
-            print += taps + "\t\t  completed \n";
-        } else {
-            print += taps + "\t\t  incomplete \n";
-        }
-
-
-        print += taps + "\t Activity List: \n";
-        for (Activity activity : activityList){
-            print += taps + activity.overview(3, true, true, true);
-        }
-        if (activityList.isEmpty()){
-            print += taps + "\t\t <empty> \n";
-        }
-        print += "\n";
-
-        return print;
+        return taps + projectName + " (" + projectNumber + ")";
     }
 }
 
