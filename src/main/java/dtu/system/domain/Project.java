@@ -131,7 +131,7 @@ public class Project {
 
         print += taps + "\t Activity List: \n";
         for (Activity activity : activityList){
-            print += taps + activity.overview(3, true);
+            print += taps + activity.overview(3, true, true, true);
         }
         if (activityList.isEmpty()){
             print += taps + "\t\t <empty> \n";
