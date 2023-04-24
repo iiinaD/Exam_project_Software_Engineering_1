@@ -86,6 +86,8 @@ public class UserInterface {
                     System.out.println(e.getMessage() + "\n");
                 }
             } else if (input == 3) {
+                System.out.println();
+            } else if (input == 4) {
                 System.out.print("Please enter the id of the activity\n> ");
                 String activityId = terminal.next();
                 int projectNumber = app.getProjectNumberFromActivityId(activityId);
@@ -93,7 +95,7 @@ public class UserInterface {
                 int hours = terminal.nextInt();
                 int min = terminal.nextInt();
                 app.incrementWorkTime(app.getLoggedInWorker(),app.getActivityFromProject(projectNumber,activityId),hours,min);
-            } else if (input == 4) {
+            } else if (input == 5) {
                 System.out.print("Please enter the initials of the person\n> ");
                 String initials = terminal.next();
                 System.out.print("Please enter the id of the activity\n> ");
@@ -103,12 +105,12 @@ public class UserInterface {
                 int hours = terminal.nextInt();
                 int min = terminal.nextInt();
                 app.incrementWorkTime(app.getWorkerWithInitials(initials),app.getActivityFromProject(projectNumber,activityId),hours,min);
-            } else if (input == 5) {
+            } else if (input == 6) {
                 System.out.print("Please input the week and year in the format: week year (fx 34 2023)\n> ");
                 int week = terminal.nextInt();
                 int year = terminal.nextInt();
                 System.out.println(app.timeSchedule(week,year));
-            } else if (input == 6) {
+            } else if (input == 7) {
                 app.logOut();
                 System.out.println("Worker has been logged out");
             }
@@ -263,11 +265,12 @@ public class UserInterface {
         // Daniel
         System.out.println("1. Create a project");
         System.out.println("2. Access a project");
-        System.out.println("3. Register working hours");
-        System.out.println("4. Register working hours for a worker");
-        System.out.println("5. Check all workers week schedule");
-        System.out.println("6. Logout and return to login screen");
-        return 6;
+        System.out.println("3. See all active projects");
+        System.out.println("4. Register working hours");
+        System.out.println("5. Register working hours for a worker");
+        System.out.println("6. Check all workers week schedule");
+        System.out.println("7. Logout and return to login screen");
+        return 7;
     }
 
     public static int printProjectMenu() {
