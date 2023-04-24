@@ -5,6 +5,7 @@ Feature: view time schedule
   We are gonna let anybody able to access the feature.
   Actor: project Leader
 
+  #Jonas
   Background:
     Given there is a worker with initials "jodl" logged in to the system
     And a worker with the initials "daha" exists
@@ -25,7 +26,7 @@ Feature: view time schedule
     And "jodl" is added to "23002-001"
     And "dahl" is added to "23002-001"
 
-
+  #Jonas
   Scenario: Get all activity's that is active doing a given week
     Given a worker want to know which workers work in week 21 year 2023
     # activity in the list is "23001-002" and "23002-001"

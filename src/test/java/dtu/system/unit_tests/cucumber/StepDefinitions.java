@@ -560,7 +560,7 @@ public class StepDefinitions {
 	@When("the activity is planned to start week {int} year {int} and end week {int} year {int}")
 	public void theActivityIsPlannedToStartWeekYearAndEndWeekYear(int week0, int year0, int week1, int year1) throws OperationNotAllowedException {
 		//Jonas
-		app.ActivityPlanStartAndEnd(project.getProjectNumber(), activity.getActivityId(), week0, week1, year0, year1);
+		app.activityPlanStartAndEnd(project.getProjectNumber(), activity.getActivityId(), week0, week1, year0, year1);
 	}
 
 	@Then("the planned number of weeks is {int}")
@@ -631,7 +631,7 @@ public class StepDefinitions {
 		// Jonas
 		String print = app.timeSchedule(week, year);
 		assertNotNull(print);
-		//System.out.println(print);
+		System.out.println(print);
 	}
 
 
@@ -678,5 +678,26 @@ public class StepDefinitions {
 	public void theActivityNameHasChanged(String newActivityName) {
 		// Daniel
 		assertEquals(newActivityName, activity.getActivityName());
+	}
+
+	@Given("a worker wants to get all projects that is still active")
+	public void aWorkerWantsToGetAllProjectsThatIsStillActive() {
+		// Jonas
+		this.string = app.getStringActiveProjects();
+		assertNotNull(string);
+	}
+
+	@Then("something correct is printed")
+	public void somethingCorrectIsPrinted() {
+		// Jonas
+		System.out.println(string);
+	}
+
+	@Then("he marks project {int} as finished")
+	public void heMarksProjectAsFinished(int projectNumber) throws OperationNotAllowedException {
+		// Jonas
+		this.project = app.getProjectWithNumber(projectNumber);
+		app.markProjectFinished(project);
+		assertTrue(project.getIsFinished());
 	}
 }

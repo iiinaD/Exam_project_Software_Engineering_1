@@ -30,10 +30,12 @@ public class Activity {
     }
 
     public void setDescription(String description){
+        // Gee
         this.description = description;
     }
 
     public void setBudgetTime(HalfHours budgetTime){
+        // Gee
         this.budgetTime = budgetTime;
     }
 
@@ -128,7 +130,7 @@ public class Activity {
         return description;
     }
 
-    public String overview(int numberOfTaps, Boolean includeWorkerList){
+    public String overview(int numberOfTaps, Boolean includeWorkerList, Boolean includeBudgetTime, Boolean includeName){
         // Jonas
         String taps = "";
         for (int i = 0; i < numberOfTaps; i++){
@@ -136,18 +138,19 @@ public class Activity {
         }
 
         String print = "";
-        print += taps + " Activity: " + id + "\n";
-        if (name != null){
-            print += taps + "\t Activity name: \n";
-            print += taps + "\t\t " + name + "\n";
+        if (includeName == true && name != null) {
+            print += taps + "----- Activity: " + name + " (" + id + ") -----\n";
+        } else {
+            print += taps + "----- Activity: " + "(" + id + ") -----\n";
         }
+
         if (startDate != null && endDate != null) {
             print += taps + "\t Scheduled: \n";
             print += taps + "\t\t Start date: " + getStartDate() + "\n";
             print += taps + "\t\t End date  : " + getEndDate() + "\n";
             print += taps + "\t\t Total number of weeks: " + budgetWeeks + "\n";
         }
-        if (budgetTime != null){
+        if (includeBudgetTime && budgetTime != null){
             print += taps + "\t Budget Time: \n";
             print += taps + "\t\t " + budgetTime.getTime() + " Hours \n";
         }
@@ -160,6 +163,7 @@ public class Activity {
                 print += taps + "\t\t <empty> \n";
             }
         }
+        print += "\n";
 
         return print;
     }

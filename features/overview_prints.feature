@@ -1,8 +1,9 @@
 # Jonas
-Feature:
+Feature: print overview
   Description: A worker can view Strings of activitys and projects
   Actor: worker
 
+  #Jonas
   Background:
     Given there is a worker with initials "jodl" logged in to the system
     And a worker with the initials "Dahl" exists
@@ -29,12 +30,25 @@ Feature:
     And there is a project 23003 in the system
     And the worker creates a new activity with the name "Testing" and the description "Do testing here, there and everywhere."
 
-
+  #Jonas
   Scenario: A manually test if the print looks okay, the scenaio helps get the string to print.
     Given there is 3 projects int the system
     Then a worker wants to get an overview of project 23001
     And a worker wants to get an overview of project 23002
     And a worker wants to get an overview of project 23003
-
+  #Jonas
   Scenario: A manually test if print of an activity
     Given a worker wants to get an overview of activity "23001-001"
+
+  #Jonas
+  Scenario: A worker wants to know all projects that has is still active, mannualy viewed a print
+    Given a worker wants to get all projects that is still active
+    # the list should only have project 23002 and 23003
+    Then something correct is printed
+    And "jodl" is assigned as project leader to the project with number 23002
+    And "jodl" is assigned as project leader to the project with number 23003
+    Then he marks project 23002 as finished
+    And he marks project 23003 as finished
+    When a worker wants to get all projects that is still active
+    # the list should say <empty>
+    Then something correct is printed

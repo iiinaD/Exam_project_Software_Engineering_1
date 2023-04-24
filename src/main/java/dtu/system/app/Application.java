@@ -109,7 +109,6 @@ public class Application {
 
     public int getNextProjectNumber() {
         //Daniel
-        //String year = String.valueOf(dateServer.getDate().get(Calendar.YEAR));
         String year = String.valueOf(dateServer.getCurrentYear());
         int twoDigitYear = Integer.parseInt(year.substring(2));
         return twoDigitYear*1000 + projectList.size() + 1;
@@ -199,12 +198,12 @@ public class Application {
         validActivityIdTest(activityId);
         Activity activity = getProjectWithNumber(projectNumber).getActivity(activityId);
         if (activity == null){
-            throw new OperationNotAllowedException(activityId + " dont exist");
+            throw new OperationNotAllowedException("The activity with id: " + activityId + " does not exist");
         }
         return activity;
     }
 
-    public void ActivityPlanStartAndEnd(int projectNumber, String activityId, int week0, int week1, int year0, int year1) throws OperationNotAllowedException {
+    public void activityPlanStartAndEnd(int projectNumber, String activityId, int week0, int week1, int year0, int year1) throws OperationNotAllowedException {
         // Jonas
         validActivityIdTest(activityId);
         Activity a = getActivityFromProject(projectNumber, activityId);
@@ -356,7 +355,6 @@ public class Application {
 
     public String timeSchedule(int week, int year) throws OperationNotAllowedException {
         // Jonas
-        // missing a print for if worker is on holiday
         String print = "\n" + "Worker overview of week "+ week + " in year " + year +"\n\n";
         ArrayList<Activity> activityList = activitiesInWeekAndYear(week, year);
         Boolean foundOne = false;
@@ -366,7 +364,7 @@ public class Application {
             for (Activity activity : activityList){
                 if (activity.isWorkerAssigned(worker.getInitials())){
                     foundOne = true;
-                    print += activity.overview(1,false);
+                    print += activity.overview(1,false, false, false);
                 }
             }
             if (!foundOne){
@@ -387,7 +385,7 @@ public class Application {
         // Jonas
         validActivityIdTest(activityId);
         Activity activity = getActivityFromProject(getProjectNumberFromActivityId(activityId), activityId);
-        return activity.overview(1, true);
+        return activity.overview(1, true, true, true);
     }
 
     public int getProjectNumberFromActivityId(String activityId) throws OperationNotAllowedException{
@@ -400,30 +398,49 @@ public class Application {
         // Daniel
         activity.setActivityName(newName);
     }
-        
+
     public void validProjectNumberTest(int number) throws OperationNotAllowedException{
         if(number < 10000 ||number > 99999 ){
             throw new OperationNotAllowedException("Project number invalid: Incorrect format. Should be between 10000 and 99999");
         }
     }
     
-    public void validActivityIdTest(String id) throws OperationNotAllowedException{
-        if (!id.contains("-")){
+    public void validActivityIdTest(String id) throws OperationNotAllowedException {
+        if (!id.contains("-")) {
             //missing "-"
             throw new OperationNotAllowedException("Activity ID invalid: Incorrect format. Should be [Project Number]-[Activity ID]");
         }
         String[] strings = id.split("-", 0);
-        if(strings.length != 2){
+        if (strings.length != 2) {
             //missing front or back
             throw new OperationNotAllowedException("Activity ID invalid: Incorrect format. Should be [Project Number]-[Activity ID]");
         }
-        if (!strings[0].matches("[0-9]+") || strings[0].length() != 5){
+        if (!strings[0].matches("[0-9]+") || strings[0].length() != 5) {
             //should contain numbers only and correct length
             throw new OperationNotAllowedException("Activity ID invalid: Incorrect format. Should be [Project Number]-[Activity ID]");
         }
-        if (!strings[1].matches("[0-9]+") || strings[1].length() != 3){
+        if (!strings[1].matches("[0-9]+") || strings[1].length() != 3) {
             //ditto
             throw new OperationNotAllowedException("Activity ID invalid: Incorrect format. Should be [Project Number]-[Activity ID]");
         }
+    }
+
+
+    public String getStringActiveProjects() {
+        // Jonas
+        String print = "";
+        Boolean foundOne = false;
+        print += "\t----- All Active projects ----- \n";
+        for (Project project : projectList) {
+            if (!project.getIsFinished()) {
+                foundOne = true;
+                print += project.infoString(2) + "\n";
+            }
+        }
+        if (projectList.isEmpty() || !foundOne){
+            print += "\t\t<empty>\n";
+        }
+        return print;
+
     }
 }

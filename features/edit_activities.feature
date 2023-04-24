@@ -1,5 +1,6 @@
 Feature: Edit activities
 
+  #Gee
   Scenario: Change description of an activity
     Given there is a worker with initials "jodl" logged in to the system
     And a project named "project 0" with an activity "23001-001"
@@ -7,6 +8,7 @@ Feature: Edit activities
     When the worker set the description of an activity of "Do not give up on life"
     Then the description of the activity should be "Do not give up on life"
 
+  #Gee
   Scenario: Change budget time on an activity
     Given there is a worker with initials "jodl" logged in to the system
     And a project named "project 0" with an activity "23001-001"
@@ -40,11 +42,11 @@ Feature: Edit activities
     Then the planned number of weeks is 103
 
   #Jonas
-  Scenario: An activity that dont exist, dont exist.
+  Scenario: worker tries to access an activity that does not exist
     Given there is a worker with initials "jodl" logged in to the system
     And a project named "project 0" with an activity "23001-001"
     When the worker try to acces activity "23001-002"
-    Then an error message "23001-002 dont exist" is given
+    Then an error message "The activity with id: 23001-002 does not exist" is given
 
   #Jonas
   Scenario: A worker with an acticty in his workeractivity list, try to acces an activity that the worker dont have
