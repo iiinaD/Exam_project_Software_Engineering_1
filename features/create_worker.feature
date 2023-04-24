@@ -13,3 +13,15 @@ Feature: Create worker
     When the worker creates a new worker using these initials
     Then an error message "A worker with these initials already exists in the system." is given
 
+  Scenario: Worker creates a new worker using too many characters
+    Given a worker with the initials "jodly" does not exist
+    When the worker creates a new worker using these initials
+    Then an error message "Worker initials can't contain less than 2 or more than 4 characters." is given
+
+  Scenario: Worker creates a new worker using illegal characters
+    Given a worker with the initials "#/;." does not exist
+    When the worker creates a new worker using these initials
+    Then an error message "Worker initials can't contain numbers or special characters." is given
+
+
+
