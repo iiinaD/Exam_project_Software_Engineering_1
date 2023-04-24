@@ -647,4 +647,27 @@ public class StepDefinitions {
 		assertNotNull(print);
 		System.out.println(print);
 	}
+
+	@Given("a project named {string} with an activity named {string}")
+	public void aProjectNamedWithAnActivityNamed(String projectName, String activityName) {
+		// Daniel
+		try {
+			project = app.createProject(projectName); //create project
+			activity = app.addActivityToProjectWithNameAndDescription(project,activityName,"");
+			//app.addActivityToWorker(worker, activity);
+			app.setProjectLeader(project.getProjectNumber(), app.getLoggedInWorker().getInitials());
+		} catch (OperationNotAllowedException e){
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
+	}
+	@When("a worker changes the activity name to {string}")
+	public void aWorkerChangesTheActivityName(String newActivityName) {
+		// Daniel
+		app.changeActivityName(activity,newActivityName);
+	}
+	@Then("the activity name has changed to {string}")
+	public void theActivityNameHasChanged(String newActivityName) {
+		// Daniel
+		assertEquals(newActivityName, activity.getActivityName());
+	}
 }

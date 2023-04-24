@@ -374,4 +374,9 @@ public class Application {
         // Jonas
         return Integer.valueOf(activityId.substring(0,5));
     }
+
+    public void changeActivityName(Activity activity, String newName) {
+        // Daniel
+        activity.setActivityName(newName);
+    }
 }
