@@ -9,7 +9,7 @@ import dtu.system.domain.Worker;
 
 import java.util.Scanner;
 
-public class userInterface {
+public class UserInterface {
     public static void main(String[] args) throws OperationNotAllowedException {
         // Daniel
         Application app = new Application();
@@ -181,8 +181,8 @@ public class userInterface {
                 System.out.print("What is the new name of this activity?\n> ");
                 String newActivityName = terminal.nextLine();
                 // set activity name function
+                System.out.println("Need to add a setActivityName function in the app");
                 System.out.println("Activity name changed to " + newActivityName);
-                System.out.println("Does not work yet.");
             } else if (input == 3) {
                 // empty the rest of the line before input
                 terminal.nextLine();
