@@ -97,7 +97,7 @@ public class UserInterface {
                 int min = terminal.nextInt();
                 app.incrementWorkTime(app.getLoggedInWorker(),app.getActivityFromProject(projectNumber,activityId),hours,min);
             } else if (input == 5) {
-                System.out.println(app.hoursOverview(app.getLoggedInWorker());
+                System.out.println(app.hoursOverview(app.getLoggedInWorker()));
             } else if (input == 6) {
                 System.out.print("Please enter the initials of the person\n> ");
                 String initials = terminal.next();
