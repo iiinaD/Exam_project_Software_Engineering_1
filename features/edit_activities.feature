@@ -31,7 +31,16 @@ Feature: Edit activities
     And a worker with the initials "daha" exists
     And a project named "project 0" with an activity "23001-001"
     When "daha" assigns the worker "daha" to the activity
-    Then an error message "Only project leaders can assign workers to activities" is given
+    Then an error message "Only project leaders can assign workers to activities." is given
+
+  #Danny
+  Scenario: Add Worker to an activity when no project leader exists
+    Given there is a worker with initials "jodl" logged in to the system
+    And there is a project 23001 in the system
+    And the project has activity "23001-001" in its activity list
+    And the project has no project leader
+    When "jodl" assigns the worker "jodl" to the activity
+    Then an error message "Only project leaders can assign workers to activities." is given
 
   #Jonas
   Scenario: The acticity needs planning when it starts and ends

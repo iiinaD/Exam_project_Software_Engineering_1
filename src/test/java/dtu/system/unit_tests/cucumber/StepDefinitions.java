@@ -394,6 +394,11 @@ public class StepDefinitions {
 		assertEquals(activity.getDescription(), app.getProjectWithNumber(project.getProjectNumber()).getActivityList().get(projectActivityIndex).getDescription());
 	}
 
+	@Given("the project has no project leader")
+	public void theProjectHasNoProjectLeader() throws OperationNotAllowedException {
+		assertFalse(app.getProjectWithNumber(project.getProjectNumber()).hasProjectLeader());
+	}
+
     //////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////

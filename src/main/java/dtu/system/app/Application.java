@@ -297,7 +297,7 @@ public class Application {
         // Daniel
         loggedInTestError();
         if (!isProjectLeader(projectNumber, loggedInWorker.getInitials())) {
-            throw new OperationNotAllowedException("Only project leaders can assign workers to activities");
+            throw new OperationNotAllowedException("Only project leaders can assign workers to activities.");
         }
         validActivityIdTest(activityId);
         Project project = getProjectWithNumber(projectNumber);
@@ -313,7 +313,7 @@ public class Application {
         //Daniel
         Project project = getProjectWithNumber(projectNumber);
         if (!project.hasProjectLeader()) {
-            return false; // Missing test
+            return false;
         }
         String projectLeader = project.getProjectLeader().getInitials();
         return projectLeader.equals(initials);
