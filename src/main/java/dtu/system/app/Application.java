@@ -258,6 +258,7 @@ public class Application {
         }
         return output;
     }
+
     public String hoursOverview(WorkerActivity workerActivity){
         // Gee
         return workerActivity.prettyPrintData();

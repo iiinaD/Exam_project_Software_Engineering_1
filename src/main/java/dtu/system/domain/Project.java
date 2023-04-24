@@ -122,7 +122,12 @@ public class Project {
         }
 
         print += taps + "\t Project status:\n";
-        print += taps + "\t\t " + isFinished + "\n";
+        if (isFinished){
+            print += taps + "\t\t  completed \n";
+        } else {
+            print += taps + "\t\t  incomplete \n";
+        }
+
 
         print += taps + "\t Activity List: \n";
         for (Activity activity : activityList){
