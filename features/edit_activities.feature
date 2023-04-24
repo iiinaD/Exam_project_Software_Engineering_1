@@ -56,3 +56,9 @@ Feature: Edit activities
     And "daha" has activity "23001-002" in his activity list
     Then an error message "daha dont have activity: 23001-002 in its workerActivityList" is given
 
+  # Daniel
+  Scenario: Change activity name after activity has been created
+    Given there is a worker with initials "jodl" logged in to the system
+    And a project named "project 0" with an activity named "frontend"
+    When a worker changes the activity name to "backend"
+    Then the activity name has changed to "backend"
