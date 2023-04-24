@@ -49,6 +49,11 @@ public class Activity {
         this.budgetWeeks = startDate.calculateWeeksToStartWeek(endDate);
     }
 
+    public void setActivityName(String newName) {
+        // Daniel
+        name = newName;
+    }
+
     public void addWorker(Worker worker){
         // Daniel
         workerList.add(worker);

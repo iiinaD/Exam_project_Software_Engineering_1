@@ -14,6 +14,7 @@ Feature:
     And the activity is planned to start week 20 year 2023 and end week 24 year 2023
     # makes jodl project leader in both projects
     And "jodl" is assigned as project leader to the project with number 23001
+    And the project leader tries to mark the project as finished
     # add the workes to the
     And "jodl" is added to "23001-001"
     And "jodl" is added to "23001-002"

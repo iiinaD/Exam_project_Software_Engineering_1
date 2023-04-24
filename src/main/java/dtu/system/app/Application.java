@@ -258,6 +258,7 @@ public class Application {
         }
         return output;
     }
+
     public String hoursOverview(WorkerActivity workerActivity){
         // Gee
         return workerActivity.prettyPrintData();
@@ -372,5 +373,10 @@ public class Application {
     public int getProjectNumberFromActivityId(String activityId){
         // Jonas
         return Integer.valueOf(activityId.substring(0,5));
+    }
+
+    public void changeActivityName(Activity activity, String newName) {
+        // Daniel
+        activity.setActivityName(newName);
     }
 }
