@@ -66,6 +66,7 @@ public class StepDefinitions {
 			 errorMessageHolder.setErrorMessage(e.getMessage());
 		 }
 	}
+
 	@Then("the name of the project {int} changes to {string}")
 	public void theNameOfTheProjectChangesTo(int projectNumber, String newProjectName) throws OperationNotAllowedException {
 		// Daniel
@@ -434,7 +435,11 @@ public class StepDefinitions {
 
 	@When("the worker access hours overview for activity {string}")
 	public void the_worker_access_hours_overview_for_activity(String string) throws OperationNotAllowedException {
-		this.string = app.hoursOverview(app.findWorkerActivity(worker.getInitials(), string));
+		try {
+			this.string = app.hoursOverview(app.findWorkerActivity(worker.getInitials(), string));
+		} catch (OperationNotAllowedException e){
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 	}
 	@When("the worker access personal hours overview")
 	public void theWorkerAccessPersonalHoursOverview() {

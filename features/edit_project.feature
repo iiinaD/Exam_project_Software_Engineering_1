@@ -56,4 +56,21 @@ Feature: Edit a project
     When the non project leader tries to mark the project as finished
     Then an error message "Only project leaders can finish projects" is given
 
+  Scenario: A worker cannot change the name of the project if the number is illegal(not enough digits)
+    Given there is a worker with initials "daha" logged in to the system
+    And a project with the number 23001 and name "Web projekt" exists
+    When the worker tries to change the name of the project 1 to "Web projekt Google"
+    Then an error message "Project number invalid: Incorrect format. Should be between 10000 and 99999" is given
+
+  Scenario: A worker cannot change the name of the project if the number is illegal(too much digits)
+    Given there is a worker with initials "daha" logged in to the system
+    And a project with the number 23001 and name "Web projekt" exists
+    When the worker tries to change the name of the project 1 to "Web projekt Google"
+    Then an error message "Project number invalid: Incorrect format. Should be between 10000 and 99999" is given
+
+  Scenario: A worker cannot change the name of the project if the number is illegal(Negative integer)
+    Given there is a worker with initials "daha" logged in to the system
+    And a project with the number 23001 and name "Web projekt" exists
+    When the worker tries to change the name of the project -23001 to "Web projekt Google"
+    Then an error message "Project number invalid: Incorrect format. Should be between 10000 and 99999" is given
 
