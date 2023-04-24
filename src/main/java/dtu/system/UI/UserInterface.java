@@ -86,14 +86,16 @@ public class UserInterface {
                     System.out.println(e.getMessage() + "\n");
                 }
             } else if (input == 3) {
+                System.out.println();
+            } else if (input == 4) {
                 System.out.print("Please enter the id of the activity\n> ");
-                String activityId = terminal.next();
+                String activityId = forceStringLength(terminal,9, "The activity id has to have the form: 23001-001");
                 int projectNumber = app.getProjectNumberFromActivityId(activityId);
                 System.out.print("Please input the spent time for this activity in the format: hrs min  (fx 12 45)\n> ");
                 int hours = terminal.nextInt();
                 int min = terminal.nextInt();
                 app.incrementWorkTime(app.getLoggedInWorker(),app.getActivityFromProject(projectNumber,activityId),hours,min);
-            } else if (input == 4) {
+            } else if (input == 5) {
                 System.out.print("Please enter the initials of the person\n> ");
                 String initials = terminal.next();
                 System.out.print("Please enter the id of the activity\n> ");
@@ -103,12 +105,12 @@ public class UserInterface {
                 int hours = terminal.nextInt();
                 int min = terminal.nextInt();
                 app.incrementWorkTime(app.getWorkerWithInitials(initials),app.getActivityFromProject(projectNumber,activityId),hours,min);
-            } else if (input == 5) {
+            } else if (input == 6) {
                 System.out.print("Please input the week and year in the format: week year (fx 34 2023)\n> ");
                 int week = terminal.nextInt();
                 int year = terminal.nextInt();
                 System.out.println(app.timeSchedule(week,year));
-            } else if (input == 6) {
+            } else if (input == 7) {
                 app.logOut();
                 System.out.println("Worker has been logged out");
             }
@@ -129,7 +131,6 @@ public class UserInterface {
                     terminal.nextLine();
                     System.out.print("Please input the name of the activity\n> ");
                     String activityName = terminal.nextLine();
-                    terminal.nextLine();
                     System.out.print("Please input the description of the activity (if not yet known enter 1)\n> ");
                     String activityDescription = terminal.nextLine();
                     if (activityDescription.equals("1")) {
@@ -233,6 +234,22 @@ public class UserInterface {
         }
     }
 
+    private static String forceStringLength(Scanner terminal, int stringLength, String message) {
+        // Daniel
+        // Check for a valid string length
+        String choice;
+        while (true) {
+            choice = terminal.next();
+            if (choice.length() == stringLength) {
+                break;
+            }
+            System.out.println("\n" + message);
+            System.out.print("Please try again\n> ");
+        }
+        System.out.println();
+        return choice;
+    }
+
     public static int getIntInput(Scanner terminal,int numberOfMenuItems,String message) {
         // Daniel
         // Check for a valid number
@@ -264,11 +281,12 @@ public class UserInterface {
         // Daniel
         System.out.println("1. Create a project");
         System.out.println("2. Access a project");
-        System.out.println("3. Register working hours");
-        System.out.println("4. Register working hours for a worker");
-        System.out.println("5. Check all workers week schedule");
-        System.out.println("6. Logout and return to login screen");
-        return 6;
+        System.out.println("3. See all active projects");
+        System.out.println("4. Register working hours");
+        System.out.println("5. Register working hours for a worker");
+        System.out.println("6. Check all workers week schedule");
+        System.out.println("7. Logout and return to login screen");
+        return 7;
     }
 
     public static int printProjectMenu() {
