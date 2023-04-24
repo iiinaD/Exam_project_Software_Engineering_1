@@ -134,11 +134,12 @@ public class Activity {
         }
 
         String print = "";
-        print += taps + " Activity: " + id + "\n";
-        if (includeName && name != null){
-            print += taps + "\t Activity name: \n";
-            print += taps + "\t\t " + name + "\n";
+        if (includeName == true && name != null) {
+            print += taps + "----- Activity: " + name + " (" + id + ") -----\n";
+        } else {
+            print += taps + "----- Activity: " + "(" + id + ") -----\n";
         }
+
         if (startDate != null && endDate != null) {
             print += taps + "\t Scheduled: \n";
             print += taps + "\t\t Start date: " + getStartDate() + "\n";

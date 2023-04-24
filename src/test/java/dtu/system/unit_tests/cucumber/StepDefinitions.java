@@ -670,4 +670,25 @@ public class StepDefinitions {
 		// Daniel
 		assertEquals(newActivityName, activity.getActivityName());
 	}
+
+	@Given("a worker wants to get all projects that is still active")
+	public void aWorkerWantsToGetAllProjectsThatIsStillActive() {
+		// Jonas
+		this.string = app.getStringActiveProjects();
+		assertNotNull(string);
+	}
+
+	@Then("something correct is printed")
+	public void somethingCorrectIsPrinted() {
+		// Jonas
+		System.out.println(string);
+	}
+
+	@Then("he marks project {int} as finished")
+	public void heMarksProjectAsFinished(int projectNumber) throws OperationNotAllowedException {
+		// Jonas
+		this.project = app.getProjectWithNumber(projectNumber);
+		app.markProjectFinished(project);
+		assertTrue(project.getIsFinished());
+	}
 }

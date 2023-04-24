@@ -377,4 +377,21 @@ public class Application {
         // Daniel
         activity.setActivityName(newName);
     }
+
+    public String getStringActiveProjects() {
+        // Jonas
+        String print = "";
+        Boolean foundOne = false;
+        print += "\t----- All Active projects ----- \n";
+        for (Project project : projectList) {
+            if (!project.getIsFinished()) {
+                foundOne = true;
+                print += project.infoString(2) + "\n";
+            }
+        }
+        if (projectList.isEmpty() || !foundOne){
+            print += "\t\t<empty>\n";
+        }
+        return print;
+    }
 }
