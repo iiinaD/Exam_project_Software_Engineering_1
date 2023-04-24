@@ -2,6 +2,7 @@ package dtu.system.UI;
 
 import dtu.system.app.Application;
 import dtu.system.app.OperationNotAllowedException;
+import dtu.system.domain.Activity;
 import dtu.system.domain.Project;
 import dtu.system.domain.Worker;
 
@@ -94,6 +95,7 @@ public class userInterface {
     }
 
     private static void projectMenu(Application app, Scanner terminal, Project project) throws OperationNotAllowedException {
+        // Daniel
         boolean returnToMainMenu = false;
         while (!returnToMainMenu) {
             System.out.println();
@@ -102,11 +104,22 @@ public class userInterface {
             System.out.print("Please choose an item from the menu list\n> ");
             int input = getIntInput(terminal,numMenuItems,"The number has to correspond to one of the menu items.");
             if (input == 1) {
-                System.out.println("1. Add an activity");
-                System.out.println("Coming soon...");
+                try {
+                    Activity activity = app.addActivityToProject(project);
+                    System.out.println("A new activity with the id " + activity + " was created");
+                } catch (OperationNotAllowedException e) {
+                    System.out.println(e.getMessage() + "\n");
+                }
+                System.out.println("Input name is coming soon...");
             } else if (input == 2) {
-                System.out.println("2. Access an acivity");
-                System.out.println("Coming soon...");
+                System.out.print("Please input the id of the activity\n> ");
+                String activityId = terminal.next();
+                try {
+                    Activity accessActivity = app.getActivityFromProject(project.getProjectNumber(),activityId);
+                    activityMenu(app,terminal,project,accessActivity);
+                } catch (OperationNotAllowedException e) {
+                    System.out.println(e.getMessage() + "\n");
+                }
             } else if (input == 3) {
                 // empty the rest of the line before input
                 terminal.nextLine();
@@ -137,6 +150,10 @@ public class userInterface {
                 returnToMainMenu = true;
             }
         }
+    }
+
+    private static void activityMenu(Application app, Scanner terminal, Project project, Activity accessActivity) {
+        // Daniel
     }
 
     public static int getIntInput(Scanner terminal,int numberOfMenuItems,String message) {
@@ -189,6 +206,12 @@ public class userInterface {
 
     public static void printActivityMenu() {
         // Daniel
-
+        System.out.println("1. Add worker to activity");
+        System.out.println("2. Change description of activity");
+        System.out.println("3. Change the budgeted time on an activity");
+        System.out.println("4. Set new project leader");
+        System.out.println("5. Mark project as finished");
+        System.out.println("6. Print project info");
+        System.out.println("7. Return to main menu");
     }
 }

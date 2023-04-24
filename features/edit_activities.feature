@@ -48,7 +48,7 @@ Feature: Edit activities
     Then the planned number of weeks is 103
 
   #Jonas
-  Scenario: An activity that dont exist, dont exist.
+  Scenario: worker tries to access an activity that does not exist
     Given there is a worker with initials "jodl" logged in to the system
     And a project named "project 0" with an activity "23001-001"
     When the worker try to acces activity "23001-002"

@@ -35,6 +35,13 @@ public class Project {
         return projectNumber;
     }
 
+    public boolean isProjectLeader(Worker worker) {
+        if (projectLeader == null) {
+            return false;
+        }
+        return projectLeader.getInitials().equals(worker.getInitials());
+    }
+
     public String getProjectName() {
         // Gee
         return projectName;
