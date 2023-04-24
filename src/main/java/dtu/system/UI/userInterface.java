@@ -3,6 +3,7 @@ package dtu.system.UI;
 import dtu.system.app.Application;
 import dtu.system.app.OperationNotAllowedException;
 import dtu.system.domain.Activity;
+import dtu.system.domain.HalfHours;
 import dtu.system.domain.Project;
 import dtu.system.domain.Worker;
 
@@ -105,12 +106,20 @@ public class userInterface {
             int input = getIntInput(terminal,numMenuItems,"The number has to correspond to one of the menu items.");
             if (input == 1) {
                 try {
-                    Activity activity = app.addActivityToProject(project);
-                    System.out.println("A new activity with the id " + activity + " was created");
+                    terminal.nextLine();
+                    System.out.print("Please input the name of the activity\n> ");
+                    String activityName = terminal.nextLine();
+                    terminal.nextLine();
+                    System.out.print("Please input the description of the activity (if not yet known enter 1)\n> ");
+                    String activityDescription = terminal.nextLine();
+                    if (activityDescription.equals("1")) {
+                        activityDescription = "";
+                    }
+                    Activity activity = app.addActivityToProjectWithNameAndDescription(project,activityName,activityDescription);;
+                    System.out.println("The activity " + activityName + " with the id " + activity.getActivityId() + " was created");
                 } catch (OperationNotAllowedException e) {
                     System.out.println(e.getMessage() + "\n");
                 }
-                System.out.println("Input name is coming soon...");
             } else if (input == 2) {
                 System.out.print("Please input the id of the activity\n> ");
                 String activityId = terminal.next();
@@ -144,16 +153,65 @@ public class userInterface {
                     System.out.println(e.getMessage() + "\n");
                 }
             } else if (input == 6) {
-                System.out.println("Coming soon...");
-                // Implement app.printProjectInfo() method and call here
+                System.out.println(app.getProjectOverview(project.getProjectNumber()));
             } else if (input == 7) {
                 returnToMainMenu = true;
             }
         }
     }
 
-    private static void activityMenu(Application app, Scanner terminal, Project project, Activity accessActivity) {
+    private static void activityMenu(Application app, Scanner terminal, Project project, Activity activity) throws OperationNotAllowedException {
         // Daniel
+        boolean returnToProjectMenu = false;
+        while (!returnToProjectMenu) {
+            System.out.println();
+            System.out.println("----- " + project.getProjectName() + " (" + project.getProjectNumber() + ")" + " -----");
+            System.out.println("----- " + activity.getActivityName() + " (" + activity.getActivityId() + ")" + " -----");
+            int numMenuItems = printActivityMenu();
+            System.out.print("Please choose an item from the menu list\n> ");
+            int input = getIntInput(terminal,numMenuItems,"The number has to correspond to one of the menu items.");
+            if (input == 1) {
+                System.out.println("Please input the initials of the worker\n> ");
+                String workerInitials = terminal.next();
+                app.addWorkerToActivity(project.getProjectNumber(), activity.getActivityId(), workerInitials);
+                System.out.println("The worker " + workerInitials + " was added to this activity.");
+            } else if (input == 2) {
+                // empty the rest of the line before input
+                terminal.nextLine();
+                System.out.print("What is the new name of this activity?\n> ");
+                String newActivityName = terminal.nextLine();
+                // set activity name function
+                System.out.println("Activity name changed to " + newActivityName);
+                System.out.println("Does not work yet.");
+            } else if (input == 3) {
+                // empty the rest of the line before input
+                terminal.nextLine();
+                System.out.print("What is the new description of this activity?\n> ");
+                String newActivityDesc = terminal.nextLine();
+                app.setActivityDescription(activity,newActivityDesc);
+                System.out.println("Activity description was changed.");
+            } else if (input == 4) {
+                System.out.print("Please input the budgetted time for this activity in the format: hrs min  (fx 12 45)\n> ");
+                int hours = terminal.nextInt();
+                int min = terminal.nextInt();
+                HalfHours budgetTime = new HalfHours(hours, min);
+                app.setActivityBudgetTime(activity,budgetTime);
+                System.out.println("The budgeted time was set to: " + budgetTime.getTime() + " hours.");
+            } else if (input == 5) {
+                System.out.println("Please input the start week and year for this activity in the format: week year (fx 34 2023)\n> ");
+                int startWeek = terminal.nextInt();
+                int startYear = terminal.nextInt();
+                System.out.println("Please input the end week and year for this activity in the format: week year (fx 34 2023)\n> ");
+                int endWeek = terminal.nextInt();
+                int endYear = terminal.nextInt();
+                app.activityPlanStartAndEnd(project.getProjectNumber(), activity.getActivityId(), startWeek, endWeek, startYear, endYear);
+                System.out.println("The start and end week was changed.");
+            } else if (input == 6) {
+                System.out.println(app.getActivityOverview(activity.getActivityId()));
+            } else if (input == 7) {
+                returnToProjectMenu = true;
+            }
+        }
     }
 
     public static int getIntInput(Scanner terminal,int numberOfMenuItems,String message) {
@@ -171,7 +229,7 @@ public class userInterface {
                 terminal.next();
             }
             System.out.println("\n" + message);
-            System.out.print("Please try again: ");
+            System.out.print("Please try again\n> ");
         }
         System.out.println();
         return choice;
@@ -204,14 +262,15 @@ public class userInterface {
         return 7;
     }
 
-    public static void printActivityMenu() {
+    public static int printActivityMenu() {
         // Daniel
         System.out.println("1. Add worker to activity");
-        System.out.println("2. Change description of activity");
-        System.out.println("3. Change the budgeted time on an activity");
-        System.out.println("4. Set new project leader");
-        System.out.println("5. Mark project as finished");
-        System.out.println("6. Print project info");
-        System.out.println("7. Return to main menu");
+        System.out.println("2. Change name of activity");
+        System.out.println("3. Change description of activity");
+        System.out.println("4. Change the budgeted time on an activity");
+        System.out.println("5. Set the start and end week of the activity");
+        System.out.println("6. Print activity info");
+        System.out.println("7. Return to project menu");
+        return 7;
     }
 }

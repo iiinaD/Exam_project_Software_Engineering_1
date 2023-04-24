@@ -555,7 +555,7 @@ public class StepDefinitions {
 	@When("the activity is planned to start week {int} year {int} and end week {int} year {int}")
 	public void theActivityIsPlannedToStartWeekYearAndEndWeekYear(int week0, int year0, int week1, int year1) throws OperationNotAllowedException {
 		//Jonas
-		app.ActivityPlanStartAndEnd(project.getProjectNumber(), activity.getActivityId(), week0, week1, year0, year1);
+		app.activityPlanStartAndEnd(project.getProjectNumber(), activity.getActivityId(), week0, week1, year0, year1);
 	}
 
 	@Then("the planned number of weeks is {int}")

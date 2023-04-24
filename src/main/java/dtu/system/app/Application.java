@@ -203,7 +203,7 @@ public class Application {
         return activity;
     }
 
-    public void ActivityPlanStartAndEnd(int projectNumber, String activityId, int week0, int week1, int year0, int year1) throws OperationNotAllowedException {
+    public void activityPlanStartAndEnd(int projectNumber, String activityId, int week0, int week1, int year0, int year1) throws OperationNotAllowedException {
         // Jonas
         Activity a = getActivityFromProject(projectNumber, activityId);
         if (a != null){
