@@ -29,3 +29,22 @@ Feature: Access hours overview
     jodl	5,5 Hrs
 
     """
+
+  Scenario: Employee gets a hours overview but its illegal
+    When the worker access hours overview for activity "23001-00"
+    Then an error message "Activity ID invalid: Incorrect format. Should be [Project Number]-[Activity ID]" is given
+  Scenario: Employee gets a hours overview but its illegal
+    When the worker access hours overview for activity "2300-001"
+    Then an error message "Activity ID invalid: Incorrect format. Should be [Project Number]-[Activity ID]" is given
+  Scenario: Employee gets a hours overview but its illegal
+    When the worker access hours overview for activity "23001001"
+    Then an error message "Activity ID invalid: Incorrect format. Should be [Project Number]-[Activity ID]" is given
+  Scenario: Employee gets a hours overview but its illegal
+    When the worker access hours overview for activity "abcde-abc"
+    Then an error message "Activity ID invalid: Incorrect format. Should be [Project Number]-[Activity ID]" is given
+  Scenario: Employee gets a hours overview but its illegal
+    When the worker access hours overview for activity "23001-"
+    Then an error message "Activity ID invalid: Incorrect format. Should be [Project Number]-[Activity ID]" is given
+  Scenario: Employee gets a hours overview but its illegal
+    When the worker access hours overview for activity "-001"
+    Then an error message "Activity ID invalid: Incorrect format. Should be [Project Number]-[Activity ID]" is given
