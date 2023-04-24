@@ -79,7 +79,7 @@ public class UserInterface {
                 }
             } else if (input == 2) {
                 System.out.print("Please input the id of the project\n> ");
-                int projectNumber = terminal.nextInt();
+                int projectNumber = forceInt(terminal,"The project number has to have the form: 23001");
                 try {
                     Project accessProject = app.getProjectWithNumber(projectNumber);
                     projectMenu(app,terminal,accessProject);
@@ -102,7 +102,7 @@ public class UserInterface {
                 System.out.print("Please enter the initials of the person\n> ");
                 String initials = terminal.next();
                 System.out.print("Please enter the id of the activity\n> ");
-                String activityId = terminal.next();
+                String activityId = forceStringLength(terminal,9, "The activity id has to have the form: 23001-001");
                 int projectNumber = app.getProjectNumberFromActivityId(activityId);
                 System.out.print("Please input the spent time for this activity in the format: hrs min  (fx 12 45)\n> ");
                 int hours = terminal.nextInt();
@@ -214,7 +214,7 @@ public class UserInterface {
                 app.setActivityDescription(activity,newActivityDesc);
                 System.out.println("Activity description was changed.");
             } else if (input == 4) {
-                System.out.print("Please input the budgetted time for this activity in the format: hrs min  (fx 12 45)\n> ");
+                System.out.print("Please input the budgeted time for this activity in the format: hrs min  (fx 12 45)\n> ");
                 int hours = terminal.nextInt();
                 int min = terminal.nextInt();
                 HalfHours budgetTime = new HalfHours(hours, min);
@@ -237,7 +237,21 @@ public class UserInterface {
         }
     }
 
-
+    private static int forceInt(Scanner terminal, String message) {
+        // Daniel
+        int choice;
+        while (true) {
+            try {
+                choice = Integer.parseInt(forceStringLength(terminal,5,message));
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("\n" + message);
+                System.out.print("Please try again\n> ");
+            }
+        }
+        System.out.println();
+        return choice;
+    }
     private static String forceStringLength(Scanner terminal, int stringLength, String message) {
         // Daniel
         // Check for a valid string length
