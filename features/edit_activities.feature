@@ -62,3 +62,13 @@ Feature: Edit activities
     And a project named "project 0" with an activity named "frontend"
     When a worker changes the activity name to "backend"
     Then the activity name has changed to "backend"
+
+  Scenario: Add Worker to an Activity but the worker is already in the list so what's the point?
+    Given there is a worker with initials "jodl" logged in to the system
+    And a worker with the initials "daha" exists
+    And a project named "project 0" with an activity "23001-001"
+    When the project leader "jodl" assigns the worker "daha" to the activity
+    Then the worker "daha" is assigned to the activity
+    And "daha" has activity "23001-001" in his activity list
+    When the project leader "jodl" assigns the worker "daha" to the activity
+    Then an error message "daha is already in the list!" is given

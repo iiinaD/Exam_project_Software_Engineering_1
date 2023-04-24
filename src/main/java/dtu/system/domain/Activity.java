@@ -54,9 +54,13 @@ public class Activity {
         name = newName;
     }
 
-    public void addWorker(Worker worker){
+    public boolean addWorker(Worker worker){
         // Daniel
+        if(workerList.contains(worker)){
+            return false;
+        }
         workerList.add(worker);
+        return true;
     }
 
     public int getBudgetWeeks() {

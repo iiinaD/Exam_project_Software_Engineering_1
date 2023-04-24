@@ -296,7 +296,9 @@ public class Application {
         Project project = getProjectWithNumber(projectNumber);
         Activity activity = project.getActivity(activityId);
         Worker worker = getWorkerWithInitials(workerInitials);
-        activity.addWorker(worker);
+        if(!activity.addWorker(worker)){
+            throw new OperationNotAllowedException(worker.getInitials() + " is already in the list!");
+        }
         worker.addWorkerActivity(activity);
     }
 
