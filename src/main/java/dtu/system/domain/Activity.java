@@ -151,6 +151,7 @@ public class Activity {
                 print += taps + "\t\t <empty> \n";
             }
         }
+        print += "\n";
 
         return print;
     }
