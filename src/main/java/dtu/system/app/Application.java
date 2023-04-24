@@ -336,7 +336,6 @@ public class Application {
 
     public String timeSchedule(int week, int year) {
         // Jonas
-        // missing a print for if worker is on holiday
         String print = "\n" + "Worker overview of week "+ week + " in year " + year +"\n\n";
         ArrayList<Activity> activityList = activitiesInWeekAndYear(week, year);
         Boolean foundOne = false;

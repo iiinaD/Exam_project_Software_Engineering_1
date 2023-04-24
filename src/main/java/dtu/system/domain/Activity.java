@@ -30,10 +30,12 @@ public class Activity {
     }
 
     public void setDescription(String description){
+        // Gee
         this.description = description;
     }
 
     public void setBudgetTime(HalfHours budgetTime){
+        // Gee
         this.budgetTime = budgetTime;
     }
 
