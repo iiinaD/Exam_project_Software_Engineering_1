@@ -49,7 +49,7 @@ public class UserInterface {
         }
         System.out.println("Program terminated.");
     }
-    public static void mainMenu(Application app, Scanner terminal) {
+    public static void mainMenu(Application app, Scanner terminal) throws OperationNotAllowedException {
         // Daniel
         while (app.getLoggedInStatus()) {
             System.out.println();
@@ -86,9 +86,33 @@ public class UserInterface {
                     System.out.println(e.getMessage() + "\n");
                 }
             } else if (input == 3) {
-                System.out.println("3. Register working hours");
-                System.out.println("Coming soon...");
+                System.out.print("Please enter the id of the activity\n> ");
+                String activityId = terminal.next();
+                int projectNumber = app.getProjectNumberFromActivityId(activityId);
+                System.out.print("Please input the spent time for this activity in the format: hrs min  (fx 12 45)\n> ");
+                int hours = terminal.nextInt();
+                int min = terminal.nextInt();
+                app.incrementWorkTime(app.getLoggedInWorker(),app.getActivityFromProject(projectNumber,activityId),hours,min);
             } else if (input == 4) {
+                System.out.println("4. See past working hours");
+                System.out.println("Coming soon...");
+            } else if (input == 5) {
+                System.out.print("Please enter the initials of the person\n> ");
+                String initials = terminal.next();
+                System.out.print("Please enter the id of the activity\n> ");
+                String activityId = terminal.next();
+                int projectNumber = app.getProjectNumberFromActivityId(activityId);
+                System.out.print("Please input the spent time for this activity in the format: hrs min  (fx 12 45)\n> ");
+                int hours = terminal.nextInt();
+                int min = terminal.nextInt();
+                app.incrementWorkTime(app.getWorkerWithInitials(initials),app.getActivityFromProject(projectNumber,activityId),hours,min);
+            } else if (input == 6) {
+                System.out.println("6. See past working hours for a worker");
+                System.out.println("Coming soon...");
+            } else if (input == 7) {
+                System.out.println("7. Check a workers week schedule");
+                System.out.println("Coming soon...");
+            } else if (input == 8) {
                 app.logOut();
                 System.out.println("Worker has been logged out");
             }
@@ -246,8 +270,12 @@ public class UserInterface {
         System.out.println("1. Create a project");
         System.out.println("2. Access a project");
         System.out.println("3. Register working hours");
-        System.out.println("4. Logout and return to login screen");
-        return 4;
+        System.out.println("4. See past working hours");
+        System.out.println("5. Register working hours for a worker");
+        System.out.println("6. See past working hours for a worker");
+        System.out.println("7. Check a workers week schedule");
+        System.out.println("8. Logout and return to login screen");
+        return 8;
     }
 
     public static int printProjectMenu() {
