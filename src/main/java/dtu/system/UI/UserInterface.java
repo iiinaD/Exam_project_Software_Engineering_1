@@ -86,7 +86,7 @@ public class UserInterface {
                     System.out.println(e.getMessage() + "\n");
                 }
             } else if (input == 3) {
-                System.out.println();
+                System.out.println(app.getStringActiveProjects());
             } else if (input == 4) {
                 System.out.print("Please enter the id of the activity\n> ");
                 String activityId = forceStringLength(terminal,9, "The activity id has to have the form: 23001-001");
