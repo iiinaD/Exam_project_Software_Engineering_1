@@ -262,6 +262,7 @@ public class Application {
         }
         return output.toString();
     }
+
     public String hoursOverview(WorkerActivity workerActivity){
         // Gee
         return workerActivity.prettyPrintData();
@@ -382,12 +383,18 @@ public class Application {
         validActivityIdTest(activityId);
         return Integer.valueOf(activityId.substring(0,5));
     }
-
+    
+    public void changeActivityName(Activity activity, String newName) {
+        // Daniel
+        activity.setActivityName(newName);
+    }
+        
     public void validProjectNumberTest(int number) throws OperationNotAllowedException{
         if(number < 10000 ||number > 99999 ){
             throw new OperationNotAllowedException("Project number invalid: Incorrect format. Should be between 10000 and 99999");
         }
     }
+    
     public void validActivityIdTest(String id) throws OperationNotAllowedException{
         if (!id.contains("-")){
             //missing "-"
