@@ -129,7 +129,6 @@ public class UserInterface {
                     terminal.nextLine();
                     System.out.print("Please input the name of the activity\n> ");
                     String activityName = terminal.nextLine();
-                    terminal.nextLine();
                     System.out.print("Please input the description of the activity (if not yet known enter 1)\n> ");
                     String activityDescription = terminal.nextLine();
                     if (activityDescription.equals("1")) {

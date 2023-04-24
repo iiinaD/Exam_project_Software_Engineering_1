@@ -198,7 +198,7 @@ public class Application {
         // Jonas
         Activity activity = getProjectWithNumber(projectNumber).getActivity(activityId);
         if (activity == null){
-            throw new OperationNotAllowedException(activityId + " dont exist");
+            throw new OperationNotAllowedException("The activity with id: " + activityId + " does not exist");
         }
         return activity;
     }

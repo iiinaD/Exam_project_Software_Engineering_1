@@ -44,7 +44,7 @@ Feature: Edit activities
     Given there is a worker with initials "jodl" logged in to the system
     And a project named "project 0" with an activity "23001-001"
     When the worker try to acces activity "23001-002"
-    Then an error message "23001-002 dont exist" is given
+    Then an error message "The activity with id: 23001-002 does not exist" is given
 
   #Jonas
   Scenario: A worker with an acticty in his workeractivity list, try to acces an activity that the worker dont have
