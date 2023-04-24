@@ -1,5 +1,5 @@
 # Jonas
-Feature:
+Feature: print overview
   Description: A worker can view Strings of activitys and projects
   Actor: worker
 

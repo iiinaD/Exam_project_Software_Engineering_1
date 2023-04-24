@@ -1,5 +1,6 @@
 Feature: Edit activities
 
+  #Gee
   Scenario: Change description of an activity
     Given there is a worker with initials "jodl" logged in to the system
     And a project named "project 0" with an activity "23001-001"
@@ -7,6 +8,7 @@ Feature: Edit activities
     When the worker set the description of an activity of "Do not give up on life"
     Then the description of the activity should be "Do not give up on life"
 
+  #Gee
   Scenario: Change budget time on an activity
     Given there is a worker with initials "jodl" logged in to the system
     And a project named "project 0" with an activity "23001-001"
