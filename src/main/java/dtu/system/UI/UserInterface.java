@@ -200,8 +200,7 @@ public class UserInterface {
                 terminal.nextLine();
                 System.out.print("What is the new name of this activity?\n> ");
                 String newActivityName = terminal.nextLine();
-                // set activity name function
-                System.out.println("Need to add a setActivityName function in the app");
+                app.changeActivityName(activity, newActivityName);
                 System.out.println("Activity name changed to " + newActivityName);
             } else if (input == 3) {
                 // empty the rest of the line before input
