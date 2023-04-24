@@ -110,8 +110,10 @@ public class UserInterface {
                 System.out.println("6. See past working hours for a worker");
                 System.out.println("Coming soon...");
             } else if (input == 7) {
-                System.out.println("7. Check a workers week schedule");
-                System.out.println("Coming soon...");
+                System.out.print("Please input the week and year for this activity in the format: week year (fx 34 2023)\n> ");
+                int week = terminal.nextInt();
+                int year = terminal.nextInt();
+                System.out.println(app.timeSchedule(week,year));
             } else if (input == 8) {
                 app.logOut();
                 System.out.println("Worker has been logged out");
@@ -273,7 +275,7 @@ public class UserInterface {
         System.out.println("4. See past working hours");
         System.out.println("5. Register working hours for a worker");
         System.out.println("6. See past working hours for a worker");
-        System.out.println("7. Check a workers week schedule");
+        System.out.println("7. Check all workers week schedule");
         System.out.println("8. Logout and return to login screen");
         return 8;
     }
