@@ -30,7 +30,7 @@ public class UserInterface {
                     // Load main menu
                     mainMenu(app, terminal);
                 } catch (OperationNotAllowedException e) {
-                    System.out.println(e.getMessage() + "\n");
+                    printErrorMessage(e);
                 }
             } else if (input == 2) {
                 System.out.print("Please input the worker's initials\n> ");
@@ -40,7 +40,7 @@ public class UserInterface {
                     app.addNewWorker(newWorker);
                     System.out.println("The worker " + initials + " has been added\n");
                 } catch (OperationNotAllowedException | IllegalArgumentException e) {
-                    System.out.println(e.getMessage() + "\n");
+                    printErrorMessage(e);
                 }
 
             } else if (input == 3) {
@@ -74,7 +74,7 @@ public class UserInterface {
                     System.out.println(createdProject.getProjectName() + " was created and given the number " + createdProject.getProjectNumber());
 
                 } catch (OperationNotAllowedException e) {
-                    System.out.println(e.getMessage() + "\n");
+                    printErrorMessage(e);
                 }
             } else if (input == 2) {
                 System.out.print("Please input the id of the project\n> ");
@@ -83,10 +83,10 @@ public class UserInterface {
                     Project accessProject = app.getProjectWithNumber(projectNumber);
                     projectMenu(app,terminal,accessProject);
                 } catch (OperationNotAllowedException e) {
-                    System.out.println(e.getMessage() + "\n");
+                    printErrorMessage(e);
                 }
             } else if (input == 3) {
-                System.out.println(app.getStringActiveProjects());
+                System.out.println(app.hoursOverview(app.getLoggedInWorker()));
             } else if (input == 4) {
                 System.out.print("Please enter the id of the activity\n> ");
                 String activityId = forceStringLength(terminal,9, "The activity id has to have the form: 23001-001");
@@ -139,7 +139,7 @@ public class UserInterface {
                     Activity activity = app.addActivityToProjectWithNameAndDescription(project,activityName,activityDescription);;
                     System.out.println("The activity " + activityName + " with the id " + activity.getActivityId() + " was created");
                 } catch (OperationNotAllowedException e) {
-                    System.out.println(e.getMessage() + "\n");
+                    printErrorMessage(e);
                 }
             } else if (input == 2) {
                 System.out.print("Please input the id of the activity\n> ");
@@ -148,7 +148,7 @@ public class UserInterface {
                     Activity accessActivity = app.getActivityFromProject(project.getProjectNumber(),activityId);
                     activityMenu(app,terminal,project,accessActivity);
                 } catch (OperationNotAllowedException e) {
-                    System.out.println(e.getMessage() + "\n");
+                    printErrorMessage(e);
                 }
             } else if (input == 3) {
                 // empty the rest of the line before input
@@ -164,14 +164,14 @@ public class UserInterface {
                     app.setProjectLeader(project.getProjectNumber(), newProjectLeader);
                     System.out.println("The new project leader is " + newProjectLeader);
                 } catch (OperationNotAllowedException e) {
-                    System.out.println(e.getMessage() + "\n");
+                    printErrorMessage(e);
                 }
             } else if (input == 5) {
                 try {
                     app.markProjectFinished(project);
                     System.out.println("Project is now officially done!");
                 } catch (OperationNotAllowedException e) {
-                    System.out.println(e.getMessage() + "\n");
+                    printErrorMessage(e);
                 }
             } else if (input == 6) {
                 System.out.println(app.getProjectOverview(project.getProjectNumber()));
@@ -311,5 +311,9 @@ public class UserInterface {
         System.out.println("6. Print activity info");
         System.out.println("7. Return to project menu");
         return 7;
+    }
+
+    public static void printErrorMessage(Exception e) {
+        System.out.println("ERROR: " + e.getMessage() + "\n");
     }
 }
