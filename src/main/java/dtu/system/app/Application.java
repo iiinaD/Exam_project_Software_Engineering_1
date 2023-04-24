@@ -21,6 +21,14 @@ public class Application {
         if (isWorkerInWorkerList(worker.getInitials())){
             throw new OperationNotAllowedException("A worker with these initials already exists in the system.");
         }
+        else {
+            if (worker.getInitials().length() < 2 || worker.getInitials().length() > 4) {
+                throw new OperationNotAllowedException("Worker initials can't contain less than 2 or more than 4 characters."); // missing test
+            }
+            else if(!worker.getInitials().matches("[a-zA-Z]+")) {
+                throw new OperationNotAllowedException("Worker initials can't contain numbers or special characters."); // missing test
+            }
+        }
 
         workerList.add(worker);
     }
