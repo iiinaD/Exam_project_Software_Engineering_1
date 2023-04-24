@@ -23,10 +23,10 @@ public class Application {
         }
         else {
             if (worker.getInitials().length() < 2 || worker.getInitials().length() > 4) {
-                throw new OperationNotAllowedException("Worker initials can't contain less than 2 or more than 4 characters."); // missing test
+                throw new OperationNotAllowedException("Worker initials can't contain less than 2 or more than 4 characters.");
             }
             else if(!worker.getInitials().matches("[a-zA-Z]+")) {
-                throw new OperationNotAllowedException("Worker initials can't contain numbers or special characters."); // missing test
+                throw new OperationNotAllowedException("Worker initials can't contain numbers or special characters.");
             }
         }
 
