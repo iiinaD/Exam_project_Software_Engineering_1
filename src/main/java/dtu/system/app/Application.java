@@ -127,7 +127,6 @@ public class Application {
                 return p;
             }
         }
-        // mangler test
         throw new OperationNotAllowedException("No project with the id " + projectNumber + " exists in the system");
     }
 
@@ -176,7 +175,7 @@ public class Application {
         return project.addActivityWithNameAndDescription(activityName, activityDescription);
     }
 
-    public void setActivityBudgetTime(Activity activity, HalfHours halfHours){
+    public void setActivityBudgetTime(Activity activity, HalfHours halfHours) throws OperationNotAllowedException {
         //Gee
         activity.setBudgetTime(halfHours);
     }
@@ -184,7 +183,7 @@ public class Application {
         //Gee
         return activity.getBudgetTime();
     }
-    public void setActivityDescription(Activity activity, String description){
+    public void setActivityDescription(Activity activity, String description) throws OperationNotAllowedException {
         //Gee
         activity.setDescription(description);
     }
@@ -216,12 +215,14 @@ public class Application {
     public void incrementWorkTime(Worker worker, Activity activity, int hours, int minutes) throws OperationNotAllowedException {
         // Gee,
         //I don't do access control here for now, we might want to rethink the login check.
-        // Response: Cant we just est if worker == loggedInWorker?
+        // Response: Cant we just test if worker == loggedInWorker?
 
         if (worker.getWorkerActivityList().isEmpty()){
             throw new OperationNotAllowedException("This worker doesn't have any activities yet.");
         }
 
+        // move below in to worker class
+        // call getWorkerActivity in woker clas
         List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
         for(WorkerActivity workerActivity :workerActivityList){
             if(Objects.equals(workerActivity.getActivity(), activity)){
@@ -392,7 +393,7 @@ public class Application {
         return Integer.valueOf(activityId.substring(0,5));
     }
     
-    public void changeActivityName(Activity activity, String newName) {
+    public void changeActivityName(Activity activity, String newName) throws OperationNotAllowedException {
         // Daniel
         activity.setActivityName(newName);
     }

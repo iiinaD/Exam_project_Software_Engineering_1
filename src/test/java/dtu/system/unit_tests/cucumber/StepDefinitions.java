@@ -458,12 +458,12 @@ public class StepDefinitions {
 
 	//edit_activities.feature
 	@Given("the activity has a description of {string}")
-	public void the_activity_has_a_description_of(String string) {
+	public void the_activity_has_a_description_of(String string) throws OperationNotAllowedException {
 		app.setActivityDescription(activity, string);
 	}
 
 	@When("the worker set the description of an activity of {string}")
-	public void the_worker_set_the_description_of_an_activity_of(String string) {
+	public void the_worker_set_the_description_of_an_activity_of(String string) throws OperationNotAllowedException {
 		app.setActivityDescription(activity, string);
 	}
 
@@ -473,12 +473,12 @@ public class StepDefinitions {
 	}
 
 	@Given("the activity has a budget time of {int} hours")
-	public void the_activity_has_a_budget_time_of_hours(Integer int1) {
+	public void the_activity_has_a_budget_time_of_hours(Integer int1) throws OperationNotAllowedException {
 		app.setActivityBudgetTime(activity,new HalfHours(int1, 0));
 	}
 
 	@When("the worker changes the budget time to {int} hours")
-	public void the_worker_changes_the_budget_time_to_hours(Integer int1) {
+	public void the_worker_changes_the_budget_time_to_hours(Integer int1) throws OperationNotAllowedException {
 		app.setActivityBudgetTime(activity,new HalfHours(int1, 0));
 	}
 
@@ -604,8 +604,12 @@ public class StepDefinitions {
 	public void isAddedTo(String initials, String activityId) throws OperationNotAllowedException {
 		// Jonas
 		int projectNumber = Integer.valueOf(activityId.substring(0,5));
-		app.addWorkerToActivity(projectNumber, activityId, initials);
-		assertTrue(app.getActivityFromProject(projectNumber, activityId).isWorkerAssigned(initials));
+		try {
+			app.addWorkerToActivity(projectNumber, activityId, initials);
+			assertTrue(app.getActivityFromProject(projectNumber, activityId).isWorkerAssigned(initials));
+		} catch (OperationNotAllowedException e){
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 	}
 
 	@When("a worker want to know which workers work in week {int} year {int}")
@@ -670,7 +674,7 @@ public class StepDefinitions {
 		}
 	}
 	@When("a worker changes the activity name to {string}")
-	public void aWorkerChangesTheActivityName(String newActivityName) {
+	public void aWorkerChangesTheActivityName(String newActivityName) throws OperationNotAllowedException {
 		// Daniel
 		app.changeActivityName(activity,newActivityName);
 	}

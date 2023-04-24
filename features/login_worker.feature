@@ -30,6 +30,7 @@ Feature: a worker can login
     Given a worker with the name "jodl" exists
     And the worker is not logged in
 
+  #Jonas
   Scenario: tryig to login using initials that dont exist
     Given a worker with the name "jodl" dont exist
     And the worker can login using his initial "jodl" to login

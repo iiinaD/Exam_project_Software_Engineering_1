@@ -15,7 +15,6 @@ Feature: print overview
     And the activity is planned to start week 20 year 2023 and end week 24 year 2023
     # makes jodl project leader in both projects
     And "jodl" is assigned as project leader to the project with number 23001
-    And the project leader tries to mark the project as finished
     # add the workes to the
     And "jodl" is added to "23001-001"
     And "jodl" is added to "23001-002"
@@ -29,6 +28,8 @@ Feature: print overview
     And there is a project 23002 in the system
     And there is a project 23003 in the system
     And the worker creates a new activity with the name "Testing" and the description "Do testing here, there and everywhere."
+    # project leader marks 23001 as finished
+    Then he marks project 23001 as finished
 
   #Jonas
   Scenario: A manually test if the print looks okay, the scenaio helps get the string to print.

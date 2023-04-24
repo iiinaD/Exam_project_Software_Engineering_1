@@ -49,6 +49,16 @@ Feature: Edit activities
     Then an error message "The activity with id: 23001-002 does not exist" is given
 
   #Jonas
+  Scenario: project leader changes adds a worker to an activity that is completed
+    Given there is a worker with initials "jodl" logged in to the system
+    And a worker with the initials "Dahl" exists
+    And a project named "project 0" with an activity "23001-001"
+    When "jodl" is assigned as project leader to the project with number 23001
+    Then he marks project 23001 as finished
+    When "Dahl" is added to "23001-001"
+    Then an error message "The project 23001 is marked as finished" is given
+
+  #Jonas
   Scenario: A worker with an acticty in his workeractivity list, try to acces an activity that the worker dont have
     Given there is a worker with initials "jodl" logged in to the system
     And a worker with the initials "daha" exists
