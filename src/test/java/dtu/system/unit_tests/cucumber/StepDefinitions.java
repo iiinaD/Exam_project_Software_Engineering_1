@@ -611,9 +611,13 @@ public class StepDefinitions {
 	@When("a worker want to know which workers work in week {int} year {int}")
 	public void aWorkerWantToKnowWhichWorkersWorkInWeekYear(int week, int year) {
 		// Jonas
-		this.week = week;
-		this.year = year;
-		this.activityList = app.activitiesInWeekAndYear(week,year);
+		try{
+			this.week = week;
+			this.year = year;
+			this.activityList = app.activitiesInWeekAndYear(week,year);
+		}catch (OperationNotAllowedException e){
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 	}
 
 	@Then("a activityList will have length {int}")
@@ -623,7 +627,7 @@ public class StepDefinitions {
 	}
 
 	@When("the worker wants to view which workers are assigned the activity's a string is given")
-	public void theWorkerWantsToViewWhichWorksAreAssignedTheAnticipatesAStringIsGiven() {
+	public void theWorkerWantsToViewWhichWorksAreAssignedTheAnticipatesAStringIsGiven() throws OperationNotAllowedException {
 		// Jonas
 		String print = app.timeSchedule(week, year);
 		assertNotNull(print);

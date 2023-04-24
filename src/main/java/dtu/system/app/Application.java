@@ -329,8 +329,9 @@ public class Application {
         return workerActivity;
     }
 
-    public ArrayList<Activity> activitiesInWeekAndYear(int week, int year) {
+    public ArrayList<Activity> activitiesInWeekAndYear(int week, int year) throws OperationNotAllowedException {
         // Jonas
+        validWeekYearTest(week, year);
         ArrayList<Activity> activityList = new ArrayList<>();
         for (Project project : projectList){
             for (Activity activity : project.getActivityList()){
@@ -342,7 +343,16 @@ public class Application {
         return activityList;
     }
 
-    public String timeSchedule(int week, int year) {
+    private void validWeekYearTest(int week, int year) throws OperationNotAllowedException {
+        if(week < 1 || week >52){
+            throw new OperationNotAllowedException("Invalid week: Week must be between 1-52");
+        }
+        if(year < 1000 || year >9999){
+            throw new OperationNotAllowedException("Invalid year: Year must be between 1000-9999");
+        }
+    }
+
+    public String timeSchedule(int week, int year) throws OperationNotAllowedException {
         // Jonas
         // missing a print for if worker is on holiday
         String print = "\n" + "Worker overview of week "+ week + " in year " + year +"\n\n";

@@ -32,3 +32,21 @@ Feature: view time schedule
     Then a activityList will have length 2
     # The string is long an will be manually checked
     When the worker wants to view which workers are assigned the activity's a string is given
+  Scenario: Get all activity's that is active doing a given week but its illegal
+    Given a worker want to know which workers work in week 0 year 2023
+    Then an error message "Invalid week: Week must be between 1-52" is given
+  Scenario: Get all activity's that is active doing a given week but its illegal
+    Given a worker want to know which workers work in week -23 year 2023
+    Then an error message "Invalid week: Week must be between 1-52" is given
+  Scenario: Get all activity's that is active doing a given week but its illegal
+    Given a worker want to know which workers work in week 99 year 2023
+    Then an error message "Invalid week: Week must be between 1-52" is given
+  Scenario: Get all activity's that is active doing a given week but its illegal
+    Given a worker want to know which workers work in week 21 year 202
+    Then an error message "Invalid year: Year must be between 1000-9999" is given
+  Scenario: Get all activity's that is active doing a given week but its illegal
+    Given a worker want to know which workers work in week 21 year -2023
+    Then an error message "Invalid year: Year must be between 1000-9999" is given
+  Scenario: Get all activity's that is active doing a given week but its illegal
+    Given a worker want to know which workers work in week 21 year 202222
+    Then an error message "Invalid year: Year must be between 1000-9999" is given
