@@ -89,7 +89,7 @@ public class UserInterface {
                 System.out.println();
             } else if (input == 4) {
                 System.out.print("Please enter the id of the activity\n> ");
-                String activityId = terminal.next();
+                String activityId = forceStringLength(terminal,9, "The activity id has to have the form: 23001-001");
                 int projectNumber = app.getProjectNumberFromActivityId(activityId);
                 System.out.print("Please input the spent time for this activity in the format: hrs min  (fx 12 45)\n> ");
                 int hours = terminal.nextInt();
@@ -232,6 +232,22 @@ public class UserInterface {
                 returnToProjectMenu = true;
             }
         }
+    }
+
+    private static String forceStringLength(Scanner terminal, int stringLength, String message) {
+        // Daniel
+        // Check for a valid string length
+        String choice;
+        while (true) {
+            choice = terminal.next();
+            if (choice.length() == stringLength) {
+                break;
+            }
+            System.out.println("\n" + message);
+            System.out.print("Please try again\n> ");
+        }
+        System.out.println();
+        return choice;
     }
 
     public static int getIntInput(Scanner terminal,int numberOfMenuItems,String message) {
