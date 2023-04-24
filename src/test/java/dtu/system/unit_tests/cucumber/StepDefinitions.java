@@ -622,7 +622,7 @@ public class StepDefinitions {
 		// Jonas
 		String print = app.timeSchedule(week, year);
 		assertNotNull(print);
-		//System.out.println(print);
+		System.out.println(print);
 	}
 
 

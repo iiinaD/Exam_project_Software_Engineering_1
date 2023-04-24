@@ -110,7 +110,6 @@ public class Application {
 
     public int getNextProjectNumber() {
         //Daniel
-        //String year = String.valueOf(dateServer.getDate().get(Calendar.YEAR));
         String year = String.valueOf(dateServer.getCurrentYear());
         int twoDigitYear = Integer.parseInt(year.substring(2));
         return twoDigitYear*1000 + projectList.size() + 1;
@@ -337,7 +336,6 @@ public class Application {
 
     public String timeSchedule(int week, int year) {
         // Jonas
-        // missing a print for if worker is on holiday
         String print = "\n" + "Worker overview of week "+ week + " in year " + year +"\n\n";
         ArrayList<Activity> activityList = activitiesInWeekAndYear(week, year);
         Boolean foundOne = false;
@@ -347,7 +345,7 @@ public class Application {
             for (Activity activity : activityList){
                 if (activity.isWorkerAssigned(worker.getInitials())){
                     foundOne = true;
-                    print += activity.overview(1,false);
+                    print += activity.overview(1,false, false, false);
                 }
             }
             if (!foundOne){
@@ -367,7 +365,7 @@ public class Application {
     public String getActivityOverview(String activityId) throws OperationNotAllowedException {
         // Jonas
         Activity activity = getActivityFromProject(getProjectNumberFromActivityId(activityId), activityId);
-        return activity.overview(1, true);
+        return activity.overview(1, true, true, true);
     }
 
     public int getProjectNumberFromActivityId(String activityId){
