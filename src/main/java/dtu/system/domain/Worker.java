@@ -21,6 +21,7 @@ public class Worker {
 
     public WorkerActivity addWorkerActivity(Activity activity) {
         // Danny
+        // needs test if worker that worker activity already exist (same activity)
         WorkerActivity workerActivity = new WorkerActivity(activity);
 
         workerActivityList.add(workerActivity);

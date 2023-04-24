@@ -1,5 +1,7 @@
 package dtu.system.domain;
 
+import dtu.system.app.OperationNotAllowedException;
+
 import java.util.ArrayList;
 
 public class Project {
@@ -27,6 +29,7 @@ public class Project {
 
     public void setProjectLeader(Worker newProjectLeader) {
         // Daniel
+        //Todo cant do this is project is done
         projectLeader = newProjectLeader;
     }
 
@@ -35,7 +38,8 @@ public class Project {
         return projectNumber;
     }
 
-    public boolean isProjectLeader(Worker worker) {
+    public boolean isProjectLeader(Worker worker) { // Missing test
+        // Daniel
         if (projectLeader == null) {
             return false;
         }
@@ -47,7 +51,7 @@ public class Project {
         return projectName;
     }
 
-    public Activity addActivity(){
+    public Activity addActivity() throws OperationNotAllowedException {
         // Gee
         Activity act = new Activity(projectNumber + "-" + String.valueOf(1000 + activityCounter).substring(1), this);
         activityList.add(act); //add to activities List
@@ -55,7 +59,7 @@ public class Project {
         return act;
     }
 
-    public Activity addActivityWithNameAndDescription(String activityName, String activityDescription){
+    public Activity addActivityWithNameAndDescription(String activityName, String activityDescription) throws OperationNotAllowedException {
         // Danny
         Activity activity = new Activity(projectNumber + "-" + String.valueOf(1000 + activityCounter).substring(1), activityName, activityDescription, this);
 

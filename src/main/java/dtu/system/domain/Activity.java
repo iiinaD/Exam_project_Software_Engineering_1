@@ -1,5 +1,7 @@
 package dtu.system.domain;
 
+import dtu.system.app.OperationNotAllowedException;
+
 import java.util.ArrayList;
 
 import java.util.List;
@@ -16,31 +18,44 @@ public class Activity {
     private ArrayList<Worker> workerList = new ArrayList<>();
     private int budgetWeeks;
 
-    public Activity(String id, Project parentProject){
+    private void parentNotCompleteCheck(Project parentProject) throws OperationNotAllowedException {
+        // Jonas
+        if (parentProject.getIsFinished()){
+            throw new OperationNotAllowedException("The project " + parentProject.getProjectNumber() + " is marked as finished");
+        }
+    }
+
+    public Activity(String id, Project parentProject) throws OperationNotAllowedException {
+        // Gee
+        parentNotCompleteCheck(parentProject);
         this.id = id;
         this.parentProject = parentProject;
     }
 
-    public Activity(String id, String name, String description, Project parentProject) {
+    public Activity(String id, String name, String description, Project parentProject) throws OperationNotAllowedException {
         // Danny
+        parentNotCompleteCheck(parentProject);
         this.id = id;
         this.name = name;
         this.description = description;
         this.parentProject = parentProject;
     }
 
-    public void setDescription(String description){
+    public void setDescription(String description) throws OperationNotAllowedException {
         // Gee
+        parentNotCompleteCheck(parentProject);
         this.description = description;
     }
 
-    public void setBudgetTime(HalfHours budgetTime){
+    public void setBudgetTime(HalfHours budgetTime) throws OperationNotAllowedException {
         // Gee
+        parentNotCompleteCheck(parentProject);
         this.budgetTime = budgetTime;
     }
 
-    public void setStartEndWeekAndYears(int startWeek, int endWeek, int startYear, int endYear){
+    public void setStartEndWeekAndYears(int startWeek, int endWeek, int startYear, int endYear) throws OperationNotAllowedException {
         //Jonas
+        parentNotCompleteCheck(parentProject);
         this.startDate = new Date(startWeek, startYear);
         this.endDate = new Date(endWeek, endYear);
         calculateBudgetWeek();
@@ -51,19 +66,23 @@ public class Activity {
         this.budgetWeeks = startDate.calculateWeeksToStartWeek(endDate);
     }
 
-    public void setActivityName(String newName) {
+    public void setActivityName(String newName) throws OperationNotAllowedException {
         // Daniel
+        parentNotCompleteCheck(parentProject);
         name = newName;
     }
 
-    public boolean addWorker(Worker worker){
+
+    public boolean addWorker(Worker worker) throws OperationNotAllowedException {
         // Daniel
-        if(workerList.contains(worker)){
+        if (workerList.contains(worker)) {
             return false;
         }
+        parentNotCompleteCheck(parentProject);
         workerList.add(worker);
         return true;
     }
+
 
     public int getBudgetWeeks() {
         // Jonas

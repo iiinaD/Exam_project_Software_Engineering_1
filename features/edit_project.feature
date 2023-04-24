@@ -14,6 +14,7 @@ Feature: Edit a project
     And a project with the number 23001 and name "Web projekt" exists
     When the worker tries to change the name of the project 23005 to "Web projekt Google"
     Then an error message "No project with the id 23005 exists in the system" is given
+    #gee add a line #ToDo
 
   Scenario: A worker can assign a project leader to a project after project is created
     Given two workers with the names "daha" and "jodl" exists
