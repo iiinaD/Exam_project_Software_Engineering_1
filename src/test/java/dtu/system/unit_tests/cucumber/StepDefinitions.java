@@ -14,6 +14,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Given;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -35,6 +36,9 @@ public class StepDefinitions {
 	private String string;
 	private MockDateHolder dateHolder;
 	private Activity activity2;
+	private ArrayList<Activity> activityList = new ArrayList<>();
+	private int week;
+	private int year;
 
 
 	public StepDefinitions(Application app, ErrorMessageHolder errorMessage, MockDateHolder date) {
@@ -374,6 +378,22 @@ public class StepDefinitions {
 		}
 	}
 
+	@When("the worker creates a new activity with the name {string} and the description {string}")
+	public void theWorkerCreatesANewActivityWithTheNameAndTheDescription(String activityName, String activityDescription) throws OperationNotAllowedException {
+		// Danny
+		activity = app.addActivityToProjectWithNameAndDescription(project, activityName, activityDescription);
+	}
+
+	@Then("the project has activity {string} in its activity list with the given name and description")
+	public void theProjectHasActivityInItsActivityListWithTheGivenNameAndDescription(String activityId) throws OperationNotAllowedException {
+		// Danny
+		int projectActivityIndex = app.getProjectWithNumber(project.getProjectNumber()).getActivityList().indexOf(activity);
+
+		assertEquals(activityId, app.getProjectWithNumber(project.getProjectNumber()).getActivityList().get(projectActivityIndex).getActivityId());
+		assertEquals(activity.getActivityName(), app.getProjectWithNumber(project.getProjectNumber()).getActivityList().get(projectActivityIndex).getActivityName());
+		assertEquals(activity.getDescription(), app.getProjectWithNumber(project.getProjectNumber()).getActivityList().get(projectActivityIndex).getDescription());
+	}
+
     //////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////
@@ -564,5 +584,67 @@ public class StepDefinitions {
 		} catch (OperationNotAllowedException e){
 			errorMessageHolder.setErrorMessage(e.getMessage());
 		}
+	}
+
+    @And("{int} gets a new activity {string}")
+    public void getsANewActivity(int projectNumber, String activityId) throws OperationNotAllowedException {
+		// Jonas
+		this.project = app.getProjectWithNumber(projectNumber);
+		project.addActivity();
+		this.activity = app.getActivityFromProject(projectNumber, activityId);
+		assertEquals(activity.getActivityId(), activityId);
+    }
+
+	@And("{string} is added to {string}")
+	public void isAddedTo(String initials, String activityId) throws OperationNotAllowedException {
+		// Jonas
+		int projectNumber = Integer.valueOf(activityId.substring(0,5));
+		app.addWorkerToActivity(projectNumber, activityId, initials);
+		assertTrue(app.getActivityFromProject(projectNumber, activityId).isWorkerAssigned(initials));
+	}
+
+	@When("a worker want to know which workers work in week {int} year {int}")
+	public void aWorkerWantToKnowWhichWorkersWorkInWeekYear(int week, int year) {
+		// Jonas
+		this.week = week;
+		this.year = year;
+		this.activityList = app.activitiesInWeekAndYear(week,year);
+	}
+
+	@Then("a activityList will have length {int}")
+	public void aActivityListWillHaveLength(int length) {
+		// Jonas
+		assertEquals(activityList.size(), length);
+	}
+
+	@When("the worker wants to view which workers are assigned the activity's a string is given")
+	public void theWorkerWantsToViewWhichWorksAreAssignedTheAnticipatesAStringIsGiven() {
+		// Jonas
+		String print = app.timeSchedule(week, year);
+		assertNotNull(print);
+		//System.out.println(print);
+	}
+
+
+	@Given("a worker wants to get an overview of project {int}")
+	public void aWorkerWantsToGetAnOverviewOfProject(int projectNumber) throws OperationNotAllowedException {
+		// Jonas
+		String print = app.getProjectOverview(projectNumber);
+		assertNotNull(print);
+		System.out.println(print);
+	}
+
+	@Given("there is {int} projects int the system")
+	public void thereIsProjectsIntTheSystem(int size) {
+		// Jonas
+		assertEquals(app.getProjectList().size(), size);
+	}
+
+	@Given("a worker wants to get an overview of activity {string}")
+	public void aWorkerWantsToGetAnOverviewOfActivity(String activityId) throws OperationNotAllowedException {
+		// Jonas
+		String print = app.getActivityOverview(activityId);
+		assertNotNull(print);
+		System.out.println(print);
 	}
 }

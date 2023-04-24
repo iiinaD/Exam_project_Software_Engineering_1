@@ -1,28 +1,31 @@
 package dtu.system.domain;
 
-import dtu.system.app.DateServer;
-
 import java.util.ArrayList;
 
-import java.util.Calendar;
 import java.util.List;
-
 
 public class Activity {
 
-    public String id;
-    public String description;
-    public HalfHours budgetTime;
-    public int startWeek;
-    public int endWeek;
-    public int startYear;
-    public int endYear;
-    public Project parentProject;
-    private ArrayList<Worker> WorkerList = new ArrayList<>();
+    private String id;
+    private String name;
+    private String description;
+    private HalfHours budgetTime;
+    private Date startDate;
+    private Date endDate;
+    private Project parentProject;
+    private ArrayList<Worker> workerList = new ArrayList<>();
     private int budgetWeeks;
 
     public Activity(String id, Project parentProject){
         this.id = id;
+        this.parentProject = parentProject;
+    }
+
+    public Activity(String id, String name, String description, Project parentProject) {
+        // Danny
+        this.id = id;
+        this.name = name;
+        this.description = description;
         this.parentProject = parentProject;
     }
 
@@ -36,21 +39,23 @@ public class Activity {
 
     public void setStartEndWeekAndYears(int startWeek, int endWeek, int startYear, int endYear){
         //Jonas
-        this.startWeek = startWeek;
-        this.startYear = startYear;
-        this.endWeek = endWeek;
-        this.endYear = endYear;
+        this.startDate = new Date(startWeek, startYear);
+        this.endDate = new Date(endWeek, endYear);
         calculateBudgetWeek();
     }
 
-    private void calculateBudgetWeek() {
+    public void calculateBudgetWeek() {
         //Jonas
-        int weeksInYear = 52;
-        int years = (endYear - startYear)*weeksInYear;
-        this.budgetWeeks = endWeek - startWeek + years;
+        this.budgetWeeks = startDate.calculateWeeksToStartWeek(endDate);
+    }
+
+    public void addWorker(Worker worker){
+        // Daniel
+        workerList.add(worker);
     }
 
     public int getBudgetWeeks() {
+        // Jonas
         return budgetWeeks;
     }
 
@@ -63,16 +68,90 @@ public class Activity {
         // Gee
         return parentProject;
     }
-
-
-    public void addWorker(Worker worker){
-        // Daniel
-        WorkerList.add(worker);
-    }
-
+    
     public List<Worker> getWorkerList() {
         // Daniel
-        return WorkerList;
+        return workerList;
     }
 
+    public Boolean isWorkerAssigned(String initials) {
+        //Jonas
+        for (Worker worker : workerList){
+            if (worker.getInitials().equals(initials)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean isInGivenWeekAndYear(int week, int year) {
+        // Jonas
+        int weeks = startDate.calculateWeeksToStartWeek(new Date(week, year));
+        if (weeks >= 0 && weeks <= budgetWeeks){
+            return true;
+        }
+        return false;
+    }
+
+    public String getStartDate() {
+        // Jonas
+        return startDate.stringOfDate();
+    }
+
+    public String getEndDate() {
+        // Jonas
+        return endDate.stringOfDate();
+    }
+
+    public HalfHours getBudgetTime() {
+        // Jonas
+        return budgetTime;
+    }
+    
+    public String getActivityName()
+    {
+        // Danny
+        return name;
+    }
+
+    public String getDescription() {
+        // Jonas
+        return description;
+    }
+
+    public String overview(int numberOfTaps, Boolean includeWorkerList){
+        // Jonas
+        String taps = "";
+        for (int i = 0; i < numberOfTaps; i++){
+            taps += "\t";
+        }
+
+        String print = "";
+        print += taps + " Activity: " + id + "\n";
+        if (name != null){
+            print += taps + "\t Activity name: \n";
+            print += taps + "\t\t " + name + "\n";
+        }
+        if (startDate != null && endDate != null) {
+            print += taps + "\t Scheduled: \n";
+            print += taps + "\t\t Start date: " + getStartDate() + "\n";
+            print += taps + "\t\t End date  : " + getEndDate() + "\n";
+            print += taps + "\t\t Total number of weeks: " + budgetWeeks + "\n";
+        }
+        if (budgetTime != null){
+            print += taps + "\t Budget Time: \n";
+            print += taps + "\t\t " + budgetTime.getTime() + " Hours \n";
+        }
+        if (includeWorkerList){
+            print += taps + "\t Worker assigned to activity: \n";
+            for (Worker worker : workerList){
+                print += taps + "\t\t " + worker.getInitials() + "\n";
+            }
+            if (workerList.isEmpty()){
+                print += taps + "\t\t <empty> \n";
+            }
+        }
+
+        return print;
+    }
 }

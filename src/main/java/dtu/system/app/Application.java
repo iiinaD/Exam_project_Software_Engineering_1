@@ -170,13 +170,20 @@ public class Application {
         return project.addActivity();
     }
 
+    public Activity addActivityToProjectWithNameAndDescription(Project project, String activityName, String activityDescription) throws OperationNotAllowedException {
+        // Danny
+        loggedInTestError();
+
+        return project.addActivityWithNameAndDescription(activityName, activityDescription);
+    }
+
     public void setActivityBudgetTime(Activity activity, HalfHours halfHours){
         //Gee
         activity.setBudgetTime(halfHours);
     }
     public HalfHours getActivityBudgetTime(Activity activity){
         //Gee
-        return activity.budgetTime;
+        return activity.getBudgetTime();
     }
     public void setActivityDescription(Activity activity, String description){
         //Gee
@@ -184,7 +191,7 @@ public class Application {
     }
     public String getActivityDescription(Activity activity) {
         //Gee
-        return activity.description;
+        return activity.getDescription();
     }
 
     public Activity getActivityFromProject(int projectNumber, String activityId) throws OperationNotAllowedException {
@@ -312,5 +319,58 @@ public class Application {
             throw new OperationNotAllowedException(initials + " dont have activity: "+ activity + " in its workerActivityList");
         }
         return workerActivity;
+    }
+
+    public ArrayList<Activity> activitiesInWeekAndYear(int week, int year) {
+        // Jonas
+        ArrayList<Activity> activityList = new ArrayList<>();
+        for (Project project : projectList){
+            for (Activity activity : project.getActivityList()){
+                if (activity.isInGivenWeekAndYear(week, year)){
+                    activityList.add(activity);
+                }
+            }
+        }
+        return activityList;
+    }
+
+    public String timeSchedule(int week, int year) {
+        // Jonas
+        // missing a print for if worker is on holiday
+        String print = "\n" + "Worker overview of week "+ week + " in year " + year +"\n\n";
+        ArrayList<Activity> activityList = activitiesInWeekAndYear(week, year);
+        Boolean foundOne = false;
+
+        for (Worker worker : workerList){
+            print += "Worker \"" + worker.getInitials() + "\":\n";
+            for (Activity activity : activityList){
+                if (activity.isWorkerAssigned(worker.getInitials())){
+                    foundOne = true;
+                    print += activity.overview(1,false);
+                }
+            }
+            if (!foundOne){
+                print += "\t<empty>\n";
+            }
+            print += "\n";
+            foundOne = false;
+        }
+        return print;
+    }
+
+    public String getProjectOverview(int projectNumber) throws OperationNotAllowedException {
+        // Jonas
+        return getProjectWithNumber(projectNumber).overview(1);
+    }
+
+    public String getActivityOverview(String activityId) throws OperationNotAllowedException {
+        // Jonas
+        Activity activity = getActivityFromProject(getProjectNumberFromActivityId(activityId), activityId);
+        return activity.overview(1, true);
+    }
+
+    public int getProjectNumberFromActivityId(String activityId){
+        // Jonas
+        return Integer.valueOf(activityId.substring(0,5));
     }
 }
