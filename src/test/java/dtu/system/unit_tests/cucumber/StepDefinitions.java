@@ -2,7 +2,6 @@ package dtu.system.unit_tests.cucumber;
 
 import dtu.system.app.Application;
 import dtu.system.app.DateServer;
-import dtu.system.app.ErrorMessageHolder;
 import dtu.system.app.OperationNotAllowedException;
 import dtu.system.domain.Activity;
 import dtu.system.domain.HalfHours;
