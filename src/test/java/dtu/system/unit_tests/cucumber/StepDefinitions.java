@@ -300,7 +300,7 @@ public class StepDefinitions {
 		assertFalse(app.isWorkerInWorkerList(initials));
 	}
 
-	@When("the worker creates a new worker using these initials")
+	@When("a worker creates a new worker using these initials")
 	public void theWorkerCreatesANewWorkerUsingTheseInitials() {
 		// Danny
 		try {
