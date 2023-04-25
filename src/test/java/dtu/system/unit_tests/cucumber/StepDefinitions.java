@@ -209,19 +209,19 @@ public class StepDefinitions {
 
 	//calendar.feature
 	@Given("the date server is running")
-	public void the_date_server_is_running() {
+	public void theDateServerIsRunning() {
 		// Gee
 		date = new DateServer();
 	}
 
 	@When("I request the date")
-	public void i_request_the_date() {
+	public void iRequestTheDate() {
 		// Gee
 		currentDate = date.getDate();
 	}
 
 	@Then("the day should be the current date")
-	public void the_day_should_be_the_current_date() {
+	public void theDayShouldBeTheCurrentDate() {
 		// Gee
 		Calendar calendar = new GregorianCalendar();
 		Calendar expectedDate = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -229,14 +229,14 @@ public class StepDefinitions {
 	}
 
 	@Given("a worker with the initials {string} exists")
-	public void a_worker_with_the_initials_exists(String initials) throws OperationNotAllowedException {
+	public void aWorkerWithTheInitialsExists(String initials) throws OperationNotAllowedException {
 		// Gee
 		this.worker = new Worker(initials);
 		app.addNewWorker(worker);
 	}
 
 	@Given("the project has an empty activity list")
-	public void the_project_has_an_empty_activity_list() {
+	public void theProjectHasAnEmptyActivityList() {
 		//Gee
 		assertTrue(project.getActivityList().isEmpty());
 	}
@@ -251,11 +251,12 @@ public class StepDefinitions {
 		}
 	}
 
-	@Then("the project has activity {string} in its activity list.")
-	public void the_project_has_activity_in_its_activity_list(String string) {
+	@Then("the project has the activity {string} in its activity list.")
+	public void theProjectHasTheActivityInItsActivityList(String string) {
 		//Gee
 		assertTrue(project.getActivityList().contains(activity));
 	}
+
 
 	@And("there is a project {int} in the system")
 	public void thereIsAProjectInTheSystem(int projectNumber) throws OperationNotAllowedException {
@@ -446,7 +447,7 @@ public class StepDefinitions {
 	}
 
 	@When("the worker access hours overview for activity {string}")
-	public void the_worker_access_hours_overview_for_activity(String string) throws OperationNotAllowedException {
+	public void theWorkerAccessHoursOverviewForActivity(String string) throws OperationNotAllowedException {
 		try {
 			this.string = app.hoursOverview(app.findWorkerActivity(worker.getInitials(), string));
 		} catch (OperationNotAllowedException e){
@@ -470,32 +471,32 @@ public class StepDefinitions {
 
 	//edit_activities.feature
 	@Given("the activity has a description of {string}")
-	public void the_activity_has_a_description_of(String string) {
+	public void theActivityHasADescriptionOf(String string) {
 		app.setActivityDescription(activity, string);
 	}
 
 	@When("the worker set the description of an activity of {string}")
-	public void the_worker_set_the_description_of_an_activity_of(String string) {
+	public void theWorkerSetTheDescriptionOfAnActivityOf(String string) {
 		app.setActivityDescription(activity, string);
 	}
 
 	@Then("the description of the activity should be {string}")
-	public void the_description_of_the_activity_should_be(String string) {
+	public void theDescriptionOfTheActivityShouldBe(String string) {
 		assertEquals(string, app.getActivityDescription(activity));
 	}
 
 	@Given("the activity has a budget time of {int} hours")
-	public void the_activity_has_a_budget_time_of_hours(Integer int1) {
+	public void theActivityHasABudgetTimeOfHours(Integer int1) {
 		app.setActivityBudgetTime(activity,new HalfHours(int1, 0));
 	}
 
 	@When("the worker changes the budget time to {int} hours")
-	public void the_worker_changes_the_budget_time_to_hours(Integer int1) {
+	public void theWorkerChangesTheBudgetTimeToHours(Integer int1) {
 		app.setActivityBudgetTime(activity,new HalfHours(int1, 0));
 	}
 
 	@Then("the budget time of the activity should be {int} hours")
-	public void the_budget_time_of_the_activity_should_be_hours(Integer int1) {
+	public void theBudgetTimeOfTheActivityShouldBeHours(Integer int1) {
 		assertEquals(new HalfHours(int1, 0).getTime(), app.getActivityBudgetTime(activity).getTime());
 	}
 	@And("a project with the number {int} and name {string} and leader {string} exists")

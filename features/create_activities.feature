@@ -7,7 +7,7 @@ Actor: Worker
     And there is a project 23001 in the system
     And the project has an empty activity list
     When the worker creates a new Activity to the project.
-    Then the project has activity "23001-001" in its activity list.
+    Then the project has the activity "23001-001" in its activity list.
 
   #Jonas
   Scenario: A worker can not create a new activity if not logged in.
