@@ -395,6 +395,7 @@ public class StepDefinitions {
 
 	@Given("the project has no project leader")
 	public void theProjectHasNoProjectLeader() throws OperationNotAllowedException {
+		// Danny
 		assertFalse(app.getProjectWithNumber(project.getProjectNumber()).hasProjectLeader() );
 	}
 
