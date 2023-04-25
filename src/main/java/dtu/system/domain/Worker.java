@@ -52,9 +52,8 @@ public class Worker {
         for(WorkerActivity workerActivity :workerActivityList){
             if(Objects.equals(workerActivity.getActivity(), activity)){
                 workerActivity.incrementWorkTime(hours, minutes);
-                return true;
             }
         }
-        return false;
+        return true;
     }
 }

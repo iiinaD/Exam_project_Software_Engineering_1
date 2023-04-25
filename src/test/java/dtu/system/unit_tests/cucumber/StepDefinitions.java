@@ -717,4 +717,9 @@ public class StepDefinitions {
 		app.markProjectFinished(project);
 		assertTrue(project.getIsFinished());
 	}
+
+	@And("project {int} does not exist")
+	public void projectDoesNotExist(int arg0) {
+		assertFalse(app.hasProjectWithNumber(arg0));
+	}
 }
