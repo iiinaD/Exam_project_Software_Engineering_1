@@ -136,7 +136,7 @@ public class UserInterface {
                     if (activityDescription.equals("1")) {
                         activityDescription = "";
                     }
-                    Activity activity = app.addActivityToProjectWithNameAndDescription(project,activityName,activityDescription);;
+                    Activity activity = app.addActivityToProjectWithNameAndDescription(project,activityName,activityDescription);
                     System.out.println("The activity " + activityName + " with the id " + activity.getActivityId() + " was created");
                 } catch (OperationNotAllowedException e) {
                     System.out.println(e.getMessage() + "\n");
