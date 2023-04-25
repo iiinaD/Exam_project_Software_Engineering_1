@@ -399,6 +399,12 @@ public class StepDefinitions {
 		assertFalse(app.getProjectWithNumber(project.getProjectNumber()).hasProjectLeader());
 	}
 
+	@Given("a project with the number {int} does not exist")
+	public void aProjectWithTheNumberDoesNotExist(int projectNumber) {
+		// Danny
+		assertFalse(app.hasProjectWithNumber(projectNumber));
+	}
+
     //////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////
