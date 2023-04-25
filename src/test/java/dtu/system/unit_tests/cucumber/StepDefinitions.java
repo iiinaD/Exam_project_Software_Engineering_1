@@ -105,8 +105,7 @@ public class StepDefinitions {
 	@Then("{string} becomes the project leader of the project {int}")
 	public void becomesTheProjectLeaderOfTheProject(String leader, int projectNumber) throws OperationNotAllowedException {
 		// Daniel
-		String newProjectLeader = app.getProjectWithNumber(projectNumber).getProjectLeader().getInitials();
-		assertEquals(leader, newProjectLeader);
+		assertTrue(app.getProjectWithNumber(projectNumber).isProjectLeader(new Worker(leader)));
 	}
 	@When("the worker tries to create a new project with the number {int}")
 	public void theWorkerTriesToCreateANewProjectWithTheNumber(Integer projectNumber) {
@@ -396,13 +395,19 @@ public class StepDefinitions {
 
 	@Given("the project has no project leader")
 	public void theProjectHasNoProjectLeader() throws OperationNotAllowedException {
-		assertFalse(app.getProjectWithNumber(project.getProjectNumber()).hasProjectLeader());
+		assertFalse(app.getProjectWithNumber(project.getProjectNumber()).hasProjectLeader() );
 	}
 
 	@Given("a project with the number {int} does not exist")
 	public void aProjectWithTheNumberDoesNotExist(int projectNumber) {
 		// Danny
 		assertFalse(app.hasProjectWithNumber(projectNumber));
+	}
+
+	@Given("{string} hasn't already been assigned as the project leader")
+	public void hasnTAlreadyBeenAssignedAsTheProjectLeader(String initials) throws OperationNotAllowedException {
+		// Danny
+		assertFalse(app.getProjectWithNumber(project.getProjectNumber()).isProjectLeader(new Worker(initials)));
 	}
 
     //////////////////////////////////////////////////////////////
@@ -502,6 +507,7 @@ public class StepDefinitions {
 		String theAssignedLeader = project.getProjectLeader().getInitials();
 		assertEquals(projectLeader,theAssignedLeader);
 	}
+
 	@When("the project leader tries to mark the project as finished")
 	public void theProjectLeaderTriesToMarkTheProjectAsFinished() throws OperationNotAllowedException {
 		// Daniel

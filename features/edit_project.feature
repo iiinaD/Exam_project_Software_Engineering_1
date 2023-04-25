@@ -20,6 +20,7 @@ Feature: Edit a project
     Given two workers with the names "daha" and "jodl" exists
     And the worker "daha" is logged in
     And a project with the number 23001 exists in the application
+    And "jodl" hasn't already been assigned as the project leader
     When "jodl" is assigned as project leader to the project with number 23001
     Then "jodl" becomes the project leader of the project 23001
 
