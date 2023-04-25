@@ -1,7 +1,10 @@
 package dtu.system.domain;
 
+import dtu.system.app.OperationNotAllowedException;
+
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Worker {
     private String initials;
@@ -39,5 +42,19 @@ public class Worker {
             }
         }
         return null;
+    }
+
+    public boolean incrementWorkTime(Activity activity, int hours, int minutes) {
+        if (workerActivityList.isEmpty()){
+            return false;
+        }
+
+        for(WorkerActivity workerActivity :workerActivityList){
+            if(Objects.equals(workerActivity.getActivity(), activity)){
+                workerActivity.incrementWorkTime(hours, minutes);
+                return true;
+            }
+        }
+        return false;
     }
 }

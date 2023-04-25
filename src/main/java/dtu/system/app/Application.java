@@ -222,19 +222,9 @@ public class Application {
 
     // Workers Activity's
     public void incrementWorkTime(Worker worker, Activity activity, int hours, int minutes) throws OperationNotAllowedException {
-        // Gee,
-        //I don't do access control here for now, we might want to rethink the login check.
-        // Response: Cant we just est if worker == loggedInWorker?
-
-        if (worker.getWorkerActivityList().isEmpty()){
+        // Gee
+        if(!worker.incrementWorkTime(activity, hours, minutes)){
             throw new OperationNotAllowedException("This worker doesn't have any activities yet.");
-        }
-
-        List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
-        for(WorkerActivity workerActivity :workerActivityList){
-            if(Objects.equals(workerActivity.getActivity(), activity)){
-                workerActivity.incrementWorkTime(hours, minutes);
-            }
         }
     }
 
