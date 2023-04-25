@@ -10,7 +10,7 @@ import dtu.system.domain.Worker;
 import java.util.Scanner;
 
 public class UserInterface {
-    public static void main(String[] args) throws OperationNotAllowedException {
+    public static void main(String[] args) {
         // Daniel
         Application app = new Application();
         Scanner terminal = new Scanner(System.in);
