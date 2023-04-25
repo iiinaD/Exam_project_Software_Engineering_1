@@ -17,7 +17,7 @@ public class Application {
 
     // Worker in system Related
     public void addNewWorker(Worker worker) throws OperationNotAllowedException {
-        //Jonas
+        // Danny
         if (isWorkerInWorkerList(worker.getInitials())){
             throw new OperationNotAllowedException("A worker with these initials already exists in the system.");
         }

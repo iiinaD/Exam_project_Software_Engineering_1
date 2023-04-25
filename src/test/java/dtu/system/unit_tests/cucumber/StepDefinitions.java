@@ -289,10 +289,6 @@ public class StepDefinitions {
 		halfHours.increment(hour, min);
 	}
 
-	//////////////////////////////////////////////////////////////
-	///// DANNY (for better overview during implementation) //////
-	//////////////////////////////////////////////////////////////
-
 	@Given("a worker with the initials {string} does not exist")
 	public void aWorkerWithTheInitialsDoesNotExist(String initials) {
 		// Danny
@@ -396,6 +392,7 @@ public class StepDefinitions {
 
 	@Given("the project has no project leader")
 	public void theProjectHasNoProjectLeader() throws OperationNotAllowedException {
+		// Danny
 		assertFalse(app.getProjectWithNumber(project.getProjectNumber()).hasProjectLeader() );
 	}
 
@@ -410,10 +407,6 @@ public class StepDefinitions {
 		// Danny
 		assertFalse(app.getProjectWithNumber(project.getProjectNumber()).isProjectLeader(new Worker(initials)));
 	}
-
-    //////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////
 
 	//access_hours_overview.feature
 
