@@ -135,7 +135,7 @@ public class Application {
                 return p;
             }
         }
-        // mangler test
+
         throw new OperationNotAllowedException("No project with the id " + projectNumber + " exists in the system");
     }
 
@@ -143,7 +143,7 @@ public class Application {
         // Daniel
         try {
             getProjectWithNumber(projectNumber);
-        } catch (OperationNotAllowedException e) { //Mangler test
+        } catch (OperationNotAllowedException e) {
             return false;
         }
         return true;
