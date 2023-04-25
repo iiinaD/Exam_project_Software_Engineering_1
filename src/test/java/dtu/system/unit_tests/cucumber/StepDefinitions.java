@@ -93,7 +93,7 @@ public class StepDefinitions {
 		assertTrue(app.hasProjectWithNumber(projectNumber));
 	}
 	@When("{string} is assigned as project leader to the project with number {int}")
-	public void isAssignedAsProjectLeaderToTheProjectWithNumber(String worker, int projectNumber) throws OperationNotAllowedException {
+	public void isAssignedAsProjectLeaderToTheProjectWithNumber(String worker, int projectNumber) {
 		// Daniel
 		try {
 			app.setProjectLeader(projectNumber, worker);
@@ -152,7 +152,7 @@ public class StepDefinitions {
 	}
 
 	@And("the worker can login using his initial {string} to login")
-	public void theWorkerCanLoginUsingHisInitialToLogin(String initials) throws OperationNotAllowedException {
+	public void theWorkerCanLoginUsingHisInitialToLogin(String initials) {
 		// Jonas
 		try {
 			app.logIn(initials);
@@ -439,7 +439,7 @@ public class StepDefinitions {
 	}
 
 	@When("the worker access hours overview for activity {string}")
-	public void theWorkerAccessHoursOverviewForActivity(String string) throws OperationNotAllowedException {
+	public void theWorkerAccessHoursOverviewForActivity(String string) {
 		try {
 			this.string = app.hoursOverview(app.findWorkerActivity(worker.getInitials(), string));
 		} catch (OperationNotAllowedException e){
@@ -513,7 +513,7 @@ public class StepDefinitions {
 	}
 
 	@When("the non project leader tries to mark the project as finished")
-	public void theNonProjectLeaderTriesToMarkTheProjectAsFinished() throws OperationNotAllowedException {
+	public void theNonProjectLeaderTriesToMarkTheProjectAsFinished() {
 		// Daniel
 		try {
 			app.markProjectFinished(project);
@@ -540,7 +540,7 @@ public class StepDefinitions {
 		assertEquals(week, date.getNumberOfWeeksInYear(year), "number of weeks in current year");
 	}
 	@When("the project leader {string} assigns the worker {string} to the activity")
-	public void theProjectLeaderAssignsTheWorkerToTheActivity(String projectLeaderInitials, String workerInitials) throws OperationNotAllowedException {
+	public void theProjectLeaderAssignsTheWorkerToTheActivity(String projectLeaderInitials, String workerInitials) {
 		// Daniel
 		try{
 			app.setProjectLeader(project.getProjectNumber(),projectLeaderInitials);
@@ -580,7 +580,7 @@ public class StepDefinitions {
 	}
 
     @When("the worker try to acces activity {string}")
-    public void theWorkerTryToAccesActivityItDontExist(String activity) throws OperationNotAllowedException {
+    public void theWorkerTryToAccesActivityItDontExist(String activity) {
 		//Jonas
 		try {
 			app.getActivityFromProject(project.getProjectNumber(), activity);
@@ -590,7 +590,7 @@ public class StepDefinitions {
     }
 
 	@And("{string} has activity {string} in his activity list")
-	public void hasActivityInHisActivityList(String initials, String activity) throws OperationNotAllowedException {
+	public void hasActivityInHisActivityList(String initials, String activity) {
 		// Jonas
 		try {
 			Activity activity1 = app.findWorkerActivity(initials, activity).getActivity();

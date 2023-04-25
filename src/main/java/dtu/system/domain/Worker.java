@@ -1,7 +1,5 @@
 package dtu.system.domain;
 
-import dtu.system.app.OperationNotAllowedException;
-
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Objects;
