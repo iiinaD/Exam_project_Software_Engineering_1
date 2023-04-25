@@ -8,7 +8,7 @@ public class Project {
     private Worker projectLeader;
     private int projectNumber;
     private boolean isFinished = false;
-    private int activityCounter = 1; // should it not start at 0?
+    private int activityCounter = 0;
     private ArrayList<Activity> activityList = new ArrayList<Activity>();
 
 
@@ -49,18 +49,19 @@ public class Project {
 
     public Activity addActivity(){
         // Gee
+        activityCounter += 1; //increment id counter by 1
         Activity act = new Activity(projectNumber + "-" + String.valueOf(1000 + activityCounter).substring(1), this);
         activityList.add(act); //add to activities List
-        activityCounter += 1; //increment id counter by 1
         return act;
     }
 
     public Activity addActivityWithNameAndDescription(String activityName, String activityDescription){
         // Danny
+        activityCounter++;
+
         Activity activity = new Activity(projectNumber + "-" + String.valueOf(1000 + activityCounter).substring(1), activityName, activityDescription, this);
 
         activityList.add(activity);
-        activityCounter++;
 
         return activity;
     }
