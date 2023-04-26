@@ -9,7 +9,7 @@ public class Worker {
     private List<WorkerActivity> workerActivityList = new ArrayList<>();
 
     public Worker(String initials) {
-        // Danny
+        // Jonas
         this.initials = initials;
     }
 
