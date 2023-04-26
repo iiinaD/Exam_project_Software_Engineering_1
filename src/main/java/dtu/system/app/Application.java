@@ -5,7 +5,6 @@ import dtu.system.domain.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 public class Application {
 
@@ -17,9 +16,17 @@ public class Application {
 
     // Worker in system Related
     public void addNewWorker(Worker worker) throws OperationNotAllowedException {
-        //Jonas
+        // Danny
         if (isWorkerInWorkerList(worker.getInitials())){
             throw new OperationNotAllowedException("A worker with these initials already exists in the system.");
+        }
+        else {
+            if (worker.getInitials().length() < 2 || worker.getInitials().length() > 4) {
+                throw new OperationNotAllowedException("Worker initials can't contain less than 2 or more than 4 characters.");
+            }
+            else if(!worker.getInitials().matches("[a-zA-Z]+")) {
+                throw new OperationNotAllowedException("Worker initials can't contain numbers or special characters.");
+            }
         }
 
         workerList.add(worker);
@@ -127,6 +134,7 @@ public class Application {
                 return p;
             }
         }
+
         throw new OperationNotAllowedException("No project with the id " + projectNumber + " exists in the system");
     }
 
@@ -134,7 +142,7 @@ public class Application {
         // Daniel
         try {
             getProjectWithNumber(projectNumber);
-        } catch (OperationNotAllowedException e) { //Mangler test
+        } catch (OperationNotAllowedException e) {
             return false;
         }
         return true;
@@ -213,21 +221,9 @@ public class Application {
 
     // Workers Activity's
     public void incrementWorkTime(Worker worker, Activity activity, int hours, int minutes) throws OperationNotAllowedException {
-        // Gee,
-        //I don't do access control here for now, we might want to rethink the login check.
-        // Response: Cant we just test if worker == loggedInWorker?
-
-        if (worker.getWorkerActivityList().isEmpty()){
+        // Gee
+        if(!worker.incrementWorkTime(activity, hours, minutes)){
             throw new OperationNotAllowedException("This worker doesn't have any activities yet.");
-        }
-
-        // move below in to worker class
-        // call getWorkerActivity in woker clas
-        List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
-        for(WorkerActivity workerActivity :workerActivityList){
-            if(Objects.equals(workerActivity.getActivity(), activity)){
-                workerActivity.incrementWorkTime(hours, minutes);
-            }
         }
     }
 
@@ -290,7 +286,7 @@ public class Application {
         // Daniel
         loggedInTestError();
         if (!isProjectLeader(projectNumber, loggedInWorker.getInitials())) {
-            throw new OperationNotAllowedException("Only project leaders can assign workers to activities");
+            throw new OperationNotAllowedException("Only project leaders can assign workers to activities.");
         }
         validActivityIdTest(activityId);
         Project project = getProjectWithNumber(projectNumber);
@@ -306,7 +302,7 @@ public class Application {
         //Daniel
         Project project = getProjectWithNumber(projectNumber);
         if (!project.hasProjectLeader()) {
-            return false; // Missing test
+            return false;
         }
         String projectLeader = project.getProjectLeader().getInitials();
         return projectLeader.equals(initials);

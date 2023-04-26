@@ -2,7 +2,6 @@ package dtu.system.unit_tests.cucumber;
 
 import dtu.system.app.Application;
 import dtu.system.app.DateServer;
-import dtu.system.app.ErrorMessageHolder;
 import dtu.system.app.OperationNotAllowedException;
 import dtu.system.domain.Activity;
 import dtu.system.domain.HalfHours;
@@ -94,7 +93,7 @@ public class StepDefinitions {
 		assertTrue(app.hasProjectWithNumber(projectNumber));
 	}
 	@When("{string} is assigned as project leader to the project with number {int}")
-	public void isAssignedAsProjectLeaderToTheProjectWithNumber(String worker, int projectNumber) throws OperationNotAllowedException {
+	public void isAssignedAsProjectLeaderToTheProjectWithNumber(String worker, int projectNumber) {
 		// Daniel
 		try {
 			app.setProjectLeader(projectNumber, worker);
@@ -105,8 +104,7 @@ public class StepDefinitions {
 	@Then("{string} becomes the project leader of the project {int}")
 	public void becomesTheProjectLeaderOfTheProject(String leader, int projectNumber) throws OperationNotAllowedException {
 		// Daniel
-		String newProjectLeader = app.getProjectWithNumber(projectNumber).getProjectLeader().getInitials();
-		assertEquals(leader, newProjectLeader);
+		assertTrue(app.getProjectWithNumber(projectNumber).isProjectLeader(new Worker(leader)));
 	}
 	@When("the worker tries to create a new project with the number {int}")
 	public void theWorkerTriesToCreateANewProjectWithTheNumber(Integer projectNumber) {
@@ -154,7 +152,7 @@ public class StepDefinitions {
 	}
 
 	@And("the worker can login using his initial {string} to login")
-	public void theWorkerCanLoginUsingHisInitialToLogin(String initials) throws OperationNotAllowedException {
+	public void theWorkerCanLoginUsingHisInitialToLogin(String initials) {
 		// Jonas
 		try {
 			app.logIn(initials);
@@ -210,19 +208,19 @@ public class StepDefinitions {
 
 	//calendar.feature
 	@Given("the date server is running")
-	public void the_date_server_is_running() {
+	public void theDateServerIsRunning() {
 		// Gee
 		date = new DateServer();
 	}
 
 	@When("I request the date")
-	public void i_request_the_date() {
+	public void iRequestTheDate() {
 		// Gee
 		currentDate = date.getDate();
 	}
 
 	@Then("the day should be the current date")
-	public void the_day_should_be_the_current_date() {
+	public void theDayShouldBeTheCurrentDate() {
 		// Gee
 		Calendar calendar = new GregorianCalendar();
 		Calendar expectedDate = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -230,14 +228,14 @@ public class StepDefinitions {
 	}
 
 	@Given("a worker with the initials {string} exists")
-	public void a_worker_with_the_initials_exists(String initials) throws OperationNotAllowedException {
+	public void aWorkerWithTheInitialsExists(String initials) throws OperationNotAllowedException {
 		// Gee
 		this.worker = new Worker(initials);
 		app.addNewWorker(worker);
 	}
 
 	@Given("the project has an empty activity list")
-	public void the_project_has_an_empty_activity_list() {
+	public void theProjectHasAnEmptyActivityList() {
 		//Gee
 		assertTrue(project.getActivityList().isEmpty());
 	}
@@ -252,11 +250,12 @@ public class StepDefinitions {
 		}
 	}
 
-	@Then("the project has activity {string} in its activity list.")
-	public void the_project_has_activity_in_its_activity_list(String string) {
+	@Then("the project has the activity {string} in its activity list.")
+	public void theProjectHasTheActivityInItsActivityList(String string) {
 		//Gee
 		assertTrue(project.getActivityList().contains(activity));
 	}
+
 
 	@And("there is a project {int} in the system")
 	public void thereIsAProjectInTheSystem(int projectNumber) throws OperationNotAllowedException {
@@ -289,10 +288,6 @@ public class StepDefinitions {
 		halfHours.increment(hour, min);
 	}
 
-	//////////////////////////////////////////////////////////////
-	///// DANNY (for better overview during implementation) //////
-	//////////////////////////////////////////////////////////////
-
 	@Given("a worker with the initials {string} does not exist")
 	public void aWorkerWithTheInitialsDoesNotExist(String initials) {
 		// Danny
@@ -301,7 +296,7 @@ public class StepDefinitions {
 		assertFalse(app.isWorkerInWorkerList(initials));
 	}
 
-	@When("the worker creates a new worker using these initials")
+	@When("a worker creates a new worker using these initials")
 	public void theWorkerCreatesANewWorkerUsingTheseInitials() {
 		// Danny
 		try {
@@ -394,9 +389,23 @@ public class StepDefinitions {
 		assertEquals(activity.getDescription(), app.getProjectWithNumber(project.getProjectNumber()).getActivityList().get(projectActivityIndex).getDescription());
 	}
 
-    //////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////
+	@Given("the project has no project leader")
+	public void theProjectHasNoProjectLeader() throws OperationNotAllowedException {
+		// Danny
+		assertFalse(app.getProjectWithNumber(project.getProjectNumber()).hasProjectLeader() );
+	}
+
+	@Given("a project with the number {int} does not exist")
+	public void aProjectWithTheNumberDoesNotExist(int projectNumber) {
+		// Danny
+		assertFalse(app.hasProjectWithNumber(projectNumber));
+	}
+
+	@Given("{string} hasn't already been assigned as the project leader")
+	public void hasnTAlreadyBeenAssignedAsTheProjectLeader(String initials) throws OperationNotAllowedException {
+		// Danny
+		assertFalse(app.getProjectWithNumber(project.getProjectNumber()).isProjectLeader(new Worker(initials)));
+	}
 
 	//access_hours_overview.feature
 
@@ -430,7 +439,7 @@ public class StepDefinitions {
 	}
 
 	@When("the worker access hours overview for activity {string}")
-	public void the_worker_access_hours_overview_for_activity(String string) throws OperationNotAllowedException {
+	public void theWorkerAccessHoursOverviewForActivity(String string) {
 		try {
 			this.string = app.hoursOverview(app.findWorkerActivity(worker.getInitials(), string));
 		} catch (OperationNotAllowedException e){
@@ -454,32 +463,32 @@ public class StepDefinitions {
 
 	//edit_activities.feature
 	@Given("the activity has a description of {string}")
-	public void the_activity_has_a_description_of(String string) throws OperationNotAllowedException {
+	public void theActivityHasADescriptionOf(String string) throws OperationNotAllowedException {
 		app.setActivityDescription(activity, string);
 	}
 
 	@When("the worker set the description of an activity of {string}")
-	public void the_worker_set_the_description_of_an_activity_of(String string) throws OperationNotAllowedException {
+	public void theWorkerSetTheDescriptionOfAnActivityOf(String string) throws OperationNotAllowedException {
 		app.setActivityDescription(activity, string);
 	}
 
 	@Then("the description of the activity should be {string}")
-	public void the_description_of_the_activity_should_be(String string) {
+	public void theDescriptionOfTheActivityShouldBe(String string) {
 		assertEquals(string, app.getActivityDescription(activity));
 	}
 
 	@Given("the activity has a budget time of {int} hours")
-	public void the_activity_has_a_budget_time_of_hours(Integer int1) throws OperationNotAllowedException {
+	public void theActivityHasABudgetTimeOfHours(Integer int1) throws OperationNotAllowedException {
 		app.setActivityBudgetTime(activity,new HalfHours(int1, 0));
 	}
 
 	@When("the worker changes the budget time to {int} hours")
-	public void the_worker_changes_the_budget_time_to_hours(Integer int1) throws OperationNotAllowedException {
+	public void theWorkerChangesTheBudgetTimeToHours(Integer int1) throws OperationNotAllowedException {
 		app.setActivityBudgetTime(activity,new HalfHours(int1, 0));
 	}
 
 	@Then("the budget time of the activity should be {int} hours")
-	public void the_budget_time_of_the_activity_should_be_hours(Integer int1) {
+	public void theBudgetTimeOfTheActivityShouldBeHours(Integer int1) {
 		assertEquals(new HalfHours(int1, 0).getTime(), app.getActivityBudgetTime(activity).getTime());
 	}
 	@And("a project with the number {int} and name {string} and leader {string} exists")
@@ -491,6 +500,7 @@ public class StepDefinitions {
 		String theAssignedLeader = project.getProjectLeader().getInitials();
 		assertEquals(projectLeader,theAssignedLeader);
 	}
+
 	@When("the project leader tries to mark the project as finished")
 	public void theProjectLeaderTriesToMarkTheProjectAsFinished() throws OperationNotAllowedException {
 		// Daniel
@@ -503,7 +513,7 @@ public class StepDefinitions {
 	}
 
 	@When("the non project leader tries to mark the project as finished")
-	public void theNonProjectLeaderTriesToMarkTheProjectAsFinished() throws OperationNotAllowedException {
+	public void theNonProjectLeaderTriesToMarkTheProjectAsFinished() {
 		// Daniel
 		try {
 			app.markProjectFinished(project);
@@ -530,7 +540,7 @@ public class StepDefinitions {
 		assertEquals(week, date.getNumberOfWeeksInYear(year), "number of weeks in current year");
 	}
 	@When("the project leader {string} assigns the worker {string} to the activity")
-	public void theProjectLeaderAssignsTheWorkerToTheActivity(String projectLeaderInitials, String workerInitials) throws OperationNotAllowedException {
+	public void theProjectLeaderAssignsTheWorkerToTheActivity(String projectLeaderInitials, String workerInitials) {
 		// Daniel
 		try{
 			app.setProjectLeader(project.getProjectNumber(),projectLeaderInitials);
@@ -570,7 +580,7 @@ public class StepDefinitions {
 	}
 
     @When("the worker try to acces activity {string}")
-    public void theWorkerTryToAccesActivityItDontExist(String activity) throws OperationNotAllowedException {
+    public void theWorkerTryToAccesActivityItDontExist(String activity) {
 		//Jonas
 		try {
 			app.getActivityFromProject(project.getProjectNumber(), activity);
@@ -580,7 +590,7 @@ public class StepDefinitions {
     }
 
 	@And("{string} has activity {string} in his activity list")
-	public void hasActivityInHisActivityList(String initials, String activity) throws OperationNotAllowedException {
+	public void hasActivityInHisActivityList(String initials, String activity) {
 		// Jonas
 		try {
 			Activity activity1 = app.findWorkerActivity(initials, activity).getActivity();
@@ -703,5 +713,10 @@ public class StepDefinitions {
 		this.project = app.getProjectWithNumber(projectNumber);
 		app.markProjectFinished(project);
 		assertTrue(project.getIsFinished());
+	}
+
+	@And("project {int} does not exist")
+	public void projectDoesNotExist(int arg0) {
+		assertFalse(app.hasProjectWithNumber(arg0));
 	}
 }
