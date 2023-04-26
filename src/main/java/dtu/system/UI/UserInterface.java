@@ -91,11 +91,19 @@ public class UserInterface {
             } else if (input == 4) {
                 System.out.print("Please enter the id of the activity\n> ");
                 String activityId = forceStringLength(terminal,9, "The activity id has to have the form: 23001-001");
-                int projectNumber = app.getProjectNumberFromActivityId(activityId);
+                int projectNumber;
+                Activity activity;
+                try {
+                    projectNumber = app.getProjectNumberFromActivityId(activityId);
+                    activity = app.getActivityFromProject(projectNumber,activityId);
+                } catch (OperationNotAllowedException e) {
+                    printErrorMessage(e);
+                    continue;
+                }
                 System.out.print("Please input the spent time for this activity in the format: hrs min  (fx 12 45)\n> ");
                 int hours = terminal.nextInt();
                 int min = terminal.nextInt();
-                app.incrementWorkTime(app.getLoggedInWorker(),app.getActivityFromProject(projectNumber,activityId),hours,min);
+                app.incrementWorkTime(app.getLoggedInWorker(),activity,hours,min);
             } else if (input == 5) {
                 System.out.println(app.hoursOverview(app.getLoggedInWorker()));
             } else if (input == 6) {
