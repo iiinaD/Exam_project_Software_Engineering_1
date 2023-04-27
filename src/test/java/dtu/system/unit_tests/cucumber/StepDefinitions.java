@@ -328,9 +328,13 @@ public class StepDefinitions {
 	}
 
 	@Given("the worker has an activity {string} in his activity list")
-	public void theWorkerHasAnActivityInHisActivityList(String activityId) {
+	public void theWorkerHasAnActivityInHisActivityList(String activityId) throws OperationNotAllowedException {
 		// Danny
-		workerActivity = app.addActivityToWorker(worker, activity);
+		try{
+			workerActivity = app.addActivityToWorker(worker, activity);
+		} catch(OperationNotAllowedException e) {
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 
 		assertEquals(activityId, workerActivity.getActivity().getActivityId());
 		assertTrue(app.getWorkerList().get(app.getWorkerList().indexOf(worker)).getWorkerActivityList().contains(workerActivity));

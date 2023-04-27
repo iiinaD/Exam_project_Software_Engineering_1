@@ -227,9 +227,13 @@ public class Application {
         }
     }
 
-    public WorkerActivity addActivityToWorker(Worker worker, Activity activity){
+    public WorkerActivity addActivityToWorker(Worker worker, Activity activity) throws OperationNotAllowedException {
         // Gee
-        return worker.addWorkerActivity(activity);
+        WorkerActivity workerActivity = worker.addWorkerActivity(activity);
+        if(workerActivity == null){
+            throw new OperationNotAllowedException("Worker already has that activity!");
+        }
+        return workerActivity;
     }
 
     public  String hoursOverview(Worker worker){
@@ -295,7 +299,9 @@ public class Application {
         if(!activity.addWorker(worker)){
             throw new OperationNotAllowedException(worker.getInitials() + " is already in the list!");
         }
-        worker.addWorkerActivity(activity);
+        if(worker.addWorkerActivity(activity) == null){
+            throw new OperationNotAllowedException("Worker already has that activity!");
+        }
     }
 
     private boolean isProjectLeader(int projectNumber, String initials) throws OperationNotAllowedException {
@@ -421,6 +427,7 @@ public class Application {
             throw new OperationNotAllowedException("Activity ID invalid: Incorrect format. Should be [Project Number]-[Activity ID]");
         }
     }
+
 
 
     public String getStringActiveProjects() {

@@ -93,3 +93,12 @@ Feature: Edit activities
     And "daha" has activity "23001-001" in his activity list
     When the project leader "jodl" assigns the worker "daha" to the activity
     Then an error message "daha is already in the list!" is given
+
+  Scenario: Add worker to an Activity but the worker already has the activity in the worker's list
+    Given a worker with the initials "jodl" exists
+    And "jodl" is logged in
+    And there is a project 23001 in the system
+    And the project has activity "23001-001" in its activity list
+    And the worker has an activity "23001-001" in his activity list
+    When the worker has an activity "23001-001" in his activity list
+    Then an error message "Worker already has that activity!" is given

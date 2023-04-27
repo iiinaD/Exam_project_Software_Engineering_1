@@ -15,7 +15,7 @@ public class Worker {
 
     public WorkerActivity addWorkerActivity(Activity activity) {
         // Danny
-        // needs test if worker that worker activity already exist (same activity)
+        if(existWorkerActivity(activity)){return null;}
         WorkerActivity workerActivity = new WorkerActivity(activity);
 
         workerActivityList.add(workerActivity);
@@ -54,5 +54,12 @@ public class Worker {
             }
         }
         return true;
+    }
+
+    public boolean existWorkerActivity(Activity activity) {
+        //check if given activity exists in workerActivityList, true if exist.
+        for(WorkerActivity workerActivity:workerActivityList){
+            if(workerActivity.getActivity().equals(activity)){return true;}
+        }        return false;
     }
 }
