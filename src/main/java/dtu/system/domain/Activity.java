@@ -174,7 +174,7 @@ public class Activity {
             print += taps + "\t\t " + budgetTime.getTime() + " Hours \n";
         }
         if (includeWorkerList){
-            print += taps + "\t Worker assigned to activity: \n";
+            print += taps + "\t Worker(s) assigned to activity: \n";
             for (Worker worker : workerList){
                 print += taps + "\t\t " + worker.getInitials() + "\n";
             }
