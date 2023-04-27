@@ -173,13 +173,18 @@ public class Application {
     public Activity addActivityToProject(Project project) throws OperationNotAllowedException {
         //Jonas
         loggedInTestError();
+        if(project.getIsFinished()){
+            throw new OperationNotAllowedException("Cannot add activity: Project is completed!");
+        }
         return project.addActivity();
     }
 
-    public Activity addActivityToProjectWithNameAndDescription(Project project, String activityName, String activityDescription) throws OperationNotAllowedException {
+    public Activity addActivityToProject(Project project, String activityName, String activityDescription) throws OperationNotAllowedException {
         // Danny
         loggedInTestError();
-
+        if(project.getIsFinished()){
+            throw new OperationNotAllowedException("Cannot add activity: Project is completed!");
+        }
         return project.addActivityWithNameAndDescription(activityName, activityDescription);
     }
 
@@ -299,9 +304,7 @@ public class Application {
         if(!activity.addWorker(worker)){
             throw new OperationNotAllowedException(worker.getInitials() + " is already in the list!");
         }
-        if(worker.addWorkerActivity(activity) == null){
-            throw new OperationNotAllowedException("Worker already has that activity!");
-        }
+        worker.addWorkerActivity(activity);
     }
 
     private boolean isProjectLeader(int projectNumber, String initials) throws OperationNotAllowedException {

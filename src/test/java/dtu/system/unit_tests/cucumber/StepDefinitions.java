@@ -380,7 +380,11 @@ public class StepDefinitions {
 	@When("the worker creates a new activity with the name {string} and the description {string}")
 	public void theWorkerCreatesANewActivityWithTheNameAndTheDescription(String activityName, String activityDescription) throws OperationNotAllowedException {
 		// Danny
-		activity = app.addActivityToProjectWithNameAndDescription(project, activityName, activityDescription);
+		try {
+			activity = app.addActivityToProject(project, activityName, activityDescription);
+		} catch(OperationNotAllowedException e) {
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 	}
 
 	@Then("the project has activity {string} in its activity list with the given name and description")
@@ -680,7 +684,7 @@ public class StepDefinitions {
 		// Daniel
 		try {
 			project = app.createProject(projectName); //create project
-			activity = app.addActivityToProjectWithNameAndDescription(project,activityName,"");
+			activity = app.addActivityToProject(project,activityName,"");
 			//app.addActivityToWorker(worker, activity);
 			app.setProjectLeader(project.getProjectNumber(), app.getLoggedInWorker().getInitials());
 		} catch (OperationNotAllowedException e){
