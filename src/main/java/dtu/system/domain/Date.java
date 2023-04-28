@@ -1,14 +1,17 @@
 package dtu.system.domain;
 
+import dtu.system.app.DateServer;
+
 public class Date {
     private int week;
     private int year;
-    private int weeksInYear = 52;
+    private int weeksInYear;
 
     public Date(int week,int year){
         // Jonas
         this.week = week;
         this.year = year;
+        this.weeksInYear =  new DateServer().getNumberOfWeeksInYear(year);
     }
 
     public String stringOfDate(){
