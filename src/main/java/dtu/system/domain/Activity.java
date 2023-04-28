@@ -21,7 +21,7 @@ public class Activity {
 
     private void parentNotCompleteCheck(Project parentProject) throws OperationNotAllowedException {
         // Jonas
-        if (parentProject.getIsFinished()){
+        if (locked){
             throw new OperationNotAllowedException("The project " + parentProject.getProjectNumber() + " is marked as finished");
         }
     }
@@ -62,7 +62,7 @@ public class Activity {
         calculateBudgetWeek();
     }
 
-    public void calculateBudgetWeek() {
+    private void calculateBudgetWeek() {
         //Jonas
         this.budgetWeeks = startDate.calculateWeeksToStartWeek(endDate);
     }
@@ -117,6 +117,7 @@ public class Activity {
     
     public boolean isInGivenWeekAndYear(int week, int year) {
         // Jonas
+        // Given a date it checks if the date is in betwen start and end date
         int weeks = startDate.calculateWeeksToStartWeek(new Date(week, year));
         if (weeks >= 0 && weeks <= budgetWeeks){
             return true;
