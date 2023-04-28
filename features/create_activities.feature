@@ -1,5 +1,7 @@
 Feature: Create activities
-Actor: Worker
+  Description: A project is spilt up into multiple activities,
+  a given worker can create a new activity
+  Actor: Worker
 
    #Jonas
   Scenario: A worker can create a new activity to a project in the system if logged in

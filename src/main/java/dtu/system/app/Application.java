@@ -176,7 +176,7 @@ public class Application {
         return project.addActivity();
     }
 
-    public Activity addActivityToProjectWithNameAndDescription(Project project, String activityName, String activityDescription) throws OperationNotAllowedException {
+    public Activity addActivityToProject(Project project, String activityName, String activityDescription) throws OperationNotAllowedException {
         // Danny
         loggedInTestError();
 
