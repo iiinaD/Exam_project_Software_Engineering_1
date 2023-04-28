@@ -93,6 +93,9 @@ public class Project {
     public void finishProject() {
         // Daniel
         isFinished = true;
+        for(Activity activity: activityList){
+            activity.lock();
+        }
     }
 
     public boolean getIsFinished() {

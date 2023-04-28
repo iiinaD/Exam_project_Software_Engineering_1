@@ -173,13 +173,18 @@ public class Application {
     public Activity addActivityToProject(Project project) throws OperationNotAllowedException {
         //Jonas
         loggedInTestError();
+        if(project.getIsFinished()){
+            throw new OperationNotAllowedException("Cannot add activity: Project is completed!");
+        }
         return project.addActivity();
     }
 
     public Activity addActivityToProject(Project project, String activityName, String activityDescription) throws OperationNotAllowedException {
         // Danny
         loggedInTestError();
-
+        if(project.getIsFinished()){
+            throw new OperationNotAllowedException("Cannot add activity: Project is completed!");
+        }
         return project.addActivityWithNameAndDescription(activityName, activityDescription);
     }
 
@@ -227,9 +232,13 @@ public class Application {
         }
     }
 
-    public WorkerActivity addActivityToWorker(Worker worker, Activity activity){
+    public WorkerActivity addActivityToWorker(Worker worker, Activity activity) throws OperationNotAllowedException {
         // Gee
-        return worker.addWorkerActivity(activity);
+        WorkerActivity workerActivity = worker.addWorkerActivity(activity);
+        if(workerActivity == null){
+            throw new OperationNotAllowedException("Worker already has that activity!");
+        }
+        return workerActivity;
     }
 
     public  String hoursOverview(Worker worker){
@@ -418,6 +427,7 @@ public class Application {
             throw new OperationNotAllowedException("Activity ID invalid: Incorrect format. Should be [Project Number]-[Activity ID]");
         }
     }
+
 
 
     public String getStringActiveProjects() {

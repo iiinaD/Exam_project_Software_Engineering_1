@@ -33,18 +33,17 @@ public class StepDefinitions {
 	private Calendar currentDate;
 	private WorkerActivity workerActivity;
 	private String string;
-	private MockDateHolder dateHolder;
+	private DateServer dateHolder = new DateServer();
 	private Activity activity2;
 	private ArrayList<Activity> activityList = new ArrayList<>();
 	private int week;
 	private int year;
 
 
-	public StepDefinitions(Application app, ErrorMessageHolder errorMessage, MockDateHolder date) {
+	public StepDefinitions(Application app, ErrorMessageHolder errorMessage) {
 		// Jonas
 		this.app = app;
 		this.errorMessageHolder = errorMessage;
-		this.dateHolder = date;
 	}
 
 
@@ -328,9 +327,13 @@ public class StepDefinitions {
 	}
 
 	@Given("the worker has an activity {string} in his activity list")
-	public void theWorkerHasAnActivityInHisActivityList(String activityId) {
+	public void theWorkerHasAnActivityInHisActivityList(String activityId) throws OperationNotAllowedException {
 		// Danny
-		workerActivity = app.addActivityToWorker(worker, activity);
+		try{
+			workerActivity = app.addActivityToWorker(worker, activity);
+		} catch(OperationNotAllowedException e) {
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 
 		assertEquals(activityId, workerActivity.getActivity().getActivityId());
 		assertTrue(app.getWorkerList().get(app.getWorkerList().indexOf(worker)).getWorkerActivityList().contains(workerActivity));
@@ -376,7 +379,11 @@ public class StepDefinitions {
 	@When("the worker creates a new activity with the name {string} and the description {string}")
 	public void theWorkerCreatesANewActivityWithTheNameAndTheDescription(String activityName, String activityDescription) throws OperationNotAllowedException {
 		// Danny
-		activity = app.addActivityToProject(project, activityName, activityDescription);
+		try {
+			activity = app.addActivityToProject(project, activityName, activityDescription);
+		} catch(OperationNotAllowedException e) {
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 	}
 
 	@Then("the project has activity {string} in its activity list with the given name and description")
@@ -524,9 +531,9 @@ public class StepDefinitions {
 	@Given("it works")
 	public void itWorks() {
 		//Jonas
-		int x = dateHolder.dateServer.getDate().getWeeksInWeekYear();
-		int y = dateHolder.dateServer.getDate().getWeekYear();
-		int z = dateHolder.dateServer.getDate().get(Calendar.WEEK_OF_YEAR);
+		int x = dateHolder.getDate().getWeeksInWeekYear();
+		int y = dateHolder.getDate().getWeekYear();
+		int z = dateHolder.getDate().get(Calendar.WEEK_OF_YEAR);
 //		System.out.println("current year: " + y);
 //		System.out.println("current week: " + z);
 //		System.out.println( x + " weeks in year " + y);

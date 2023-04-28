@@ -17,6 +17,7 @@ public class Activity {
     private Project parentProject;
     private ArrayList<Worker> workerList = new ArrayList<>();
     private int budgetWeeks;
+    private Boolean locked = false;
 
     private void parentNotCompleteCheck(Project parentProject) throws OperationNotAllowedException {
         // Jonas
@@ -185,5 +186,9 @@ public class Activity {
         print += "\n";
 
         return print;
+    }
+
+    public void lock() {
+        locked = true;
     }
 }
