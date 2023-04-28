@@ -38,7 +38,7 @@ public class Project {
         return projectNumber;
     }
 
-    public boolean isProjectLeader(Worker worker) { // Missing test
+    public boolean isProjectLeader(Worker worker) {
         // Daniel
         if (projectLeader == null) {
             return false;
@@ -59,7 +59,7 @@ public class Project {
         return act;
     }
 
-    public Activity addActivityWithNameAndDescription(String activityName, String activityDescription) throws OperationNotAllowedException {
+    public Activity addActivity(String activityName, String activityDescription) throws OperationNotAllowedException {
         // Danny
         activityCounter++;
 
@@ -126,7 +126,7 @@ public class Project {
         }
         String print = "";
 
-        print += tabs + "----- Project Overview: "+ infoString(0) +" -----\n";
+        print += tabs + "----- Project Overview: "+ info(0) +" -----\n";
 
         if (hasProjectLeader()){
             print += tabs + "\t Project Leader: \n";
@@ -153,7 +153,7 @@ public class Project {
         return print;
     }
 
-    public String infoString(int numberOfTaps){
+    public String info(int numberOfTaps){
         // Jonas
         String taps = "";
         for (int i = 0; i < numberOfTaps; i++){

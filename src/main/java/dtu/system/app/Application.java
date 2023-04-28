@@ -185,7 +185,7 @@ public class Application {
         if(project.getIsFinished()){
             throw new OperationNotAllowedException("Cannot add activity: Project is completed!");
         }
-        return project.addActivityWithNameAndDescription(activityName, activityDescription);
+        return project.addActivity(activityName, activityDescription);
     }
 
     public void setActivityBudgetTime(Activity activity, HalfHours halfHours) throws OperationNotAllowedException {
@@ -438,7 +438,7 @@ public class Application {
         for (Project project : projectList) {
             if (!project.getIsFinished()) {
                 foundOne = true;
-                print += project.infoString(2) + "\n";
+                print += project.info(2) + "\n";
             }
         }
         if (projectList.isEmpty() || !foundOne){

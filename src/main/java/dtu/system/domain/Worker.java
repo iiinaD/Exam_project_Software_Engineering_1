@@ -15,7 +15,7 @@ public class Worker {
 
     public WorkerActivity addWorkerActivity(Activity activity) {
         // Danny
-        if(existWorkerActivity(activity)){return null;}
+        if(hasWorkerActivity(activity)){return null;}
         WorkerActivity workerActivity = new WorkerActivity(activity);
 
         workerActivityList.add(workerActivity);
@@ -35,9 +35,9 @@ public class Worker {
 
     public WorkerActivity getWorkerActivity(String activity) {
         //Jonas
-        for (WorkerActivity wa : workerActivityList){
-            if (wa.getActivity().getActivityId().equals(activity)){
-                return wa;
+        for (WorkerActivity workerActivity : workerActivityList){
+            if (workerActivity.getActivity().getActivityId().equals(activity)){
+                return workerActivity;
             }
         }
         return null;
@@ -56,10 +56,8 @@ public class Worker {
         return true;
     }
 
-    public boolean existWorkerActivity(Activity activity) {
-        //check if given activity exists in workerActivityList, true if exist.
-        for(WorkerActivity workerActivity:workerActivityList){
-            if(workerActivity.getActivity().equals(activity)){return true;}
-        }        return false;
+    public boolean hasWorkerActivity(Activity activity) {
+        // Jonas
+        return getWorkerActivity(activity.getActivityId()) != null ? true : false;
     }
 }
