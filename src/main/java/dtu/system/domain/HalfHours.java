@@ -3,7 +3,7 @@ package dtu.system.domain;
 import static java.lang.Math.*;
 
 public class HalfHours {
-    private double halfHours;
+    private double halfHours = 0;
 
     public HalfHours(){
         //Jonas

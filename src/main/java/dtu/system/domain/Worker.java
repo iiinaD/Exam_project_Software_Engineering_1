@@ -44,6 +44,7 @@ public class Worker {
     }
 
     public boolean incrementWorkTime(Activity activity, int hours, int minutes) {
+        // Gee
         if (workerActivityList.isEmpty()){
             return false;
         }

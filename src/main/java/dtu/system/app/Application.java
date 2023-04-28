@@ -247,7 +247,7 @@ public class Application {
         List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
         if(workerList.isEmpty()) return "This worker has no activity";
         for(WorkerActivity workerActivity : workerActivityList){
-            output.append(workerActivity.prettyPrintData()).append("\n");
+            output.append(workerActivity.data()).append("\n");
         }
         return output.toString();
     }
@@ -270,7 +270,7 @@ public class Application {
 
     public String hoursOverview(WorkerActivity workerActivity){
         // Gee
-        return workerActivity.prettyPrintData();
+        return workerActivity.data();
     }
 
     public void markProjectFinished(Project project) throws OperationNotAllowedException {
