@@ -552,7 +552,7 @@ public class StepDefinitions {
 	@Then("the worker {string} is assigned to the activity")
 	public void theWorkerIsAssignedToTheActivity(String workerInitials) throws OperationNotAllowedException {
 		// Daniel
-		List<Worker> activityWorkerList = app.WorkersAssignedToActivity(project.getProjectNumber(),activity.getActivityId());
+		List<Worker> activityWorkerList = app.workersAssignedToActivity(project.getProjectNumber(),activity.getActivityId());
 		assertEquals(activityWorkerList.get(0).getInitials(), workerInitials);
 	}
 	@When("{string} assigns the worker {string} to the activity")

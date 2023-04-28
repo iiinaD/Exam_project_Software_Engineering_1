@@ -278,10 +278,7 @@ public class Application {
         return project.getIsFinished();
     }
 
-    // Date
-    public void setDateServer(DateServer dateServer) {
-        //to do
-    }
+
     public void addWorkerToActivity(int projectNumber, String activityId, String workerInitials) throws OperationNotAllowedException {
         // Daniel
         loggedInTestError();
@@ -308,7 +305,7 @@ public class Application {
         return projectLeader.equals(initials);
     }
 
-    public List<Worker> WorkersAssignedToActivity(int projectNumber, String activityId) throws OperationNotAllowedException {
+    public List<Worker> workersAssignedToActivity(int projectNumber, String activityId) throws OperationNotAllowedException {
         // Daniel
         validActivityIdTest(activityId);
         Project project = getProjectWithNumber(projectNumber);
