@@ -25,6 +25,7 @@ Feature: view time schedule
     And "jodl" is added to "23001-002"
     And "jodl" is added to "23002-001"
     And "dahl" is added to "23002-001"
+    And a project named "project 2" with an activity "23003-001"
 
   #Jonas
   Scenario: Get all activity's that is active doing a given week
