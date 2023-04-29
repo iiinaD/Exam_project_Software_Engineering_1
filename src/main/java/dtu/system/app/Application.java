@@ -225,11 +225,9 @@ public class Application {
     }
 
     // Workers Activity's
-    public void incrementWorkTime(Worker worker, Activity activity, int hours, int minutes) throws OperationNotAllowedException {
-        // Gee
-        if(!worker.incrementWorkTime(activity, hours, minutes)){
-            throw new OperationNotAllowedException("This worker doesn't have any activities yet.");
-        }
+    public void incrementWorkTime(Worker worker, Activity activity, int hours, int minutes) {
+        // Jonas
+        worker.incrementWorkTime(activity, hours, minutes);
     }
 
     public WorkerActivity addActivityToWorker(Worker worker, Activity activity) throws OperationNotAllowedException {
@@ -322,7 +320,7 @@ public class Application {
         return activity.getWorkerList();
     }
 
-    public WorkerActivity findWorkerActivity(String initials, String activityId) throws OperationNotAllowedException {
+    public WorkerActivity getWorkerActivity(String initials, String activityId) throws OperationNotAllowedException {
         //Jonas
         validActivityIdTest(activityId);
         Worker worker = getWorkerWithInitials(initials);

@@ -44,16 +44,12 @@ public class Worker {
     }
 
     public boolean incrementWorkTime(Activity activity, int hours, int minutes) {
-        // Gee
-        if (workerActivityList.isEmpty()){
-            return false;
+        // Jonas
+        if (!hasWorkerActivity(activity)){
+            addWorkerActivity(activity);
         }
-
-        for(WorkerActivity workerActivity :workerActivityList){
-            if(Objects.equals(workerActivity.getActivity(), activity)){
-                workerActivity.incrementWorkTime(hours, minutes);
-            }
-        }
+        WorkerActivity workerActivity = getWorkerActivity(activity.getActivityId());
+        workerActivity.incrementWorkTime(hours, minutes);
         return true;
     }
 
