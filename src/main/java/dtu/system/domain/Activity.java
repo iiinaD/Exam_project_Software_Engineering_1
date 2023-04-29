@@ -181,6 +181,10 @@ public class Activity {
             print += taps + "\t Budget Time: \n";
             print += taps + "\t\t " + budgetTime.getTime() + " Hours \n";
         }
+        if (description != null){
+            print += taps + "\t Description: \n";
+            print += taps + "\t\t " + description + " \n";
+        }
         if (includeWorkerList){
             print += taps + "\t Worker(s) assigned to activity: \n";
             for (Worker worker : workerList){

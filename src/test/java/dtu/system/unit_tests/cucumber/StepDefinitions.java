@@ -119,8 +119,6 @@ public class StepDefinitions {
 		} catch (OperationNotAllowedException e){
 			errorMessageHolder.setErrorMessage(e.getMessage());
 		}
-		//Project createdProject = app.getProjectList().get(0);
-		//assertEquals(createdProject.getProjectNumber(),projectNumber);
 	}
 
 	@Then("the new project gets created")
