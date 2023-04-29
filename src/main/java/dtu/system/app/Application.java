@@ -275,7 +275,7 @@ public class Application {
 
     public void markProjectFinished(Project project) throws OperationNotAllowedException {
         // Daniel
-        if (project.getProjectLeader().equals(loggedInWorker)) {
+        if (project.getProjectLeader() != null && project.getProjectLeader().equals(loggedInWorker)) {
             project.finishProject();
         } else {
             throw new OperationNotAllowedException("Only project leaders can finish projects");
