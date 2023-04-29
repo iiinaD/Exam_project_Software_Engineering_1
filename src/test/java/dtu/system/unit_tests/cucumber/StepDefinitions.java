@@ -544,6 +544,7 @@ public class StepDefinitions {
 
 	@Then("year {int} there is {int} weeks")
 	public void iYearThereIsWeeks(int year, int week) {
+		// Jonas
 		assertEquals(week, date.getNumberOfWeeksInYear(year), "number of weeks in current year");
 	}
 	@When("the project leader {string} assigns the worker {string} to the activity")

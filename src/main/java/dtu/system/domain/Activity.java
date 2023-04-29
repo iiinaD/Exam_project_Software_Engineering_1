@@ -12,6 +12,7 @@ public class Activity {
     private String name;
     private String description;
     private HalfHours budgetTime;
+    private boolean hasStartAndEndDate = false;
     private Date startDate;
     private Date endDate;
     private Project parentProject;
@@ -60,6 +61,11 @@ public class Activity {
         this.startDate = new Date(startWeek, startYear);
         this.endDate = new Date(endWeek, endYear);
         calculateBudgetWeek();
+        this.hasStartAndEndDate = true;
+    }
+
+    public boolean hasStartAndEndDate(){
+        return hasStartAndEndDate;
     }
 
     private void calculateBudgetWeek() {
