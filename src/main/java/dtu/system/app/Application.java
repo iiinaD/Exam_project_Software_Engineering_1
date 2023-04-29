@@ -339,7 +339,7 @@ public class Application {
         ArrayList<Activity> activityList = new ArrayList<>();
         for (Project project : projectList){
             for (Activity activity : project.getActivityList()){
-                if (activity.isInGivenWeekAndYear(week, year)){
+                if (activity.hasStartAndEndDate() && activity.isInGivenWeekAndYear(week, year)){
                     activityList.add(activity);
                 }
             }
