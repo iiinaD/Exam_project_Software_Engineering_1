@@ -25,3 +25,11 @@ Feature: Edit working hours
     When he registers he has worked for 5 hours and 16 minutes on activity "23001-001"
     Then the worker has worked 5.5 hours on activity "23001-001"
 
+   #Jonas
+  Scenario: Worker can degresse time by entering a negative number
+    Given the worker has no activities in his activity list
+    When he registers he has worked for 5 hours and 16 minutes on activity "23001-001"
+    Then the worker has worked 5.5 hours on activity "23001-001"
+    When he registers he has worked for -11 hours and 0 minutes on activity "23001-001"
+    Then the worker has worked 0 hours on activity "23001-001"
+

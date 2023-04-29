@@ -55,13 +55,17 @@ public class Activity {
         this.budgetTime = budgetTime;
     }
 
-    public void setStartEndWeekAndYears(int startWeek, int endWeek, int startYear, int endYear) throws OperationNotAllowedException {
+    public boolean setStartEndWeekAndYears(int startWeek, int endWeek, int startYear, int endYear) throws OperationNotAllowedException {
         //Jonas
         parentNotCompleteCheck(parentProject);
         this.startDate = new Date(startWeek, startYear);
         this.endDate = new Date(endWeek, endYear);
+        if (0 > startDate.calculateWeeksToStartWeek(endDate)){
+            return false;
+        }
         calculateBudgetWeek();
         this.hasStartAndEndDate = true;
+        return true;
     }
 
     public boolean hasStartAndEndDate(){
