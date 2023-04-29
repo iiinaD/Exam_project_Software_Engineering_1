@@ -245,7 +245,7 @@ public class Application {
         //Gee
         StringBuilder output = new StringBuilder();
         List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
-        if(workerList.isEmpty()) return "This worker has no activity";
+        if(workerActivityList.isEmpty()) return "This worker has no activities yet";
         for(WorkerActivity workerActivity : workerActivityList){
             output.append(workerActivity.data()).append("\n");
         }
