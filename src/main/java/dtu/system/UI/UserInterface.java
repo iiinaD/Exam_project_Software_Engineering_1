@@ -20,7 +20,7 @@ public class UserInterface {
             System.out.println("----- Login menu -----");
             int numMenuItems = printLoginMenu();
             System.out.print("Please choose an item from the menu list\n> ");
-            int input = getMenuInput(terminal,numMenuItems,"The number has to correspond to one of the menu items.");
+            int input = getMenuInput(terminal,numMenuItems);
             if (input == 1) {
                 System.out.print("Please input your worker initials\n> ");
                 String initials = terminal.next();
@@ -56,7 +56,7 @@ public class UserInterface {
             System.out.println("----- Main menu -----");
             int numMenuItems = printMainMenu();
             System.out.print("Please choose an item from the menu list\n> ");
-            int input = getMenuInput(terminal,numMenuItems,"The number has to correspond to one of the menu items.");
+            int input = getMenuInput(terminal,numMenuItems);
             if (input == 1) {
                 // empty the rest of the line before input
                 terminal.nextLine();
@@ -103,7 +103,13 @@ public class UserInterface {
                 System.out.print("Please input the spent time for this activity in the format: hrs min  (fx 12 45)\n> ");
                 int hours = terminal.nextInt();
                 int min = terminal.nextInt();
-                app.incrementWorkTime(app.getLoggedInWorker(),activity,hours,min);
+                try {
+                    app.incrementWorkTime(app.getLoggedInWorker(),activity,hours,min);
+                    System.out.println("The hours were logged in the chosen activity");
+                } catch (OperationNotAllowedException e) {
+                    printErrorMessage(e);
+                }
+
             } else if (input == 5) {
                 System.out.println(app.hoursOverview(app.getLoggedInWorker()));
             } else if (input == 6) {
@@ -135,7 +141,11 @@ public class UserInterface {
                 System.out.print("Please input the week and year in the format: week year (fx 34 2023)\n> ");
                 int week = terminal.nextInt();
                 int year = terminal.nextInt();
-                System.out.println(app.timeSchedule(week,year));
+                try {
+                    System.out.println(app.timeSchedule(week,year));
+                } catch (OperationNotAllowedException e) {
+                    printErrorMessage(e);
+                }
             } else if (input == 8) {
                 app.logOut();
                 System.out.println("Worker has been logged out");
@@ -151,7 +161,7 @@ public class UserInterface {
             System.out.println("----- " + project.getProjectName() + " (" + project.getProjectNumber() + ")" + " -----");
             int numMenuItems = printProjectMenu();
             System.out.print("Please choose an item from the menu list\n> ");
-            int input = getMenuInput(terminal,numMenuItems,"The number has to correspond to one of the menu items.");
+            int input = getMenuInput(terminal,numMenuItems);
             if (input == 1) {
                 try {
                     terminal.nextLine();
@@ -168,8 +178,13 @@ public class UserInterface {
                     printErrorMessage(e);
                 }
             } else if (input == 2) {
-                System.out.print("Please input the id of the activity\n> ");
-                String activityId = terminal.next();
+                System.out.print("Please input the last part of the activity-id after the \"-\"\n> ");
+                String activityInput = terminal.next();
+                if (activityInput.length() != 3 && activityInput.contains("-")) {
+                    System.out.println("Please only input the part of the activity-id after the  \"-\"");
+                    continue;
+                }
+                String activityId = project.getProjectNumber() + "-" + activityInput;
                 try {
                     Activity accessActivity = app.getActivityFromProject(project.getProjectNumber(),activityId);
                     activityMenu(app,terminal,project,accessActivity);
@@ -216,12 +231,16 @@ public class UserInterface {
             System.out.println("----- " + activity.getActivityName() + " (" + activity.getActivityId() + ")" + " -----");
             int numMenuItems = printActivityMenu();
             System.out.print("Please choose an item from the menu list\n> ");
-            int input = getMenuInput(terminal,numMenuItems,"The number has to correspond to one of the menu items.");
+            int input = getMenuInput(terminal,numMenuItems);
             if (input == 1) {
                 System.out.print("Please input the initials of the worker\n> ");
                 String workerInitials = terminal.next();
-                app.addWorkerToActivity(project.getProjectNumber(), activity.getActivityId(), workerInitials);
-                System.out.println("The worker " + workerInitials + " was added to this activity.");
+                try {
+                    app.addWorkerToActivity(project.getProjectNumber(), activity.getActivityId(), workerInitials);
+                    System.out.println("The worker " + workerInitials + " was added to this activity.");
+                } catch (OperationNotAllowedException e) {
+                    printErrorMessage(e);
+                }
             } else if (input == 2) {
                 // empty the rest of the line before input
                 terminal.nextLine();
@@ -291,7 +310,7 @@ public class UserInterface {
         return choice;
     }
 
-    private static int getMenuInput(Scanner terminal,int numberOfMenuItems,String message) {
+    private static int getMenuInput(Scanner terminal,int numberOfMenuItems) {
         // Daniel
         // Check for a valid number
         int choice;
@@ -305,7 +324,7 @@ public class UserInterface {
             } else {
                 terminal.next();
             }
-            System.out.println("\n" + message);
+            System.out.println("\n" + "The number has to correspond to one of the menu items.");
             System.out.print("Please try again\n> ");
         }
         System.out.println();
@@ -333,8 +352,8 @@ public class UserInterface {
 
     private static int printProjectMenu() {
         // Daniel
-        System.out.println("1. Add an activity");
-        System.out.println("2. Access an acivity");
+        System.out.println("1. Add an activity to current project");
+        System.out.println("2. Access an acivity in current project");
         System.out.println("3. Change project name");
         System.out.println("4. Set new project leader");
         System.out.println("5. Mark project as finished");
