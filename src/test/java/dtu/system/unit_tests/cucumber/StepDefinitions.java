@@ -287,7 +287,7 @@ public class StepDefinitions {
 	@Then("halfHours is {double}")
 	public void halfHoursIs(double time) {
 		// Jonas
-		assertEquals(halfHours.getTime(), time);
+		assertEquals(time, halfHours.getTime());
 	}
 
 	@When("halfHours is ingrementes with {int} hours {int} minuts")
@@ -590,170 +590,174 @@ public class StepDefinitions {
 	@When("the activity is planned to start week {int} year {int} and end week {int} year {int}")
 	public void theActivityIsPlannedToStartWeekYearAndEndWeekYear(int week0, int year0, int week1, int year1) throws OperationNotAllowedException {
 		//Jonas
-		app.activityPlanStartAndEnd(project.getProjectNumber(), activity.getActivityId(), week0, week1, year0, year1);
+		try {
+			app.activityPlanStartAndEnd(project.getProjectNumber(), activity.getActivityId(), week0, week1, year0, year1);
+		} catch (OperationNotAllowedException e) {
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 	}
 
-	@Then("the planned number of weeks is {int}")
-	public void thePlannedNumberOfWeeksIs(int weeks) {
-		//Jonas
-		assertEquals(weeks, activity.getBudgetWeeks());
-	}
+		@Then("the planned number of weeks is {int}")
+		public void thePlannedNumberOfWeeksIs(int weeks) {
+			//Jonas
+			assertEquals(weeks, activity.getBudgetWeeks());
+		}
 
     @When("the worker try to acces activity {string}")
     public void theWorkerTryToAccesActivityItDontExist(String activity) {
-		//Jonas
-		try {
-			app.getActivityFromProject(project.getProjectNumber(), activity);
-		} catch (OperationNotAllowedException e){
-			errorMessageHolder.setErrorMessage(e.getMessage());
-		}
+			//Jonas
+			try {
+				app.getActivityFromProject(project.getProjectNumber(), activity);
+			} catch (OperationNotAllowedException e){
+				errorMessageHolder.setErrorMessage(e.getMessage());
+			}
     }
 
-	@And("{string} has activity {string} in his activity list")
-	public void hasActivityInHisActivityList(String initials, String activity) {
-		// Jonas
-		try {
-			Activity activity1 = app.getWorkerActivity(initials, activity).getActivity();
-			Activity activity2 = app.getActivityFromProject(project.getProjectNumber(), activity);
-			assertEquals(activity1, activity2);
-		} catch (OperationNotAllowedException e){
-			errorMessageHolder.setErrorMessage(e.getMessage());
+		@And("{string} has activity {string} in his activity list")
+		public void hasActivityInHisActivityList(String initials, String activity) {
+			// Jonas
+			try {
+				Activity activity1 = app.getWorkerActivity(initials, activity).getActivity();
+				Activity activity2 = app.getActivityFromProject(project.getProjectNumber(), activity);
+				assertEquals(activity1, activity2);
+			} catch (OperationNotAllowedException e){
+				errorMessageHolder.setErrorMessage(e.getMessage());
+			}
 		}
-	}
 
     @And("{int} gets a new activity {string}")
     public void getsANewActivity(int projectNumber, String activityId) throws OperationNotAllowedException {
-		// Jonas
-		this.project = app.getProjectWithNumber(projectNumber);
-		project.addActivity();
-		this.activity = app.getActivityFromProject(projectNumber, activityId);
-		assertEquals(activity.getActivityId(), activityId);
+			// Jonas
+			this.project = app.getProjectWithNumber(projectNumber);
+			project.addActivity();
+			this.activity = app.getActivityFromProject(projectNumber, activityId);
+			assertEquals(activity.getActivityId(), activityId);
     }
 
-	@And("{string} is added to {string}")
-	public void isAddedTo(String initials, String activityId) throws OperationNotAllowedException {
-		// Jonas
-		int projectNumber = Integer.valueOf(activityId.substring(0,5));
-		try {
-			app.addWorkerToActivity(projectNumber, activityId, initials);
-			assertTrue(app.getActivityFromProject(projectNumber, activityId).isWorkerAssigned(initials));
-		} catch (OperationNotAllowedException e){
-			errorMessageHolder.setErrorMessage(e.getMessage());
+		@And("{string} is added to {string}")
+		public void isAddedTo(String initials, String activityId) throws OperationNotAllowedException {
+			// Jonas
+			int projectNumber = Integer.valueOf(activityId.substring(0,5));
+			try {
+				app.addWorkerToActivity(projectNumber, activityId, initials);
+				assertTrue(app.getActivityFromProject(projectNumber, activityId).isWorkerAssigned(initials));
+			} catch (OperationNotAllowedException e){
+				errorMessageHolder.setErrorMessage(e.getMessage());
+			}
 		}
-	}
 
-	@When("a worker want to know which workers work in week {int} year {int}")
-	public void aWorkerWantToKnowWhichWorkersWorkInWeekYear(int week, int year) {
-		// Jonas
-		try{
-			this.week = week;
-			this.year = year;
-			this.activityList = app.activitiesInWeekAndYear(week,year);
-		}catch (OperationNotAllowedException e){
-			errorMessageHolder.setErrorMessage(e.getMessage());
+		@When("a worker want to know which workers work in week {int} year {int}")
+		public void aWorkerWantToKnowWhichWorkersWorkInWeekYear(int week, int year) {
+			// Jonas
+			try{
+				this.week = week;
+				this.year = year;
+				this.activityList = app.activitiesInWeekAndYear(week,year);
+			}catch (OperationNotAllowedException e){
+				errorMessageHolder.setErrorMessage(e.getMessage());
+			}
 		}
-	}
 
-	@Then("a activityList will have length {int}")
-	public void aActivityListWillHaveLength(int length) {
-		// Jonas
-		assertEquals(activityList.size(), length);
-	}
-
-	@When("the worker wants to view which workers are assigned the activity's a string is given")
-	public void theWorkerWantsToViewWhichWorksAreAssignedTheAnticipatesAStringIsGiven() throws OperationNotAllowedException {
-		// Jonas
-		String print = app.timeSchedule(week, year);
-		assertNotNull(print);
-		System.out.println(print);
-	}
-
-
-	@Given("a worker wants to get an overview of project {int}")
-	public void aWorkerWantsToGetAnOverviewOfProject(int projectNumber) throws OperationNotAllowedException {
-		// Jonas
-		String print = app.getProjectOverview(projectNumber);
-		assertNotNull(print);
-		System.out.println(print);
-	}
-
-	@Given("there is {int} projects int the system")
-	public void thereIsProjectsIntTheSystem(int size) {
-		// Jonas
-		assertEquals(app.getProjectList().size(), size);
-	}
-
-	@Given("a worker wants to get an overview of activity {string}")
-	public void aWorkerWantsToGetAnOverviewOfActivity(String activityId) throws OperationNotAllowedException {
-		// Jonas
-		String print = app.getActivityOverview(activityId);
-		assertNotNull(print);
-		System.out.println(print);
-	}
-
-	@Given("a project named {string} with an activity named {string}")
-	public void aProjectNamedWithAnActivityNamed(String projectName, String activityName) {
-		// Daniel
-		try {
-			project = app.createProject(projectName); //create project
-			activity = app.addActivityToProject(project,activityName,"");
-			//app.addActivityToWorker(worker, activity);
-			app.setProjectLeader(project.getProjectNumber(), app.getLoggedInWorker().getInitials());
-		} catch (OperationNotAllowedException e){
-			errorMessageHolder.setErrorMessage(e.getMessage());
+		@Then("a activityList will have length {int}")
+		public void aActivityListWillHaveLength(int length) {
+			// Jonas
+			assertEquals(activityList.size(), length);
 		}
-	}
 
-	@When("a worker changes the activity name to {string}")
-	public void aWorkerChangesTheActivityName(String newActivityName) throws OperationNotAllowedException {
-		// Daniel
-		app.changeActivityName(activity,newActivityName);
-	}
+		@When("the worker wants to view which workers are assigned the activity's a string is given")
+		public void theWorkerWantsToViewWhichWorksAreAssignedTheAnticipatesAStringIsGiven() throws OperationNotAllowedException {
+			// Jonas
+			String print = app.timeSchedule(week, year);
+			assertNotNull(print);
+			System.out.println(print);
+		}
 
-	@Then("the activity name has changed to {string}")
-	public void theActivityNameHasChanged(String newActivityName) {
-		// Daniel
-		assertEquals(newActivityName, activity.getActivityName());
-	}
 
-	@Given("a worker wants to get all projects that is still active")
-	public void aWorkerWantsToGetAllProjectsThatIsStillActive() {
-		// Jonas
-		this.string = app.getStringActiveProjects();
-		assertNotNull(string);
-	}
+		@Given("a worker wants to get an overview of project {int}")
+		public void aWorkerWantsToGetAnOverviewOfProject(int projectNumber) throws OperationNotAllowedException {
+			// Jonas
+			String print = app.getProjectOverview(projectNumber);
+			assertNotNull(print);
+			System.out.println(print);
+		}
 
-	@Then("something correct is printed")
-	public void somethingCorrectIsPrinted() {
-		// Jonas
-		System.out.println(string);
-	}
+		@Given("there is {int} projects int the system")
+		public void thereIsProjectsIntTheSystem(int size) {
+			// Jonas
+			assertEquals(app.getProjectList().size(), size);
+		}
 
-	@Then("he marks project {int} as finished")
-	public void heMarksProjectAsFinished(int projectNumber) throws OperationNotAllowedException {
-		// Jonas
-		this.project = app.getProjectWithNumber(projectNumber);
-		app.markProjectFinished(project);
-		assertTrue(project.getIsFinished());
-	}
+		@Given("a worker wants to get an overview of activity {string}")
+		public void aWorkerWantsToGetAnOverviewOfActivity(String activityId) throws OperationNotAllowedException {
+			// Jonas
+			String print = app.getActivityOverview(activityId);
+			assertNotNull(print);
+			System.out.println(print);
+		}
 
-	@And("project {int} does not exist")
-	public void projectDoesNotExist(int arg0) {
-		assertFalse(app.hasProjectWithNumber(arg0));
-	}
+		@Given("a project named {string} with an activity named {string}")
+		public void aProjectNamedWithAnActivityNamed(String projectName, String activityName) {
+			// Daniel
+			try {
+				project = app.createProject(projectName); //create project
+				activity = app.addActivityToProject(project,activityName,"");
+				//app.addActivityToWorker(worker, activity);
+				app.setProjectLeader(project.getProjectNumber(), app.getLoggedInWorker().getInitials());
+			} catch (OperationNotAllowedException e){
+				errorMessageHolder.setErrorMessage(e.getMessage());
+			}
+		}
+
+		@When("a worker changes the activity name to {string}")
+		public void aWorkerChangesTheActivityName(String newActivityName) throws OperationNotAllowedException {
+			// Daniel
+			app.changeActivityName(activity,newActivityName);
+		}
+
+		@Then("the activity name has changed to {string}")
+		public void theActivityNameHasChanged(String newActivityName) {
+			// Daniel
+			assertEquals(newActivityName, activity.getActivityName());
+		}
+
+		@Given("a worker wants to get all projects that is still active")
+		public void aWorkerWantsToGetAllProjectsThatIsStillActive() {
+			// Jonas
+			this.string = app.getStringActiveProjects();
+			assertNotNull(string);
+		}
+
+		@Then("something correct is printed")
+		public void somethingCorrectIsPrinted() {
+			// Jonas
+			System.out.println(string);
+		}
+
+		@Then("he marks project {int} as finished")
+		public void heMarksProjectAsFinished(int projectNumber) throws OperationNotAllowedException {
+			// Jonas
+			this.project = app.getProjectWithNumber(projectNumber);
+			app.markProjectFinished(project);
+			assertTrue(project.getIsFinished());
+		}
+
+		@And("project {int} does not exist")
+		public void projectDoesNotExist(int arg0) {
+			assertFalse(app.hasProjectWithNumber(arg0));
+		}
 
     @When("he registers he has worked for {int} hours and {int} minutes on activity {string}")
     public void heRegistersHeHasWorkedForHoursAndMinutesOnActivity(int hours, int min, String activityId) throws OperationNotAllowedException {
-		// Jonas
-		Activity activity1 = app.getActivityFromProject(app.getProjectNumberFromActivityId(activityId), activityId);
-		app.incrementWorkTime(worker, activity1, hours, min);
+			// Jonas
+			Activity activity1 = app.getActivityFromProject(app.getProjectNumberFromActivityId(activityId), activityId);
+			app.incrementWorkTime(worker, activity1, hours, min);
     }
 
-	@Then("the worker has worked {double} hours on activity {string}")
-	public void theWorkerHasWorkedHoursOnActivity(double hours, String activityId) throws OperationNotAllowedException {
-		// Jonas
-		Activity activity1 = app.getActivityFromProject(app.getProjectNumberFromActivityId(activityId), activityId);
-		double time = app.getWorkerActivity(worker.getInitials(), activity1.getActivityId()).getWorkTime().getTime();
-		assertEquals(time, hours);
-	}
+		@Then("the worker has worked {double} hours on activity {string}")
+		public void theWorkerHasWorkedHoursOnActivity(double hours, String activityId) throws OperationNotAllowedException {
+			// Jonas
+			Activity activity1 = app.getActivityFromProject(app.getProjectNumberFromActivityId(activityId), activityId);
+			double time = app.getWorkerActivity(worker.getInitials(), activity1.getActivityId()).getWorkTime().getTime();
+			assertEquals(hours, time);
+		}
 }

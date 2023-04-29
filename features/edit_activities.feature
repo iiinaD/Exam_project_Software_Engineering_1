@@ -50,6 +50,14 @@ Feature: Edit activities
     When the activity is planned to start week 20 year 2023 and end week 19 year 2025
     Then the planned number of weeks is 103
 
+   #Jonas
+  Scenario: The acticity needs planning when it starts and ends
+    Given there is a worker with initials "jodl" logged in to the system
+    And a project named "project 0" with an activity "23001-001"
+    And "jodl" is assigned as project leader to the project with number 23001
+    When the activity is planned to start week 19 year 2023 and end week 18 year 2023
+    Then an error message "Start date need to be before End date" is given
+
   #Jonas
   Scenario: worker tries to access an activity that does not exist
     Given there is a worker with initials "jodl" logged in to the system
