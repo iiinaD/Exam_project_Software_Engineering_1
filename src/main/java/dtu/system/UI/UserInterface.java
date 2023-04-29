@@ -104,14 +104,11 @@ public class UserInterface {
                 System.out.print("Please input the spent time for this activity in the format: hrs min (fx 12 45)\n> ");
                 int hours = terminal.nextInt();
                 int min = terminal.nextInt();
-                app.incrementWorkTime(app.getLoggedInWorker(),activity,hours,min);
-//                try {
-//                    app.incrementWorkTime(app.getLoggedInWorker(),activity,hours,min);
-//                    System.out.println("The hours were logged in the chosen activity");
-//                } catch (OperationNotAllowedException e) {
-//                    printErrorMessage(e);
-//                }
-
+                try {
+                    app.incrementWorkTime(app.getLoggedInWorker(),activity,hours,min);
+                } catch (Exception e) {
+                    printErrorMessage(e);
+                }
             } else if (input == 5) {
                 System.out.println(app.hoursOverview(app.getLoggedInWorker()));
             } else if (input == 6) {
