@@ -100,7 +100,8 @@ public class UserInterface {
                     printErrorMessage(e);
                     continue;
                 }
-                System.out.print("Please input the spent time for this activity in the format: hrs min  (fx 12 45)\n> ");
+                System.out.println("To adjust wrongly logged working hours on an activity you can input negative numbers");
+                System.out.print("Please input the spent time for this activity in the format: hrs min (fx 12 45)\n> ");
                 int hours = terminal.nextInt();
                 int min = terminal.nextInt();
                 try {
@@ -133,7 +134,8 @@ public class UserInterface {
                     printErrorMessage(e);
                     continue;
                 }
-                System.out.print("Please input the spent time for this activity in the format: hrs min  (fx 12 45)\n> ");
+                System.out.println("To adjust wrongly logged working hours on an activity you can input negative numbers");
+                System.out.print("Please input the spent time for this activity in the format: hrs min (fx 12 45)\n> ");
                 int hours = terminal.nextInt();
                 int min = terminal.nextInt();
                 app.incrementWorkTime(worker,activity,hours,min);
