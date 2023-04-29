@@ -125,22 +125,19 @@ public class Project {
             tabs += "\t";
         }
         String print = "";
-
         print += tabs + "----- Project Overview: "+ info(0) +" -----\n";
-
+        print += tabs + "\t Project Leader: \n";
         if (hasProjectLeader()){
-            print += tabs + "\t Project Leader: \n";
             print += tabs + "\t\t " + projectLeader.getInitials() + "\n";
+        } else {
+            print += tabs + "\t\t <empty>\n";
         }
-
         print += tabs + "\t Project status:\n";
         if (isFinished){
-            print += tabs + "\t\t  completed \n";
+            print += tabs + "\t\t completed \n";
         } else {
-            print += tabs + "\t\t  incomplete \n";
+            print += tabs + "\t\t incomplete \n";
         }
-
-
         print += tabs + "\t Activity List: \n";
         for (Activity activity : activityList){
             print += tabs + activity.overview(3, true, true, true);
@@ -149,7 +146,6 @@ public class Project {
             print += tabs + "\t\t <empty> \n";
         }
         print += "\n";
-
         return print;
     }
 
