@@ -1,4 +1,4 @@
-package dtu.system.app;
+package dtu.system.unit_tests.cucumber;
 
 public class ErrorMessageHolder {
      private String errorMessage;

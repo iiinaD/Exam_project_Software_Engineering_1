@@ -2,26 +2,20 @@ package dtu.system.domain;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Worker {
     private String initials;
     private List<WorkerActivity> workerActivityList = new ArrayList<>();
 
-    public Worker(String initials) { // the error handling should be handled by the app
-        // Danny
-        if (initials.length() < 2 || initials.length() > 4) {
-            throw new IllegalArgumentException("Worker initials can't contain less than 2 or more than 4 characters."); // missing test
-        }
-        else if(!initials.matches("[a-zA-Z]+")) {
-            throw new IllegalArgumentException("Worker initials can't contain numbers or special characters."); // missing test
-        }
-
+    public Worker(String initials) {
+        // Jonas
         this.initials = initials;
     }
 
     public WorkerActivity addWorkerActivity(Activity activity) {
         // Danny
-        // needs test if worker that worker activity already exist (same activity)
+        if(hasWorkerActivity(activity)){return null;}
         WorkerActivity workerActivity = new WorkerActivity(activity);
 
         workerActivityList.add(workerActivity);
@@ -41,11 +35,30 @@ public class Worker {
 
     public WorkerActivity getWorkerActivity(String activity) {
         //Jonas
-        for (WorkerActivity wa : workerActivityList){
-            if (wa.getActivity().getActivityId().equals(activity)){
-                return wa;
+        for (WorkerActivity workerActivity : workerActivityList){
+            if (workerActivity.getActivity().getActivityId().equals(activity)){
+                return workerActivity;
             }
         }
         return null;
+    }
+
+    public boolean incrementWorkTime(Activity activity, int hours, int minutes) {
+        // Gee
+        if (workerActivityList.isEmpty()){
+            return false;
+        }
+
+        for(WorkerActivity workerActivity :workerActivityList){
+            if(Objects.equals(workerActivity.getActivity(), activity)){
+                workerActivity.incrementWorkTime(hours, minutes);
+            }
+        }
+        return true;
+    }
+
+    public boolean hasWorkerActivity(Activity activity) {
+        // Jonas
+        return getWorkerActivity(activity.getActivityId()) != null ? true : false;
     }
 }

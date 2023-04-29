@@ -2,7 +2,9 @@ Feature: Access hours overview
   Background:
     Given there is a worker with initials "jodl" logged in to the system
     And a project named "project 0" with an activity "23001-001"
-    And add a activity "23001-002""
+    And add a activity "23001-002"
+    And "jodl" is added to "23001-001"
+    And "jodl" is added to "23001-002"
     And "jodl" worked for 5 hours and 30 minutes on activity "23001-001"
     And "jodl" worked for 3 hours and 30 minutes on activity "23001-002"
 

@@ -1,4 +1,4 @@
-Feature: a worker can login
+Feature: the logging system
   Description: a worker in the system can login using its initials
   Actor Worker
 

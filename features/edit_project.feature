@@ -12,6 +12,7 @@ Feature: Edit a project
   Scenario: A worker tries to change the name of the project after created but inputs wrong project number
     Given there is a worker with initials "daha" logged in to the system
     And a project with the number 23001 and name "Web projekt" exists
+    And a project with the number 23005 does not exist
     When the worker tries to change the name of the project 23005 to "Web projekt Google"
     Then an error message "No project with the id 23005 exists in the system" is given
     #gee add a line #ToDo
@@ -20,6 +21,7 @@ Feature: Edit a project
     Given two workers with the names "daha" and "jodl" exists
     And the worker "daha" is logged in
     And a project with the number 23001 exists in the application
+    And "jodl" hasn't already been assigned as the project leader
     When "jodl" is assigned as project leader to the project with number 23001
     Then "jodl" becomes the project leader of the project 23001
 
@@ -61,17 +63,17 @@ Feature: Edit a project
     Given there is a worker with initials "daha" logged in to the system
     And a project with the number 23001 and name "Web projekt" exists
     When the worker tries to change the name of the project 1 to "Web projekt Google"
-    Then an error message "Project number invalid: Incorrect format. Should be between 10000 and 99999" is given
+    Then an error message "Project number invalid: Incorrect format. Should be [Year]+[3-digit number]" is given
 
   Scenario: A worker cannot change the name of the project if the number is illegal(too much digits)
     Given there is a worker with initials "daha" logged in to the system
     And a project with the number 23001 and name "Web projekt" exists
     When the worker tries to change the name of the project 1 to "Web projekt Google"
-    Then an error message "Project number invalid: Incorrect format. Should be between 10000 and 99999" is given
+    Then an error message "Project number invalid: Incorrect format. Should be [Year]+[3-digit number]" is given
 
   Scenario: A worker cannot change the name of the project if the number is illegal(Negative integer)
     Given there is a worker with initials "daha" logged in to the system
     And a project with the number 23001 and name "Web projekt" exists
     When the worker tries to change the name of the project -23001 to "Web projekt Google"
-    Then an error message "Project number invalid: Incorrect format. Should be between 10000 and 99999" is given
+    Then an error message "Project number invalid: Incorrect format. Should be [Year]+[3-digit number]" is given
 

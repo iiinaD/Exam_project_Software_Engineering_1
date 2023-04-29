@@ -5,7 +5,6 @@ import dtu.system.domain.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 public class Application {
 
@@ -17,9 +16,17 @@ public class Application {
 
     // Worker in system Related
     public void addNewWorker(Worker worker) throws OperationNotAllowedException {
-        //Jonas
+        // Danny
         if (isWorkerInWorkerList(worker.getInitials())){
             throw new OperationNotAllowedException("A worker with these initials already exists in the system.");
+        }
+        else {
+            if (worker.getInitials().length() < 2 || worker.getInitials().length() > 4) {
+                throw new OperationNotAllowedException("Worker initials can't contain less than 2 or more than 4 characters.");
+            }
+            else if(!worker.getInitials().matches("[a-zA-Z]+")) {
+                throw new OperationNotAllowedException("Worker initials can't contain numbers or special characters.");
+            }
         }
 
         workerList.add(worker);
@@ -127,6 +134,7 @@ public class Application {
                 return p;
             }
         }
+
         throw new OperationNotAllowedException("No project with the id " + projectNumber + " exists in the system");
     }
 
@@ -134,7 +142,7 @@ public class Application {
         // Daniel
         try {
             getProjectWithNumber(projectNumber);
-        } catch (OperationNotAllowedException e) { //Mangler test
+        } catch (OperationNotAllowedException e) {
             return false;
         }
         return true;
@@ -165,14 +173,19 @@ public class Application {
     public Activity addActivityToProject(Project project) throws OperationNotAllowedException {
         //Jonas
         loggedInTestError();
+        if(project.getIsFinished()){
+            throw new OperationNotAllowedException("Cannot add activity: Project is completed!");
+        }
         return project.addActivity();
     }
 
-    public Activity addActivityToProjectWithNameAndDescription(Project project, String activityName, String activityDescription) throws OperationNotAllowedException {
+    public Activity addActivityToProject(Project project, String activityName, String activityDescription) throws OperationNotAllowedException {
         // Danny
         loggedInTestError();
-
-        return project.addActivityWithNameAndDescription(activityName, activityDescription);
+        if(project.getIsFinished()){
+            throw new OperationNotAllowedException("Cannot add activity: Project is completed!");
+        }
+        return project.addActivity(activityName, activityDescription);
     }
 
     public void setActivityBudgetTime(Activity activity, HalfHours halfHours) throws OperationNotAllowedException {
@@ -213,27 +226,19 @@ public class Application {
 
     // Workers Activity's
     public void incrementWorkTime(Worker worker, Activity activity, int hours, int minutes) throws OperationNotAllowedException {
-        // Gee,
-        //I don't do access control here for now, we might want to rethink the login check.
-        // Response: Cant we just test if worker == loggedInWorker?
-
-        if (worker.getWorkerActivityList().isEmpty()){
+        // Gee
+        if(!worker.incrementWorkTime(activity, hours, minutes)){
             throw new OperationNotAllowedException("This worker doesn't have any activities yet.");
-        }
-
-        // move below in to worker class
-        // call getWorkerActivity in woker clas
-        List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
-        for(WorkerActivity workerActivity :workerActivityList){
-            if(Objects.equals(workerActivity.getActivity(), activity)){
-                workerActivity.incrementWorkTime(hours, minutes);
-            }
         }
     }
 
-    public WorkerActivity addActivityToWorker(Worker worker, Activity activity){
+    public WorkerActivity addActivityToWorker(Worker worker, Activity activity) throws OperationNotAllowedException {
         // Gee
-        return worker.addWorkerActivity(activity);
+        WorkerActivity workerActivity = worker.addWorkerActivity(activity);
+        if(workerActivity == null){
+            throw new OperationNotAllowedException("Worker already has that activity!");
+        }
+        return workerActivity;
     }
 
     public  String hoursOverview(Worker worker){
@@ -242,7 +247,7 @@ public class Application {
         List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
         if(workerList.isEmpty()) return "This worker has no activity";
         for(WorkerActivity workerActivity : workerActivityList){
-            output.append(workerActivity.prettyPrintData()).append("\n");
+            output.append(workerActivity.data()).append("\n");
         }
         return output.toString();
     }
@@ -265,7 +270,7 @@ public class Application {
 
     public String hoursOverview(WorkerActivity workerActivity){
         // Gee
-        return workerActivity.prettyPrintData();
+        return workerActivity.data();
     }
 
     public void markProjectFinished(Project project) throws OperationNotAllowedException {
@@ -282,21 +287,20 @@ public class Application {
         return project.getIsFinished();
     }
 
-    // Date
-    public void setDateServer(DateServer dateServer) {
-        //to do
-    }
+
     public void addWorkerToActivity(int projectNumber, String activityId, String workerInitials) throws OperationNotAllowedException {
         // Daniel
         loggedInTestError();
         if (!isProjectLeader(projectNumber, loggedInWorker.getInitials())) {
-            throw new OperationNotAllowedException("Only project leaders can assign workers to activities");
+            throw new OperationNotAllowedException("Only project leaders can assign workers to activities.");
         }
         validActivityIdTest(activityId);
         Project project = getProjectWithNumber(projectNumber);
         Activity activity = project.getActivity(activityId);
         Worker worker = getWorkerWithInitials(workerInitials);
-        activity.addWorker(worker);
+        if(!activity.addWorker(worker)){
+            throw new OperationNotAllowedException(worker.getInitials() + " is already in the list!");
+        }
         worker.addWorkerActivity(activity);
     }
 
@@ -304,13 +308,13 @@ public class Application {
         //Daniel
         Project project = getProjectWithNumber(projectNumber);
         if (!project.hasProjectLeader()) {
-            return false; // Missing test
+            return false;
         }
         String projectLeader = project.getProjectLeader().getInitials();
         return projectLeader.equals(initials);
     }
 
-    public List<Worker> WorkersAssignedToActivity(int projectNumber, String activityId) throws OperationNotAllowedException {
+    public List<Worker> workersAssignedToActivity(int projectNumber, String activityId) throws OperationNotAllowedException {
         // Daniel
         validActivityIdTest(activityId);
         Project project = getProjectWithNumber(projectNumber);
@@ -400,7 +404,7 @@ public class Application {
 
     public void validProjectNumberTest(int number) throws OperationNotAllowedException{
         if(number < 10000 ||number > 99999 ){
-            throw new OperationNotAllowedException("Project number invalid: Incorrect format. Should be between 10000 and 99999");
+            throw new OperationNotAllowedException("Project number invalid: Incorrect format. Should be [Year]+[3-digit number]");
         }
     }
     
@@ -425,6 +429,7 @@ public class Application {
     }
 
 
+
     public String getStringActiveProjects() {
         // Jonas
         String print = "";
@@ -433,7 +438,7 @@ public class Application {
         for (Project project : projectList) {
             if (!project.getIsFinished()) {
                 foundOne = true;
-                print += project.infoString(2) + "\n";
+                print += project.info(2) + "\n";
             }
         }
         if (projectList.isEmpty() || !foundOne){

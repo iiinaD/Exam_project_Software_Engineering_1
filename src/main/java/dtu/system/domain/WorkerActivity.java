@@ -26,7 +26,7 @@ public class WorkerActivity {
           return halfHours;
      }
 
-     public String prettyPrintData(){
+     public String data(){
           // Gee
           Activity theAct = getActivity(); //get Activity
           String actName = theAct.getActivityId(); //get Activity ID

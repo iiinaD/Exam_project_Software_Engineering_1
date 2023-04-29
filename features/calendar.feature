@@ -4,6 +4,7 @@ Feature: Calendar
     Given the date server is running
     When I request the date
     Then the day should be the current date
+
   #Jonas
   Scenario: test if Dateserver methods works
     Given the date server is running
