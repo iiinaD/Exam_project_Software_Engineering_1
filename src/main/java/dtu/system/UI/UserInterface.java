@@ -109,13 +109,28 @@ public class UserInterface {
             } else if (input == 6) {
                 System.out.print("Please enter the initials of the person\n> ");
                 String initials = terminal.next();
+                Worker worker;
+                try {
+                    worker = app.getWorkerWithInitials(initials);
+                } catch (OperationNotAllowedException e) {
+                    printErrorMessage(e);
+                    continue;
+                }
                 System.out.print("Please enter the id of the activity\n> ");
                 String activityId = forceStringLength(terminal,9, "The activity id has to have the form: 23001-001");
-                int projectNumber = app.getProjectNumberFromActivityId(activityId);
+                int projectNumber;
+                Activity activity;
+                try {
+                    projectNumber = app.getProjectNumberFromActivityId(activityId);
+                    activity = app.getActivityFromProject(projectNumber,activityId);
+                } catch (OperationNotAllowedException e) {
+                    printErrorMessage(e);
+                    continue;
+                }
                 System.out.print("Please input the spent time for this activity in the format: hrs min  (fx 12 45)\n> ");
                 int hours = terminal.nextInt();
                 int min = terminal.nextInt();
-                app.incrementWorkTime(app.getWorkerWithInitials(initials),app.getActivityFromProject(projectNumber,activityId),hours,min);
+                app.incrementWorkTime(worker,activity,hours,min);
             } else if (input == 7) {
                 System.out.print("Please input the week and year in the format: week year (fx 34 2023)\n> ");
                 int week = terminal.nextInt();
@@ -203,7 +218,7 @@ public class UserInterface {
             System.out.print("Please choose an item from the menu list\n> ");
             int input = getMenuInput(terminal,numMenuItems,"The number has to correspond to one of the menu items.");
             if (input == 1) {
-                System.out.println("Please input the initials of the worker\n> ");
+                System.out.print("Please input the initials of the worker\n> ");
                 String workerInitials = terminal.next();
                 app.addWorkerToActivity(project.getProjectNumber(), activity.getActivityId(), workerInitials);
                 System.out.println("The worker " + workerInitials + " was added to this activity.");
@@ -229,10 +244,10 @@ public class UserInterface {
                 app.setActivityBudgetTime(activity,budgetTime);
                 System.out.println("The budgeted time was set to: " + budgetTime.getTime() + " hours.");
             } else if (input == 5) {
-                System.out.println("Please input the start week and year for this activity in the format: week year (fx 34 2023)\n> ");
+                System.out.print("Please input the start week and year for this activity in the format: week year (fx 34 2023)\n> ");
                 int startWeek = terminal.nextInt();
                 int startYear = terminal.nextInt();
-                System.out.println("Please input the end week and year for this activity in the format: week year (fx 34 2023)\n> ");
+                System.out.print("Please input the end week and year for this activity in the format: week year (fx 34 2023)\n> ");
                 int endWeek = terminal.nextInt();
                 int endYear = terminal.nextInt();
                 app.activityPlanStartAndEnd(project.getProjectNumber(), activity.getActivityId(), startWeek, endWeek, startYear, endYear);
