@@ -243,7 +243,7 @@ public class Application {
         //Gee
         StringBuilder output = new StringBuilder();
         List<WorkerActivity> workerActivityList = worker.getWorkerActivityList();
-        if(workerList.isEmpty()) return "This worker has no activity";
+        if(workerActivityList.isEmpty()) return "This worker has no activities yet";
         for(WorkerActivity workerActivity : workerActivityList){
             output.append(workerActivity.data()).append("\n");
         }
@@ -273,7 +273,7 @@ public class Application {
 
     public void markProjectFinished(Project project) throws OperationNotAllowedException {
         // Daniel
-        if (project.getProjectLeader().equals(loggedInWorker)) {
+        if (project.getProjectLeader() != null && project.getProjectLeader().equals(loggedInWorker)) {
             project.finishProject();
         } else {
             throw new OperationNotAllowedException("Only project leaders can finish projects");
