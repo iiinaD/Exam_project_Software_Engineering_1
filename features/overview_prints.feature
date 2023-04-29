@@ -10,6 +10,7 @@ Feature: print overview
     And a worker with the initials "daha" exists
     # Projects and activitys with planned time, next line adds daha to the activity
     And a project named "project 0" with an activity "23001-001"
+    And the worker set the description of an activity of "Do not give up on life"
     And the activity is planned to start week 23 year 2023 and end week 23 year 2023
     And 23001 gets a new activity "23001-002"
     And the activity is planned to start week 20 year 2023 and end week 24 year 2023
