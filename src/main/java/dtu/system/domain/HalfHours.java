@@ -17,16 +17,20 @@ public class HalfHours {
 
     public void increment(int hour, int min){
         //Jonas
-        double mini = min(abs(min - 60), min(min, abs(min - 30)));
+
+        double mini = min(abs(abs(min) - 60), min(abs(min), abs(abs(min) - 30)));
         double res;
-        if (mini == min){
+        if (mini == abs(min)){
             res = 0;
-        } else if (mini == abs(min-30)){
+        } else if (mini == abs(abs(min)-30)){
             res = 0.5;
         } else {
             res = 1;
         }
-        this.halfHours += hour+res;
+        this.halfHours += hour+res*signum(min);
+        if (halfHours < 0){
+            this.halfHours = 0;
+        }
     }
 
     public double getTime() {

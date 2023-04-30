@@ -218,9 +218,13 @@ public class Application {
     public void activityPlanStartAndEnd(int projectNumber, String activityId, int week0, int week1, int year0, int year1) throws OperationNotAllowedException {
         // Jonas
         validActivityIdTest(activityId);
-        Activity a = getActivityFromProject(projectNumber, activityId);
-        if (a != null){
-            a.setStartEndWeekAndYears(week0, week1, year0, year1);
+        validWeekYearTest(week0, year0);
+        validWeekYearTest(week1, year1);
+        Activity activity = getActivityFromProject(projectNumber, activityId);
+        if (activity != null){
+            if (!activity.setStartEndWeekAndYears(week0, week1, year0, year1)){
+                throw new OperationNotAllowedException("Start date need to be before End date");
+            }
         }
     }
 
