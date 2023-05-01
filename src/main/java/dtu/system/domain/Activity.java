@@ -69,6 +69,7 @@ public class Activity {
     }
 
     public boolean hasStartAndEndDate(){
+        //Jonas
         return hasStartAndEndDate;
     }
 
@@ -204,6 +205,7 @@ public class Activity {
     }
 
     public void lock() {
+        //Gee
         locked = true;
     }
 }
