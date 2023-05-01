@@ -1,5 +1,6 @@
-Feature: Calendar
+Feature:
 
+  #Gee
   Scenario: Get date from DateServer
     Given the date server is running
     When I request the date
