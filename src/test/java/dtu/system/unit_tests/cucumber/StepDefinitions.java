@@ -452,6 +452,7 @@ public class StepDefinitions {
 
 	@When("the worker access hours overview for activity {string}")
 	public void theWorkerAccessHoursOverviewForActivity(String string) {
+		//Gee
 		try {
 			this.string = app.hoursOverview(app.getWorkerActivity(worker.getInitials(), string));
 		} catch (OperationNotAllowedException e){
@@ -461,47 +462,56 @@ public class StepDefinitions {
 
 	@When("the worker access personal hours overview")
 	public void theWorkerAccessPersonalHoursOverview() {
+		//Gee
 		this.string = app.hoursOverview(worker);
 	}
 
 	@When("the worker access activity hours overview")
 	public void theWorkerAccessActivityHoursOverview() {
+		//Gee
 		this.string = app.hoursOverview(activity);
 	}
 
 	@Then("the worker should see")
 	public void theWorkerShouldSee(String docString) {
+		//Gee
 		assertEquals(docString, string);
 	}
 
 	//edit_activities.feature
 	@Given("the activity has a description of {string}")
 	public void theActivityHasADescriptionOf(String string) throws OperationNotAllowedException {
+		//Gee
 		app.setActivityDescription(activity, string);
 	}
 
 	@When("the worker set the description of an activity of {string}")
 	public void theWorkerSetTheDescriptionOfAnActivityOf(String string) throws OperationNotAllowedException {
+		//Gee
 		app.setActivityDescription(activity, string);
 	}
 
 	@Then("the description of the activity should be {string}")
 	public void theDescriptionOfTheActivityShouldBe(String string) {
+		//Gee
 		assertEquals(string, app.getActivityDescription(activity));
 	}
 
 	@Given("the activity has a budget time of {int} hours")
 	public void theActivityHasABudgetTimeOfHours(Integer int1) throws OperationNotAllowedException {
+		//Gee
 		app.setActivityBudgetTime(activity,new HalfHours(int1, 0));
 	}
 
 	@When("the worker changes the budget time to {int} hours")
 	public void theWorkerChangesTheBudgetTimeToHours(Integer int1) throws OperationNotAllowedException {
+		//Gee
 		app.setActivityBudgetTime(activity,new HalfHours(int1, 0));
 	}
 
 	@Then("the budget time of the activity should be {int} hours")
 	public void theBudgetTimeOfTheActivityShouldBeHours(Integer int1) {
+		//Gee
 		assertEquals(new HalfHours(int1, 0).getTime(), app.getActivityBudgetTime(activity).getTime());
 	}
 

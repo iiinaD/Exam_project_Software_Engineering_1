@@ -103,6 +103,7 @@ Feature: Edit activities
     When the project leader "jodl" assigns the worker "daha" to the activity
     Then an error message "daha is already in the list!" is given
 
+    #Gee
   Scenario: Add worker to an Activity but the worker already has the activity in the worker's list
     Given a worker with the initials "jodl" exists
     And "jodl" is logged in
