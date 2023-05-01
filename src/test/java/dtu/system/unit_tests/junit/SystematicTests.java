@@ -5,6 +5,13 @@ public class SystematicTests {
     @org.junit.Test
     public void junit1Test() {
         // Jonas
-        HalfHours halfHours = new HalfHours(0,0);
+        HalfHours A = new HalfHours(0,0);
+        HalfHours B = new HalfHours(0,0);
+        HalfHours C = new HalfHours(0,0);
+        HalfHours D = new HalfHours(0,0);
+        HalfHours E = new HalfHours(0,0);
+        HalfHours F = new HalfHours(0,0);
+
+
     }
 }
