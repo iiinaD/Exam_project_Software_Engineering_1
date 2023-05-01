@@ -47,12 +47,12 @@ public class Project {
     }
 
     public String getProjectName() {
-        // Gee
+        //Gee
         return projectName;
     }
 
     public Activity addActivity() throws OperationNotAllowedException {
-        // Gee
+        //Gee
         activityCounter += 1; //increment id counter by 1
         Activity act = new Activity(projectNumber + "-" + String.valueOf(1000 + activityCounter).substring(1), this);
         activityList.add(act); //add to activities List
@@ -71,7 +71,7 @@ public class Project {
     }
 
     public ArrayList<Activity> getActivityList(){
-        // Gee
+        //Gee
         return activityList;
     }
 

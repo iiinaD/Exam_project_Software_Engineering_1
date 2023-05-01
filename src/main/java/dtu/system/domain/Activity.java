@@ -28,7 +28,7 @@ public class Activity {
     }
 
     public Activity(String id, Project parentProject) throws OperationNotAllowedException {
-        // Gee
+        //Gee
         parentNotCompleteCheck(parentProject);
         this.id = id;
         this.parentProject = parentProject;
@@ -44,13 +44,13 @@ public class Activity {
     }
 
     public void setDescription(String description) throws OperationNotAllowedException {
-        // Gee
+        //Gee
         parentNotCompleteCheck(parentProject);
         this.description = description;
     }
 
     public void setBudgetTime(HalfHours budgetTime) throws OperationNotAllowedException {
-        // Gee
+        //Gee
         parentNotCompleteCheck(parentProject);
         this.budgetTime = budgetTime;
     }
@@ -107,7 +107,7 @@ public class Activity {
     }
 
     public Project getParentProject(){
-        // Gee
+        //Gee
         return parentProject;
     }
     

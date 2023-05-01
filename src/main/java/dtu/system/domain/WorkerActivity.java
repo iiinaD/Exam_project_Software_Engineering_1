@@ -27,7 +27,7 @@ public class WorkerActivity {
      }
 
      public String data(){
-          // Gee
+          //Gee
           Activity theAct = getActivity(); //get Activity
           String actName = theAct.getActivityId(); //get Activity ID
           String projName = theAct.getParentProject().getProjectName();//get Project Name

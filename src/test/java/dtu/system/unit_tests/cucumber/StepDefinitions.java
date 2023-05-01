@@ -215,19 +215,19 @@ public class StepDefinitions {
 	//calendar.feature
 	@Given("the date server is running")
 	public void theDateServerIsRunning() {
-		// Gee
+		//Gee
 		date = new DateServer();
 	}
 
 	@When("I request the date")
 	public void iRequestTheDate() {
-		// Gee
+		//Gee
 		currentDate = date.getDate();
 	}
 
 	@Then("the day should be the current date")
 	public void theDayShouldBeTheCurrentDate() {
-		// Gee
+		//Gee
 		Calendar calendar = new GregorianCalendar();
 		Calendar expectedDate = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 		assertEquals(expectedDate.getTime(), currentDate.getTime());
@@ -235,7 +235,7 @@ public class StepDefinitions {
 
 	@Given("a worker with the initials {string} exists")
 	public void aWorkerWithTheInitialsExists(String initials) throws OperationNotAllowedException {
-		// Gee
+		//Gee
 		this.worker = new Worker(initials);
 		app.addNewWorker(worker);
 	}
