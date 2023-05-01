@@ -350,11 +350,12 @@ public class Application {
     }
 
     private void validWeekYearTest(int week, int year) throws OperationNotAllowedException {
+        //Gee
         if(week < 1 || week >52){
             throw new OperationNotAllowedException("Invalid week: Week must be between 1-52");
         }
         if(year < 1000 || year >9999){
-            throw new OperationNotAllowedException("Invalid year: Year must be between 1000-9999");
+            throw new OperationNotAllowedException("Invalid year");
         }
     }
 
@@ -405,12 +406,14 @@ public class Application {
     }
 
     public void validProjectNumberTest(int number) throws OperationNotAllowedException{
+        //Gee
         if(number < 10000 ||number > 99999 ){
-            throw new OperationNotAllowedException("Project number invalid: Incorrect format. Should be [Year]+[3-digit number]");
+            throw new OperationNotAllowedException("Project number invalid: Incorrect format. Should be [2-digit Year]+[3-digit number]");
         }
     }
     
     public void validActivityIdTest(String id) throws OperationNotAllowedException {
+        //Gee
         if (!id.contains("-")) {
             //missing "-"
             throw new OperationNotAllowedException("Activity ID invalid: Incorrect format. Should be [Project Number]-[Activity ID]");
