@@ -293,14 +293,14 @@ public class Application {
     public void addWorkerToActivity(int projectNumber, String activityId, String workerInitials) throws OperationNotAllowedException {
         // Daniel
         loggedInTestError();
-        if (!isProjectLeader(projectNumber, loggedInWorker.getInitials())) {
+        if (!isProjectLeader(projectNumber, loggedInWorker.getInitials())) {                                 // 1
             throw new OperationNotAllowedException("Only project leaders can assign workers to activities.");
         }
         validActivityIdTest(activityId);
         Project project = getProjectWithNumber(projectNumber);
         Activity activity = project.getActivity(activityId);
         Worker worker = getWorkerWithInitials(workerInitials);
-        if(!activity.addWorker(worker)){
+        if(!activity.addWorker(worker)) {                                                                    // 2
             throw new OperationNotAllowedException(worker.getInitials() + " is already in the list!");
         }
         worker.addWorkerActivity(activity);
