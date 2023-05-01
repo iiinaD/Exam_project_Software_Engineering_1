@@ -235,7 +235,7 @@ public class Application {
     }
 
     public WorkerActivity addActivityToWorker(Worker worker, Activity activity) throws OperationNotAllowedException {
-        // Gee
+        //Gee
         WorkerActivity workerActivity = worker.addWorkerActivity(activity);
         if(workerActivity == null){
             throw new OperationNotAllowedException("Worker already has that activity!");
@@ -271,7 +271,7 @@ public class Application {
     }
 
     public String hoursOverview(WorkerActivity workerActivity){
-        // Gee
+        //Gee
         return workerActivity.data();
     }
 
@@ -349,7 +349,7 @@ public class Application {
         return activityList;
     }
 
-    private void validWeekYearTest(int week, int year) throws OperationNotAllowedException {
+    private boolean validWeekYearTest(int week, int year) throws OperationNotAllowedException {
         //Gee
         if(week < 1 || week >52){
             throw new OperationNotAllowedException("Invalid week: Week must be between 1-52");
@@ -357,6 +357,7 @@ public class Application {
         if(year < 1000 || year >9999){
             throw new OperationNotAllowedException("Invalid year");
         }
+        return true;
     }
 
     public String timeSchedule(int week, int year) throws OperationNotAllowedException {
@@ -405,14 +406,16 @@ public class Application {
         activity.setActivityName(newName);
     }
 
-    public void validProjectNumberTest(int number) throws OperationNotAllowedException{
+    public boolean validProjectNumberTest(int number) throws OperationNotAllowedException{
         //Gee
         if(number < 10000 ||number > 99999 ){
             throw new OperationNotAllowedException("Project number invalid: Incorrect format. Should be [2-digit Year]+[3-digit number]");
         }
+        assert(number >= 10000 && number <= 99999);
+        return true;
     }
     
-    public void validActivityIdTest(String id) throws OperationNotAllowedException {
+    public boolean validActivityIdTest(String id) throws OperationNotAllowedException {
         //Gee
         if (!id.contains("-")) {
             //missing "-"
@@ -431,6 +434,7 @@ public class Application {
             //ditto
             throw new OperationNotAllowedException("Activity ID invalid: Incorrect format. Should be [Project Number]-[Activity ID]");
         }
+        return true;
     }
 
 
