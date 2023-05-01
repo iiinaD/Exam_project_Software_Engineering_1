@@ -411,6 +411,7 @@ public class Application {
         if(number < 10000 ||number > 99999 ){
             throw new OperationNotAllowedException("Project number invalid: Incorrect format. Should be [2-digit Year]+[3-digit number]");
         }
+        assert(number >= 10000 && number <= 99999);
         return true;
     }
     
