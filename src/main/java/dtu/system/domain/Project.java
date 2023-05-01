@@ -29,7 +29,6 @@ public class Project {
 
     public void setProjectLeader(Worker newProjectLeader) {
         // Daniel
-        //Todo cant do this is project is done
         projectLeader = newProjectLeader;
     }
 
