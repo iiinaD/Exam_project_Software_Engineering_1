@@ -94,4 +94,41 @@ public class SystematicTests {
         assertEquals(0, F.getTime());
     }
 
+    //validProjectNumberTest test
+    //adapted from ChatGPT response
+    @org.junit.Test
+    public void testValidProjectNumber() throws OperationNotAllowedException {
+        // Arrange
+        int number = 23001; // valid project number
+
+        // Act
+        boolean result = app.validProjectNumberTest(number);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @org.junit.Test
+    public void testInvalidProjectNumberTooSmall() {
+        // Arrange
+        int number = 2300; // invalid project number, too small
+
+        // Act & Assert
+        assertThrows(OperationNotAllowedException.class, () -> {
+            app.validProjectNumberTest(number);
+        });
+    }
+
+    @org.junit.Test
+    public void testInvalidProjectNumberTooLarge() {
+        // Arrange
+        int number = 230001; // invalid project number, too large
+
+        // Act & Assert
+        assertThrows(OperationNotAllowedException.class, () -> {
+            app.validProjectNumberTest(number);
+        });
+    }
+
+
 }
