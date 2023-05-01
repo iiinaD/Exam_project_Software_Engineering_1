@@ -405,7 +405,7 @@ public class Application {
     }
 
     public void validProjectNumberTest(int number) throws OperationNotAllowedException{
-        if(number < 10000 ||number > 99999 ){
+        if(number < 10000 ||number > 99999 ) {
             throw new OperationNotAllowedException("Project number invalid: Incorrect format. Should be [Year]+[3-digit number]");
         }
     }
