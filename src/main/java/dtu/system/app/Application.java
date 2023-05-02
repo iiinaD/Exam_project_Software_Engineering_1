@@ -304,6 +304,7 @@ public class Application {
             throw new OperationNotAllowedException(worker.getInitials() + " is already in the list!");
         }
         worker.addWorkerActivity(activity);
+
     }
 
     private boolean isProjectLeader(int projectNumber, String initials) throws OperationNotAllowedException {
