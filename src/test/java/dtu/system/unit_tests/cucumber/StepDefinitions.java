@@ -353,12 +353,6 @@ public class StepDefinitions {
 		app.incrementWorkTime(worker, activity, hours, minutes);
 	}
 
-	@When("the worker increments his working hours to {int} hours and {int} minutes")
-	public void theWorkerIncrementsHisWorkingHoursToHoursAndMinutes(int hours, int minutes) throws OperationNotAllowedException {
-		// Danny
-		app.incrementWorkTime(worker, activity, hours, minutes);
-	}
-
 	@Then("the worker has spent {int} hours and {int} minutes on the activity")
 	public void theWorkerHasSpentHoursAndMinutesOnTheActivity(int hours, int minutes) {
 		// Danny
@@ -421,6 +415,12 @@ public class StepDefinitions {
 	public void hasnTAlreadyBeenAssignedAsTheProjectLeader(String initials) throws OperationNotAllowedException {
 		// Danny
 		assertFalse(app.getProjectWithNumber(project.getProjectNumber()).isProjectLeader(new Worker(initials)));
+	}
+
+	@When("the worker increments his working hours by {int} hours and {int} minutes")
+	public void theWorkerIncrementsHisWorkingHoursByHoursAndMinutes(int hours, int minutes) throws OperationNotAllowedException {
+		// Danny
+		app.incrementWorkTime(worker, activity, hours, minutes);
 	}
 
 	//access_hours_overview.feature
