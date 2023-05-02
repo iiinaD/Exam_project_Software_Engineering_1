@@ -335,7 +335,7 @@ public class StepDefinitions {
 	}
 
 	@Given("the worker has an activity {string} in his activity list")
-	public void theWorkerHasAnActivityInHisActivityList(String activityId) throws OperationNotAllowedException {
+	public void theWorkerHasAnActivityInHisActivityList(String activityId) {
 		// Danny
 		try{
 			workerActivity = app.addActivityToWorker(worker, activity);
@@ -386,7 +386,7 @@ public class StepDefinitions {
 	}
 
 	@When("the worker creates a new activity with the name {string} and the description {string}")
-	public void theWorkerCreatesANewActivityWithTheNameAndTheDescription(String activityName, String activityDescription) throws OperationNotAllowedException {
+	public void theWorkerCreatesANewActivityWithTheNameAndTheDescription(String activityName, String activityDescription) {
 		// Danny
 		try {
 			activity = app.addActivityToProject(project, activityName, activityDescription);
@@ -603,7 +603,7 @@ public class StepDefinitions {
 	}
 
 	@When("the activity is planned to start week {int} year {int} and end week {int} year {int}")
-	public void theActivityIsPlannedToStartWeekYearAndEndWeekYear(int week0, int year0, int week1, int year1) throws OperationNotAllowedException {
+	public void theActivityIsPlannedToStartWeekYearAndEndWeekYear(int week0, int year0, int week1, int year1) {
 		//Jonas
 		try {
 			app.activityPlanStartAndEnd(project.getProjectNumber(), activity.getActivityId(), week0, week1, year0, year1);
@@ -650,7 +650,7 @@ public class StepDefinitions {
     }
 
 		@And("{string} is added to {string}")
-		public void isAddedTo(String initials, String activityId) throws OperationNotAllowedException {
+		public void isAddedTo(String initials, String activityId) {
 			// Jonas
 			int projectNumber = Integer.valueOf(activityId.substring(0,5));
 			try {
