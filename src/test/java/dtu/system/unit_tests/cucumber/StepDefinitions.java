@@ -377,7 +377,12 @@ public class StepDefinitions {
 	@When("the worker tries to edit his working hours")
 	public void theWorkerTriesToEditHisWorkingHours() {
 		// Danny
-		app.incrementWorkTime(worker, activity, 1, 0);
+		try {
+			app.incrementWorkTime(worker, activity, 1, 0);
+		}
+		catch(OperationNotAllowedException e) {
+			errorMessageHolder.setErrorMessage(e.getMessage());
+		}
 	}
 
 	@When("the worker creates a new activity with the name {string} and the description {string}")

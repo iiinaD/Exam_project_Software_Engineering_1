@@ -229,8 +229,13 @@ public class Application {
     }
 
     // Workers Activity's
-    public void incrementWorkTime(Worker worker, Activity activity, int hours, int minutes) {
+    public void incrementWorkTime(Worker worker, Activity activity, int hours, int minutes) throws OperationNotAllowedException {
         // Jonas
+        if(activity == null)
+        {
+            throw new OperationNotAllowedException("The given activity does not exist.");
+        }
+
         worker.incrementWorkTime(activity, hours, minutes);
     }
 
