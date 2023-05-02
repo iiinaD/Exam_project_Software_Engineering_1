@@ -99,6 +99,7 @@ public class SystematicTests {
     //Gee
     @org.junit.Test
     public void testValidProjectNumber() throws OperationNotAllowedException {
+        app = new Application(); //instantiate new app
         // Arrange
         int number = 23001; // valid project number
 
@@ -111,6 +112,7 @@ public class SystematicTests {
 
     @org.junit.Test
     public void testInvalidProjectNumberTooSmall() {
+        app = new Application(); //instantiate new app
         // Arrange
         int number = 2300; // invalid project number, too small
 
@@ -122,6 +124,7 @@ public class SystematicTests {
 
     @org.junit.Test
     public void testInvalidProjectNumberTooLarge() {
+        app = new Application(); //instantiate new app
         // Arrange
         int number = 230001; // invalid project number, too large
 
