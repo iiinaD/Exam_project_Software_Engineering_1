@@ -17,19 +17,19 @@ public class Application {
     // Worker in system Related
     public void addNewWorker(Worker worker) throws OperationNotAllowedException {
         // Danny
-        if (isWorkerInWorkerList(worker.getInitials())){
+        if (isWorkerInWorkerList(worker.getInitials())){ // 1
             throw new OperationNotAllowedException("A worker with these initials already exists in the system.");
         }
         else {
-            if (worker.getInitials().length() < 2 || worker.getInitials().length() > 4) {
+            if (worker.getInitials().length() < 2 || worker.getInitials().length() > 4) { // 2
                 throw new OperationNotAllowedException("Worker initials can't contain less than 2 or more than 4 characters.");
             }
-            else if(!worker.getInitials().matches("[a-zA-Z]+")) {
+            else if(!worker.getInitials().matches("[a-zA-Z]+")) { // 3
                 throw new OperationNotAllowedException("Worker initials can't contain numbers or special characters.");
             }
         }
 
-        workerList.add(worker);
+        workerList.add(worker); // 4
     }
 
     public boolean isWorkerInWorkerList(String initials) {
