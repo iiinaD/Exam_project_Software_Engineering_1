@@ -159,7 +159,7 @@ public class SystematicTests {
 
         // *** C ***
         // setup
-        Worker workerC = new Worker("t5#n");
+        Worker workerC = new Worker("t5!n");
 
         // test
         assertThrows(OperationNotAllowedException.class, () -> { app.addNewWorker(workerC); });
