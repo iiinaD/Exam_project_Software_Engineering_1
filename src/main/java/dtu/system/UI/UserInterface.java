@@ -354,7 +354,7 @@ public class UserInterface {
     private static int printProjectMenu() {
         // Daniel
         System.out.println("1. Add an activity to current project");
-        System.out.println("2. Access an acivity in current project");
+        System.out.println("2. Access an activity in current project");
         System.out.println("3. Change project name");
         System.out.println("4. Set new project leader");
         System.out.println("5. Mark project as finished");
