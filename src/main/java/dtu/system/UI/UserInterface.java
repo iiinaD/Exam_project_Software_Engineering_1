@@ -54,6 +54,7 @@ public class UserInterface {
         while (app.getLoggedInStatus()) {
             System.out.println();
             System.out.println("----- Main menu -----");
+            System.out.println("----- Logged in as " + app.getLoggedInWorker().getInitials() + " -----");
             int numMenuItems = printMainMenu();
             System.out.print("Please choose an item from the menu list\n> ");
             int input = getMenuInput(terminal,numMenuItems);
