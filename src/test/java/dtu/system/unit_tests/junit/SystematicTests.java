@@ -135,4 +135,40 @@ public class SystematicTests {
     }
     //END OF validProjectNumberTest TEST/////////////////
 
+    @Test
+    public void addNewWorkerTest() throws OperationNotAllowedException {
+        // Danny
+        // white box test for the 'addNewWorker' method of the application class
+        app = new Application();
+
+        // *** A ***
+        // setup
+        Worker workerA = new Worker("jodl");
+        app.addNewWorker(workerA);
+
+        // test
+        assertThrows(OperationNotAllowedException.class, () -> { app.addNewWorker(workerA); });
+
+        // *** B ***
+        // setup
+        Worker workerB = new Worker("dahala");
+
+        // test
+        assertThrows(OperationNotAllowedException.class, () -> { app.addNewWorker(workerB); });
+
+        // *** C ***
+        // setup
+        Worker workerC = new Worker("t5!n");
+
+        // test
+        assertThrows(OperationNotAllowedException.class, () -> { app.addNewWorker(workerC); });
+
+        // *** D ***
+        // setup
+        Worker workerD = new Worker("hub");
+        app.addNewWorker(workerD);
+
+        // test
+        assertTrue(app.getWorkerList().contains(workerD));
+    }
 }

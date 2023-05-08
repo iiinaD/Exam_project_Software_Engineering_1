@@ -54,6 +54,7 @@ public class UserInterface {
         while (app.getLoggedInStatus()) {
             System.out.println();
             System.out.println("----- Main menu -----");
+            System.out.println("----- Logged in as " + app.getLoggedInWorker().getInitials() + " -----");
             int numMenuItems = printMainMenu();
             System.out.print("Please choose an item from the menu list\n> ");
             int input = getMenuInput(terminal,numMenuItems);
@@ -353,7 +354,7 @@ public class UserInterface {
     private static int printProjectMenu() {
         // Daniel
         System.out.println("1. Add an activity to current project");
-        System.out.println("2. Access an acivity in current project");
+        System.out.println("2. Access an activity in current project");
         System.out.println("3. Change project name");
         System.out.println("4. Set new project leader");
         System.out.println("5. Mark project as finished");

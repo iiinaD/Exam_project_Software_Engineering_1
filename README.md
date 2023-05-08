@@ -1,7 +1,11 @@
-# Exam_project_Software_Engineering_1
+# README
 
-This is systemhusets exam project
+This project is a Maven IntelliJ project and is tested to work in IntelliJ.
 
-nobody ever read this
+To run the unit tests, run the CucumberTest file located in /src/test/java/dtu/system/unit_tests/cucumber.
 
-but the ones who dol
+To run the program navigate to /src/main/java/dtu/system/UI and run the main method in the UserInterface class.
+
+
+
+
