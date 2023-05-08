@@ -28,7 +28,6 @@ public class Application {
                 throw new OperationNotAllowedException("Worker initials can't contain numbers or special characters.");
             }
         }
-
         workerList.add(worker);
     }
 
