@@ -1,5 +1,5 @@
 #Danny
-Feature: Create worker
+Feature: Create new worker
   Description: A worker or project leader can create a new worker to the system
   Actors: Worker or project leader
 
