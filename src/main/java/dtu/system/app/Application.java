@@ -182,9 +182,11 @@ public class Application {
     public Activity addActivityToProject(Project project, String activityName, String activityDescription) throws OperationNotAllowedException {
         // Danny
         loggedInTestError();
-        if(project.getIsFinished()){
+
+        if(project.getIsFinished()) {
             throw new OperationNotAllowedException("Cannot add activity: Project is completed!");
         }
+
         return project.addActivity(activityName, activityDescription);
     }
 
