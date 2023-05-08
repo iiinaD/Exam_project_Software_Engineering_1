@@ -292,6 +292,7 @@ public class StepDefinitions {
 
 	@When("halfHours is ingrementes with {int} hours {int} minuts")
 	public void halfhoursIsIngrementesWithHoursMinuts(int hour, int min) {
+		// Jonas
 		halfHours.increment(hour, min);
 	}
 
@@ -439,6 +440,7 @@ public class StepDefinitions {
 
 	@Given("add a activity {string}")
 	public void addAActivity(String string) {
+		// Gee
 		try {
 			activity2 = app.addActivityToProject(project);//add an activity
 		} catch (OperationNotAllowedException e) {

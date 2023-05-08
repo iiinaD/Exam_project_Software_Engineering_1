@@ -7,7 +7,6 @@ import dtu.system.domain.HalfHours;
 import dtu.system.domain.Project;
 import dtu.system.domain.Worker;
 import dtu.system.domain.Activity;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class SystematicTests {

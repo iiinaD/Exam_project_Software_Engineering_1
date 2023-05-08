@@ -2,7 +2,6 @@ package dtu.system.domain;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Worker {
     private String initials;
@@ -15,7 +14,10 @@ public class Worker {
 
     public WorkerActivity addWorkerActivity(Activity activity) {
         // Danny
-        if(hasWorkerActivity(activity)){return null;}
+        if(hasWorkerActivity(activity)) {
+            return null;
+        }
+
         WorkerActivity workerActivity = new WorkerActivity(activity);
 
         workerActivityList.add(workerActivity);

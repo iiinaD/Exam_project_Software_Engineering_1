@@ -22,6 +22,7 @@ public class DateServer {
     }
 
     public int getNumberOfWeeksInYear(int year){
+        // Jonas
         return 52;
     }
 

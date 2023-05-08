@@ -7,6 +7,7 @@ package dtu.system.unit_tests.junit;
  *
  * Remove the tests in your own projects.
  */
+
 public class TestJUnit4AndJUnit5 {
 	
 	@org.junit.Before // Junit 4
